@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class TurretEnemy : MonoBehaviour
+public class TurretEnemyController2 : MonoBehaviour
 {
 
     public Transform Player;
@@ -25,7 +25,6 @@ public class TurretEnemy : MonoBehaviour
         float ditanceToPlayer = Vector2.Distance(transform.position, Player.position);
 
         if(ditanceToPlayer <= 10f && !hasShot){
-            Debug.Log("player IN");
             ShootBullet();
             hasShot = true;
         } 
@@ -47,7 +46,7 @@ public class TurretEnemy : MonoBehaviour
     //DOTweenで消える
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("PlayerBullet")){
+        if(other.CompareTag("TestBullet")){
             GetComponent<SpriteRenderer>().DOFade(0f,1f).OnComplete(()=>Destroy(gameObject));
         }
         
