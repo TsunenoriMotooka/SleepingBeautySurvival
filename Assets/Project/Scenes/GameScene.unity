@@ -377,6 +377,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4466249765053831800, guid: 60c545859b923c9429b986c8190521f7, type: 3}
+      propertyPath: m_SortingOrder
+      value: -10
+      objectReference: {fileID: 0}
     - target: {fileID: 4466249766550127428, guid: 60c545859b923c9429b986c8190521f7, type: 3}
       propertyPath: m_Name
       value: World
@@ -426,6 +430,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60c545859b923c9429b986c8190521f7, type: 3}
+--- !u!50 &2124397819 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 2953693023532853194, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+  m_PrefabInstance: {fileID: 89884442782132628}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &89884442782132628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -434,6 +443,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2361621725639362228, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 2124397819}
+    - target: {fileID: 2361621725639362228, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 7597304916804171347, guid: 880772a80f3442542b0eb41149310870, type: 3}
     - target: {fileID: 3537585515211905206, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.25
@@ -474,9 +491,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4809160939906321760, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+      propertyPath: m_Size.x
+      value: 0.8622904
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809160939906321760, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+      propertyPath: m_Size.y
+      value: 0.8811955
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809160939906321760, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.0068314075
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809160939906321760, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.45394197
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809160939906321760, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6453777119753781087, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
       propertyPath: m_Name
       value: Princess
+      objectReference: {fileID: 0}
+    - target: {fileID: 6453777119753781087, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
