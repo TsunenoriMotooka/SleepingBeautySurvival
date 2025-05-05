@@ -1,24 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
 public class RammingEnemyController : EnemyBase
 {
-    public float chargeSpeed = 6f;
-    public float attackRadius = 1.3f;
-    private bool hasHitPlayer = false;
+    public float chargeSpeed = 6f; //体当たり速度
+    public float attackRadius = 1.3f; //攻撃開始範囲
+    private bool hasHitPlayer = false; //体当たり成功判定フラグ
 
     protected override void Attack()
     {
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
-        if (distanceToPlayer <= attackRadius && !hasHitPlayer)
+        //体当たり開始距離計算
+        float attackToPlayer = Vector2.Distance(transform.position, player.position);
+        
+        //プレイヤーが攻撃開始範囲にいて、まだ体当たりが成功していない場合、体当たり
+        if (attackToPlayer <= attackRadius && !hasHitPlayer)
         {
             StartCharge();
         }
     }
 
+    //体当たり処理
     void StartCharge()
     {
         Vector2 direction = (player.position - transform.position).normalized;

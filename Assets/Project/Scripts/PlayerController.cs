@@ -16,20 +16,22 @@ public class PlayerController : MonoBehaviour
         bulletObject.SetActive(false); 
     }
 
-    // Update is called once per frame
     void Update()
     {
         
+        //プレイヤー移動
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         Vector2 movement = new Vector2(horizontal,vertical) * 6.0f * Time.deltaTime;
         rb.MovePosition(rb.position + movement);
 
+        //スペースキーで弾発射
         if(Input.GetKeyDown(KeyCode.Space)){
             ShootBullet();
         }
     }
 
+    //弾発射メソッド
     void ShootBullet(){
         bulletObject.SetActive(true);
         GameObject bullet = Instantiate(bulletObject, firePoint.position, firePoint.rotation);

@@ -6,9 +6,8 @@ using DG.Tweening;
 public abstract class EnemyBase : MonoBehaviour
 {
     public float moveSpeed = 2f;
-    public float detectionRadius = 5f;
+    public float detectionRadius = 3f; //プレイヤー検知範囲
     public bool canMove = true;
-    public float fadeTime = 1f;
     public float blinkSpeed = 0.1f;
     public int blinkCount = 2;
 
@@ -24,12 +23,13 @@ public abstract class EnemyBase : MonoBehaviour
     {
         if (player == null) return;
 
+        //プレイヤーとの距離計算
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         
         if (distanceToPlayer <= detectionRadius)
         {
             if (canMove) MoveTowardsPlayer();
-            Attack();
+            Attack(); //攻撃処理(子クラスで実装)
         }
         else
         {
@@ -39,6 +39,9 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected virtual void MoveTowardsPlayer()
     {
+        if(!canMove)return; //移動不可の敵なら何もしない
+
+        //プレイヤーの方向へ移動
         Vector2 direction = (player.position - transform.position).normalized;
         rb.velocity = direction * moveSpeed;
     }
@@ -49,12 +52,14 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected void OnTriggerEnter2D(Collider2D other)
     {
+        //姫と弾との当たったら、OnHit()実行(姫と弾はテスト的に作成したオブジェクト)
         if(other.CompareTag("TestPrincess") || other.CompareTag("TestBullet")){
             OnHit();
         }
         
     }
 
+    //敵点滅後、消滅処理
     IEnumerator BlinkDestroy(){
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
@@ -67,9 +72,9 @@ public abstract class EnemyBase : MonoBehaviour
         }
 
         Destroy(gameObject);
-        // sr.DOFade(0f, fadeTime).OnComplete(()=> Destroy(gameObject));
 
     }
 
+    //各敵の攻撃処理(子クラスでオーバーライド)
     protected abstract void Attack();
 }

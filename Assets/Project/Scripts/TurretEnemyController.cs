@@ -4,31 +4,32 @@ using UnityEngine;
 
 public class TurretEnemyController : EnemyBase
 {
-    public GameObject bulletObject;
+    public GameObject bulletPrefab;
+    public Transform firePoint;
     public float bulletSpeed = 5f;
-    private bool hasShot = false;
+    public float fireRate = 2f;
 
     protected override void Start()
     {
         base.Start();
-        canMove = false; // 移動しないようにする！
+        canMove = false; //砲台の為、移動させないようにする 
+
+        //定期的に弾発射
+        InvokeRepeating("ShootBullet", 0f, fireRate);
     }
 
-    protected override void Attack()
-    {
-        if (!hasShot)
-        {
-            ShootBullet();
-            hasShot = true;
-        }
-    }
+    //直接攻撃じゃない為、空のAttackメソッド
+    protected override void Attack(){}
 
+    //弾発射処理
     void ShootBullet()
     {
-        bulletObject.SetActive(true);
-        Rigidbody2D rb = bulletObject.GetComponent<Rigidbody2D>();
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
 
         Vector2 direction = (player.position - transform.position).normalized;
-        rb.velocity = direction * bulletSpeed;
+        bulletRb.velocity = direction * bulletSpeed;
+
+        Destroy(bullet, 5f);
     }
 }
