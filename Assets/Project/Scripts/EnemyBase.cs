@@ -6,7 +6,7 @@ using DG.Tweening;
 public abstract class EnemyBase : MonoBehaviour
 {
     public float moveSpeed = 2f;
-    public float detectionRadius = 3f; //プレイヤー検知範囲
+    public float detectionRadius = 4f; //プレイヤー検知範囲
     public bool canMove = true;
     public float blinkSpeed = 0.1f;
     public int blinkCount = 2;
@@ -28,12 +28,12 @@ public abstract class EnemyBase : MonoBehaviour
         
         if (distanceToPlayer <= detectionRadius)
         {
-            if (canMove) MoveTowardsPlayer();
+            if (canMove && rb != null) MoveTowardsPlayer();
             Attack(); //攻撃処理(子クラスで実装)
         }
         else
         {
-            rb.velocity = Vector2.zero;
+            if(canMove && rb != null)rb.velocity = Vector2.zero;
         }
     }
 
