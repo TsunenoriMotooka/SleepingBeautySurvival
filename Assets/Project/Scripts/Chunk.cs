@@ -12,10 +12,10 @@ public class Chunk
 
     int[,] exists;
 
-    int sizeX = 5;
-    int sizeY = 5;
-    int terrainSizeX = 10;
-    int terrainSizeY = 10;
+    int sizeX = 9;
+    int sizeY = 9;
+    int terrainSizeX = 9;
+    int terrainSizeY = 9;
     int rock1Size = 1;
     int rock2Size = 1;
     int rock3Size = 3;
