@@ -258,68 +258,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c730e1c346034c3485df8e271096c45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1300139021
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1300139022}
-  - component: {fileID: 1300139023}
-  m_Layer: 0
-  m_Name: ChunkGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1300139022
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300139021}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1300139023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300139021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a81ff545ed584df3ae68c532e3599a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  terrainPrefabs:
-  - {fileID: 362089662305372904, guid: 7feb025aa2a9e434b8248112e8423e5d, type: 3}
-  - {fileID: 7751610265471811171, guid: 8457a7dd6cc78441ba1668f9599e6a65, type: 3}
-  - {fileID: 8679435249591285874, guid: 630f2b525cfe2499d9012df101b44d26, type: 3}
-  - {fileID: 116262980251902949, guid: 2245c234878b14dd69bad9196c9b423b, type: 3}
-  - {fileID: 6712755098292387809, guid: 38790c834edc24bbf93f7c9f5621c4a4, type: 3}
-  - {fileID: 4242901099387350670, guid: fea4f9b1a63ac4406b13ba94444593aa, type: 3}
-  - {fileID: 950904621823512584, guid: d202c5466c76b4e45a588fc1fd46d7dd, type: 3}
-  - {fileID: 7543930801930145910, guid: 05af3fbb35d56400c98b17d495d48d23, type: 3}
-  - {fileID: 5460578321270773318, guid: 69eddb955211d419ca5723ea03521706, type: 3}
-  rock1Prefabs: []
-  rock2Prefabs: []
-  rock3Prefabs: []
-  treePrefabs: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 1218237700}
-  - {fileID: 1300139022}

@@ -62,8 +62,11 @@ public class Chunk
             int type = Random.Range(0, treeTypeCount) + 1;
 
             if (IsExists(x, y, treeSize)) continue;
+
             SetExists(x, y, treeSize);
             trees[x, y] = type;
+            Debug.Log($"{type},{x},{y}");
+            Debug.Log(trees[x, y]);
         }
 
         //rock2
@@ -95,12 +98,11 @@ public class Chunk
     {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                int _x = x - 1 + size + i;
-                int _y = y - 1 + size + j;
-                Debug.Log($"{_x},{_y}");
-                //if (exists[x - 1 + size + i, y - 1 + size + j] != 0) {
-                //    return true;
-                //}
+                int wx = x - (size / 2) + j;
+                int wy = y - (size / 2) + i;
+                if (exists[wx, wy] != 0) {
+                   return true;
+                }
             }
         }
         return false;
@@ -110,7 +112,9 @@ public class Chunk
     {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                exists[x - 1 + size + i, y - 1 + size + j] = 1;
+                int wx = x - (size / 2) + j;
+                int wy = y - (size / 2) + i;
+                exists[wx, wy] = 1;
             }
         }
     }
