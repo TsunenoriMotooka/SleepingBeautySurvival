@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 2993377409882986712}
   - component: {fileID: 7795769927247577353}
   - component: {fileID: 7102275338833860376}
-  m_Layer: 0
+  - component: {fileID: 6535940397655617707}
+  m_Layer: 6
   m_Name: LeafAt_szk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +124,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -165,4 +166,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b1bf1e9699dec46a778d12b0f2c515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 5
+--- !u!50 &6535940397655617707
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7597304916804171347}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
