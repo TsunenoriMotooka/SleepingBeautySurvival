@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7102275338833860376}
   m_Layer: 0
   m_Name: LeafAt_szk
-  m_TagString: Untagged
+  m_TagString: TestBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
