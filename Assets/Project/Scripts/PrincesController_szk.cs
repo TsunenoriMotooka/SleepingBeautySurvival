@@ -22,14 +22,14 @@ public class PrincesController_szk : MonoBehaviour
     Vector2 lookDirection = new Vector2(1f,0);
 
     IEnumerator PrincesAttack(){
-        GameObject Leaf = Instantiate(
+        
+        while(true){
+            GameObject leaf = Instantiate(
             prefab,
             rb.position + Vector2.up*0.5f,
-            Quaternion.identity
-        );
-            while(true){
+            Quaternion.identity);
                 if(prefab != null){
-                    prefab.GetComponent<PrincesAttackController_szk>().Attack(lookDirection);
+                    leaf.GetComponent<PrincesAttackController_szk>().Attack(lookDirection);
                 }
                 yield return new WaitForSeconds(5f);
             }
