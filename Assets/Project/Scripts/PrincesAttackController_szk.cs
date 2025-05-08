@@ -8,7 +8,7 @@ public class PrincesAttackController_szk : MonoBehaviour
     public float speed = 10f;
 
     public void Attack(Vector3 direction){
-        transform.DOMove(transform.position + direction * 10f,1f)
+        transform.DOMove(transform.position + direction * speed ,1f)
         .SetEase(Ease.OutQuad).OnComplete(()=>Destroy(gameObject));
     }
 
