@@ -12,16 +12,23 @@ public class Chunk
 
     int[,] exists;
 
-    int terrainSizeX = 9;
-    int terrainSizeY = 9;
+    //TODO: リファクタリング予定　const化
+    static int terrainSizeX = 9;
+    static int terrainSizeY = 9;
 
-    int sizeX = 5;
-    int sizeY = 5;
+    //TODO: リファクタリング予定 const化
+    public static int sizeX = 5;
+    public static int sizeY = 5;
 
-    int rock1Size = 1;
-    int rock2Size = 1;
-    int rock3Size = 3;
-    int treeSize = 3;
+    //TODO: リファクタリング予定 プロパティ化
+    public static int chunkSizeX = sizeX * terrainSizeX;
+    public static int chunkSizeY = sizeY * terrainSizeY;
+
+    //TODO: リファクタリング予定　const化
+    static int rock1Size = 1;
+    static int rock2Size = 1;
+    static int rock3Size = 3;
+    static int treeSize = 3;
 
     public Chunk(int terrainsTypeCount, 
                  int rock1TypeCount,
