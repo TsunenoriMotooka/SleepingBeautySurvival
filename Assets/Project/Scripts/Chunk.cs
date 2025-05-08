@@ -1,14 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Chunk
 {
     public int[,] terrains{get;}
-    public int[,] rock1s{get;}
-    public int[,] rock2s{get;}
-    public int[,] rock3s{get;}    
+
     public int[,] trees{get;}
+    public int[,] rocks{get;}
+    public int[,] tallRocks{get;}
+    public int[,] bigRocks{get;}    
 
     public int[,] exists{get;}
     
@@ -28,81 +33,66 @@ public class Chunk
     public static int chunkSizeY = sizeY * terrainSizeY;
 
     //TODO: リファクタリング予定　const化
-    static int rock1Size = 1;
-    static int rock2Size = 1;
-    static int rock3Size = 3;
+    static int rockSize = 1;
+    static int tallRockSize = 1;
+    static int bigRockSize = 3;
     static int treeSize = 3;
 
     public Chunk(int terrainsTypeCount, 
-                 int rock1TypeCount,
-                 int rock1Count,
-                 int rock2TypeCount,
-                 int rock2Count, 
-                 int rock3TypeCount, 
-                 int rock3Count, 
+                 int rockTypeCount,
+                 int rockCount,
+                 int tallRockTypeCount,
+                 int tallRockCount, 
+                 int bigRockTypeCount, 
+                 int bigRockCount, 
                  int treeTypeCount, 
                  int treeCount)
     {
+        terrains = new int[sizeX,sizeY];
+
+        rocks = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
+        tallRocks = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
+        bigRocks = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
+        trees = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
+
         exists = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
 
         //terrains
-        terrains = new int[sizeX,sizeY];
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
-                int types = Random.Range(0, terrainsTypeCount) + 1;
-                terrains[x, y] = types;   
+                int types = UnityEngine.Random.Range(0, terrainsTypeCount) + 1;
+                terrains[x, y] = types;
             }
         }
 
-        //rock3
-        rock3s = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
-        for (int i = 0; i < rock3Count; i++) {
-            int x = Random.Range(0, sizeX * terrainSizeX - 2) + 1;
-            int y = Random.Range(0, sizeY * terrainSizeY - 2) + 1;
-            int type = Random.Range(0, rock3TypeCount) + 1;
-
-            if (IsExists(x, y, rock3Size)) continue;
-            SetExists(x, y, rock3Size);
-            rock3s[x, y] = type;
-        } 
-
         //tree
-        trees = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
-        for (int i = 0; i < treeCount; i++) {
-            int x = Random.Range(0, sizeX * terrainSizeX - 2) + 1;
-            int y = Random.Range(0, sizeY * terrainSizeY - 2) + 1;
-            int type = Random.Range(0, treeTypeCount) + 1;
+        createPositions(trees, treeCount, treeTypeCount, treeSize);
 
-            if (IsExists(x, y, treeSize)) continue;
+        //bigRock
+        createPositions(bigRocks, bigRockCount, bigRockTypeCount, bigRockSize);
 
-            SetExists(x, y, treeSize);
-            trees[x, y] = type;
-            Debug.Log($"{type},{x},{y}");
-            Debug.Log(trees[x, y]);
-        }
+        //tallRock
+        createPositions(tallRocks, tallRockCount, tallRockTypeCount, tallRockSize);
 
-        //rock2
-        rock2s = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
-        for (int i = 0; i < rock2Count; i++) {
-            int x = Random.Range(0, sizeX * terrainSizeX);
-            int y = Random.Range(0, sizeY * terrainSizeY);
-            int type = Random.Range(0, rock2TypeCount) + 1;
+        //rock
+        createPositions(rocks, rockCount, rockTypeCount, rockSize);
+    }
 
-            if (IsExists(x, y, rock2Size)) continue;
-            SetExists(x, y, rock2Size);
-            rock2s[x, y] = type;
-        } 
+    void createPositions(int [,] positions, int count, int typeCount, int size)
+    {
+        int halfSize = size / 2;
+        for (int i = 0; i < count; i++) {
+            for (int j = 0; j < 10; j++) {
+                int x = UnityEngine.Random.Range(0, positions.GetLength(1) - (halfSize * 2)) + halfSize;
+                int y = UnityEngine.Random.Range(0, positions.GetLength(0) - (halfSize * 2)) + halfSize;
+                int type = UnityEngine.Random.Range(0, typeCount) + 1;
 
-        //rock1
-        rock1s = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
-        for (int i = 0; i < rock1Count; i++) {
-            int x = Random.Range(0, sizeX * terrainSizeX);
-            int y = Random.Range(0, sizeY * terrainSizeY);
-            int type = Random.Range(0, rock1TypeCount) + 1;
-
-            if (IsExists(x, y, rock1Size)) continue;
-            SetExists(x, y, rock1Size);
-            rock1s[x, y] = type;
+                if (!IsExists(x, y, size)) {
+                    SetExists(x, y, size);
+                    positions[x, y] = type;
+                    break;
+                }
+            }
         }
     }
 
