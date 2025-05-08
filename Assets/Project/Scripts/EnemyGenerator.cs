@@ -5,35 +5,51 @@ using UnityEngine;
 public class EnemyGenerator : MonoBehaviour
 {
     public GameObject[] Enemys;
-    Dictionary<GameObject,InstantiateParameters> dic = new Dictionary<GameObject, InstantiateParameters>();
 
-    void Start()
+    private Dictionary<(int, int), List<GameObject>> enemyChunks = new Dictionary<(int, int), List<GameObject>>();
+
+    //敵を生成する処理
+    public void GenerateEnemies(int chunkX, int chunkY)
     {
-        RandomEnemy();
-    }
+        if (Enemys.Length == 0) return;
 
-    void Update()
-    {
-        
-        
-    }
+        float baseX = chunkX * 45;
+        float baseY = chunkY * 45;
 
-    void RandomEnemy(){
+        List<GameObject> spawnedEnemies = new List<GameObject>();
 
-        // float x = Random.Range(-22f,22f);
-        // float y = Random.Range(-22f,22f);
-        float ran = Random.Range(1f,10f);
-        
-        for(int i=0;i<ran;i++){
-            for(int j=0;j<Enemys.Length;j++){
-                float x = Random.Range(-22f,22f);
-                float y = Random.Range(-22f,22f);
-                Vector2 Pos = new Vector2(x,y);
-                Instantiate(Enemys[i], Pos,Quaternion.identity);
-                dic.Add(Enemys[i],);
-            }    
+        float enemyCount = Random.Range(10f, 20f);
+
+        for (int i = 0; i < enemyCount; i++)
+        {
+            GameObject enemyPrefab = Enemys[Random.Range(0, Enemys.Length)];
+
+            float xOffset = Random.Range(-22f, 22f);
+            float yOffset = Random.Range(-22f, 22f);
+            Vector2 spawnPos = new Vector2(baseX + xOffset, baseY + yOffset);
+
+            GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+
+            enemy.GetComponent<EnemyBase>().player = GameObject.Find("Princess")?.transform;
+
+            spawnedEnemies.Add(enemy);
         }
+
+        //チャンクごとに敵リストを保存
+        enemyChunks[(chunkX, chunkY)] = spawnedEnemies;
     }
 
+    //チャンク内の敵を一括削除
+    public void ClearEnemies(int chunkX, int chunkY)
+    {
+        if (!enemyChunks.ContainsKey((chunkX, chunkY))) return;
 
+        foreach (GameObject enemy in enemyChunks[(chunkX, chunkY)])
+        {
+            if (enemy != null) Destroy(enemy);
+        }
+
+        //キャッシュされた敵リストを削除
+        enemyChunks.Remove((chunkX, chunkY));
+    }
 }

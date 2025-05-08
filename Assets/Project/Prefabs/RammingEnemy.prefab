@@ -99,12 +99,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67313e9ab3c21234dac738b366e51271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 3
   detectionRadius: 4
   canMove: 1
   blinkSpeed: 0.1
   blinkCount: 2
-  player: {fileID: 3537585515211905206, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+  player: {fileID: 0}
   chargeSpeed: 6
   attackRadius: 1.3
 --- !u!61 &1386709171456576872

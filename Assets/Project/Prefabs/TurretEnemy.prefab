@@ -98,12 +98,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b6e34efb2a42ff4fa0810a35e329fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 3
   detectionRadius: 5
   canMove: 1
   blinkSpeed: 0.1
   blinkCount: 2
-  player: {fileID: 3537585515211905206, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+  player: {fileID: 0}
   bulletPrefab: {fileID: 6586357869708073666, guid: 47fe2b71958b3824ea7e8f339593d3d4, type: 3}
   firePoint: {fileID: 1770174951731279097}
   bulletSpeed: 5

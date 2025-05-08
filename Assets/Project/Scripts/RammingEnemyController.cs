@@ -11,7 +11,7 @@ public class RammingEnemyController : EnemyBase
     protected override void Attack()
     {
         //体当たり開始距離計算
-        float attackToPlayer = Vector2.Distance(transform.position, player.position);
+        float attackToPlayer = Vector2.Distance(transform.position, player.transform.position);
         
         //プレイヤーが攻撃開始範囲にいて、まだ体当たりが成功していない場合、体当たり
         if (attackToPlayer <= attackRadius && !hasHitPlayer)
@@ -23,7 +23,7 @@ public class RammingEnemyController : EnemyBase
     //体当たり処理
     void StartCharge()
     {
-        Vector2 direction = (player.position - transform.position).normalized;
+        Vector2 direction = (player.transform.position - transform.position).normalized;
         rb.velocity = direction * chargeSpeed;
     }
 

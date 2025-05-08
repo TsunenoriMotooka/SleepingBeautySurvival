@@ -5,13 +5,13 @@ using UnityEngine;
 public class ChargeEnemyController : EnemyBase
 {
     public float chargeSpeed = 6f; 
-    public float attackRadius = 10f;
+    public float attackRadius = 8f;
     private bool isCharging = false;
 
-    protected override void Attack()
+    protected override void Update()
     {
 
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
         if (!isCharging && distanceToPlayer <= attackRadius)
         {
@@ -23,7 +23,7 @@ public class ChargeEnemyController : EnemyBase
     {
         isCharging = true; // 突進フラグをON
         // **プレイヤーの方向を取得し、そのまま突進**
-        Vector2 chargeDirection = (player.position - transform.position).normalized;
+        Vector2 chargeDirection = (player.transform.position - transform.position).normalized;
         rb.velocity = chargeDirection * chargeSpeed;
     }
 
@@ -33,5 +33,13 @@ public class ChargeEnemyController : EnemyBase
         if (isCharging) return; // 突進中ならそのまま進む
 
         base.MoveTowardsPlayer(); // 追尾動作をしないようにする
+    }
+
+    
+    protected override void Attack(){}
+
+    void OnBecameInvisible()
+    {
+        Destroy(gameObject);
     }
 }
