@@ -14,7 +14,7 @@ public class PrincesController_szk : MonoBehaviour
     bool isInvinsible;
     float invinsibleTimer;
 
-    public Rigidbody2D rb;
+    Rigidbody2D rb;
     public float speed = 5f;
     Animator anim;
 
@@ -31,7 +31,7 @@ public class PrincesController_szk : MonoBehaviour
                 if(prefab != null){
                     leaf.GetComponent<PrincesAttackController_szk>().Attack(lookDirection);
                 }
-                yield return new WaitForSeconds(5f);
+                yield return new WaitForSeconds(2f);
             }
         }
     void Start()
@@ -52,12 +52,14 @@ public class PrincesController_szk : MonoBehaviour
             lookDirection.Set(move.x,move.y);
             lookDirection.Normalize();
         }
+        anim.SetFloat("moveX",lookDirection.x);
+        anim.SetFloat("moveY",lookDirection.y);
+        anim.SetFloat("speed",move.magnitude);
+        Vector2 position = rb.position;
+        position.x = position.x + speed * moveX * Time.deltaTime;
+        position.y = position.y + speed * moveY * Time.deltaTime;
+        rb.MovePosition(position);
 
-        Vector3 movement = new Vector2(moveX,moveY) * speed;
-        rb.velocity = movement;
-
-        anim.SetFloat("moveX",moveX);
-        anim.SetFloat("moveY",moveY);
     }
 
     void HandleTouchInput(){
@@ -65,11 +67,23 @@ public class PrincesController_szk : MonoBehaviour
             Touch touch = Input.GetTouch(0);
             if(touch.phase == TouchPhase.Moved){
                 Vector3 newPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x,touch.position.y,10));
-                rb.DOMove(new Vector2(newPosition.x,newPosition.y),0.5f);
+                Vector2 targetPosition = new Vector2(newPosition.x,newPosition.y);
 
-                Vector2 direction = (new Vector2(newPosition.x,newPosition.y) - rb.position).normalized;
-                anim.SetFloat("moveX",direction.x);
-                anim.SetFloat("moveY",direction.y);
+                Vector2 move = (targetPosition - rb.position).normalized;
+
+                if(move.sqrMagnitude > 0f){
+                    lookDirection.Set(move.x,move.y);
+                    lookDirection.Normalize();
+                }
+
+                anim.SetFloat("moveX",lookDirection.x);
+                anim.SetFloat("moveY",lookDirection.y);
+                anim.SetFloat("speed",move.magnitude);
+
+                Vector2 position = rb.position;
+                position.x = position.x + speed * move.x * Time.deltaTime;
+                position.y = position.y + speed * move.y * Time.deltaTime;
+                rb.MovePosition(position);
                 
             }
         }
