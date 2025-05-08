@@ -5,8 +5,8 @@ using UnityEngine;
 public class RammingEnemyController : EnemyBase
 {
     public float chargeSpeed = 6f; //体当たり速度
-    public float attackRadius = 1.3f; //攻撃開始範囲
-    private bool hasHitPlayer = false; //体当たり成功判定フラグ
+    public float attackRadius = 3f; //攻撃開始範囲
+    private bool hasHitPlayer = false; //体たり成功判定フラグ
 
     protected override void Attack()
     {

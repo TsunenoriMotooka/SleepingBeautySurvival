@@ -24,7 +24,8 @@ public class TurretEnemyController : EnemyBase
     //弾発射処理
     void ShootBullet()
     {
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        // GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
 
         Vector2 direction = (player.position - transform.position).normalized;

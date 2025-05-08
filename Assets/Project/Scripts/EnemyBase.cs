@@ -31,10 +31,13 @@ public abstract class EnemyBase : MonoBehaviour
             if (canMove && rb != null) MoveTowardsPlayer();
             Attack(); //攻撃処理(子クラスで実装)
         }
-        else
+
+        //以下は追尾止める為の物だが、突進モンスターが止まってしまうので、一旦コメントアウト
+        /*else
         {
-            if(canMove && rb != null)rb.velocity = Vector2.zero;
-        }
+            //以下は追尾止める為の物だが、一旦コメントアウト
+            // if(canMove && rb != null)rb.velocity = Vector2.zero;
+        }*/
     }
 
     protected virtual void MoveTowardsPlayer()
@@ -53,7 +56,7 @@ public abstract class EnemyBase : MonoBehaviour
     protected void OnTriggerEnter2D(Collider2D other)
     {
         //姫と弾との当たったら、OnHit()実行(姫と弾はテスト的に作成したオブジェクト)
-        if(other.CompareTag("TestPrincess") || other.CompareTag("TestBullet")){
+        if(other.CompareTag("Princess") || other.CompareTag("Leaf")){
             OnHit();
         }
         
