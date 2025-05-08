@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class ChunkGenerator : MonoBehaviour
@@ -10,11 +11,15 @@ public class ChunkGenerator : MonoBehaviour
     public GameObject[] rock2Prefabs;
     public GameObject[] rock3Prefabs;
 
-    int terrainSizeX = 9;
-    int terrainSizeY = 9;
+    static int terrainSizeX = 9;
+    static int terrainSizeY = 9;
 
-    GameObject Create(int treeCount, int rock1Count, int rock2Count, int rock3Count){
+    public Chunk CreateChunk(int treeCount, int rock1Count, int rock2Count, int rock3Count) {
         Chunk chunk = new Chunk(terrainPrefabs.Length, rock1Prefabs.Length, rock1Count, rock2Prefabs.Length, rock2Count, rock3Prefabs.Length, rock3Count, treePrefabs.Length, treeCount);
+        return chunk;
+    }
+ 
+    public GameObject CreateObject(Chunk chunk){
 
         GameObject chunkObject = new GameObject("Chunk");
         
@@ -58,12 +63,16 @@ public class ChunkGenerator : MonoBehaviour
         GameObject rocksObject = new GameObject("Rocks");
         rocksObject.transform.parent = chunkObject.transform;
 
+        //チャンクに保存
+        chunk.chunkObject = chunkObject;
+
         return chunkObject;
     }
 
     //TODO: TEST
     void Start()
     {
-        Create(80, 0, 0, 0);
+        Chunk chunk = CreateChunk(80, 0, 0, 0);
+        CreateObject(chunk);
     }
 }
