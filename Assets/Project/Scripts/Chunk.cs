@@ -10,7 +10,10 @@ public class Chunk
     public int[,] rock3s{get;}    
     public int[,] trees{get;}
 
-    int[,] exists;
+    public int[,] exists{get;}
+    
+    public GameObject chunkObject{get; set;}
+    public bool IsCreated{get{return this.chunkObject != null;}}
 
     //TODO: リファクタリング予定　const化
     static int terrainSizeX = 9;

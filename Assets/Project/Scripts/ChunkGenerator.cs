@@ -63,6 +63,9 @@ public class ChunkGenerator : MonoBehaviour
         GameObject rocksObject = new GameObject("Rocks");
         rocksObject.transform.parent = chunkObject.transform;
 
+        //チャンクに保存
+        chunk.chunkObject = chunkObject;
+
         return chunkObject;
     }
 
