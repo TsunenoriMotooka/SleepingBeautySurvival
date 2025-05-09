@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using UnityEditor.Callbacks;
 
 public class PrincesAttackController_szk : MonoBehaviour
