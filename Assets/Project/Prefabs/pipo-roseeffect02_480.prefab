@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6576784917100367119}
   m_Layer: 6
   m_Name: pipo-roseeffect02_480
-  m_TagString: Untagged
+  m_TagString: Leaf
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,7 +151,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 384
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

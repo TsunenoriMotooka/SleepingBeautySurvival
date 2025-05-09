@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6544692492413007840}
   - component: {fileID: 8793502858998305919}
   - component: {fileID: 6967641634145156263}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TallStone2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
