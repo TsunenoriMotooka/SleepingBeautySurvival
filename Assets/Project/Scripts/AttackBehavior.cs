@@ -10,7 +10,7 @@ public class AttackBehavior : MonoBehaviour
 
     void Start()
     {
-        princess = GameObject.FindGameObjectWithTag("Player");
+        princess = GameObject.FindGameObjectWithTag("Princess");
     }
 
     // Update is called once per frame

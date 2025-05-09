@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6302131846820680021}
   m_Layer: 7
   m_Name: Princess
-  m_TagString: Player
+  m_TagString: Princess
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
