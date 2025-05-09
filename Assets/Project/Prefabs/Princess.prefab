@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 2953693023532853194}
   - component: {fileID: 4809160939906321760}
   - component: {fileID: 6302131846820680021}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Princess
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,7 +103,9 @@ MonoBehaviour:
   maxHealth: 3
   timeInvincible: 2
   speed: 5
-  prefab: {fileID: 7597304916804171347, guid: 880772a80f3442542b0eb41149310870, type: 3}
+  prefabs:
+  - {fileID: 7597304916804171347, guid: 880772a80f3442542b0eb41149310870, type: 3}
+  - {fileID: 615675737691116967, guid: e4fdf3cd4c286db4392d0ae6154b87f4, type: 3}
 --- !u!50 &2953693023532853194
 Rigidbody2D:
   serializedVersion: 4

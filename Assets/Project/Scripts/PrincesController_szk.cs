@@ -18,27 +18,42 @@ public class PrincesController_szk : MonoBehaviour
     public float speed = 5f;
     Animator anim;
 
-    public GameObject prefab;
+    public GameObject[] prefabs;
     Vector2 lookDirection = new Vector2(1f,0);
 
     IEnumerator PrincesAttack(){
         
         while(true){
             GameObject leaf = Instantiate(
-            prefab,
-            rb.position + Vector2.up*0.5f,
+            prefabs[0],
+            rb.position,
             Quaternion.identity);
-                if(prefab != null){
+                if(prefabs[0] != null){
                     leaf.GetComponent<PrincesAttackController_szk>().Attack(lookDirection);
                 }
                 yield return new WaitForSeconds(2f);
             }
         }
+    IEnumerator SpawnAttack(){
+        while(true){
+        GameObject attack = Instantiate(
+            prefabs[1],
+            rb.position,
+            Quaternion.identity);
+                if(prefabs[1] != null){
+                    attack.AddComponent<AttackBehavior>();
+                }
+            Destroy(attack,2f);
+            yield return new WaitForSeconds(5f);
+        }
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         StartCoroutine(PrincesAttack());
+        StartCoroutine(SpawnAttack());
     }
 
    
@@ -92,6 +107,8 @@ public class PrincesController_szk : MonoBehaviour
         if(amount < 0){
             if(isInvinsible)return;
             isInvinsible = true;
+            invinsibleTimer = timeInvincible;
+            anim.SetTrigger("hit");
         }
         currentHealth = Mathf.Clamp(currentHealth + amount,0,maxHealth);
     }
