@@ -53,9 +53,6 @@ public class ChunkGenerator : MonoBehaviour
         addObjects(rocksObject.transform, chunk.tallRocks, tallRockPrefabs);
         addObjects(rocksObject.transform, chunk.bigRocks, bigRockPrefabs);
 
-        //チャンクに保存
-        chunk.chunkObject = chunkObject;
-
         return chunkObject;
     }
 

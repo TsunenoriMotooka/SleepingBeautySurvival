@@ -21,6 +21,7 @@ public class FieldGenerator : MonoBehaviour
     Rigidbody2D princessRg;
 
     Chunk[,] chunks;
+    Dictionary<(int, int), GameObject> chunkObjects = new Dictionary<(int, int), GameObject>();
 
     void Start()
     {
@@ -41,21 +42,37 @@ public class FieldGenerator : MonoBehaviour
 
         // チャンクの生成
         // チャンクの座標周囲１マスを作成
-        for (int y = -1; y <= 1; y++) {
-            for (int x = -1; x <= 1; x++) {
-                if (x == 0 && y == 0) continue;
-                CreateChunk(px + x, py + y);
+        for (int ay = -1; ay <= 1; ay++) {
+            for (int ax = -1; ax <= 1; ax++) {
+                if (ax == 0 && ay == 0) continue;
+                
+                //チャンクの座標
+                int x = px + ax;
+                int y = py + ay;
+                
+                //作成済みの場合は無視
+                if (chunkObjects.ContainsKey((x, y))) continue;
+
+                //チャンクの作成
+                CreateChunk(x, y);
+
+                //モンスターの作成
+                CreateEnemys(x, y);
             }
         }
 
         // チャンクの削除
         // チャンクの座標周囲２マス目を削除
-        for (int y = -2; y <= 2; y++) {
-            for (int x = -2; x <= 2; x++) {
-                if (x >= -1 && x <= 1 && y >= -1 && y <= 1) continue;
-                
+        for (int ay = -2; ay <= 2; ay++) {
+            for (int ax = -2; ax <= 2; ax++) {
+                if (ax >= -1 && ax <= 1 && ay >= -1 && ay <= 1) continue;
+
+                //チャンクの配列座標
+                int x = px + ax;
+                int y = py + ay;
+
                 //チャンクを削除
-                RemoveChunk(px + x, py + y);
+                RemoveChunk(x, y);
             
                 //モンスターを削除
                 RemoveEnemies(x, y);
@@ -88,34 +105,38 @@ public class FieldGenerator : MonoBehaviour
 
     void CreateChunk(int x, int y)
     {   
+        //チャンク情報を取得
         int wx = (x + fieldSizeX) % fieldSizeX;
         int wy = (y + fieldSizeY) % fieldSizeY;
         Chunk chunk = chunks[wx, wy];
-        //作成済みの時は作成しない
-        if (chunk.IsCreated) return;
 
+        //チャンクのワールド座標を設定
         Vector3 position = new Vector3();
         position.x = x * Chunk.chunkSizeX;
         position.y = y * Chunk.chunkSizeY;
 
+        //チャンクを生成
         GameObject chunkObject = chunkGenerator.CreateObject(chunk);
         chunkObject.transform.parent = field.transform;
         chunkObject.transform.position = position;
+
+        //生成したチャンクをキャッシュ
+        RemoveChunk(x, y);
+        chunkObjects[(x, y)] = chunkObject;
     }
 
     void RemoveChunk(int x, int y)
     {
-        int wx = (x + fieldSizeX) % fieldSizeX;
-        int wy = (y + fieldSizeY) % fieldSizeY;
-        Chunk chunk = chunks[wx, wy];
+        if (!chunkObjects.ContainsKey((x, y))) return;
 
-        GameObject chunkObject = chunk.chunkObject;
-        if (chunkObject == null) return;
+        //キャッシュしたチャンクを取得
+        GameObject chunkObject = chunkObjects[(x, y)];
 
         //チャックを削除
         Destroy(chunkObject);
-        //保存したチャンクを削除
-        chunk.chunkObject = null;
+
+        //キャッシュしたチャンクを削除
+        chunkObjects.Remove((x, y));
     }
 
     void CreateEnemys(int x, int y)

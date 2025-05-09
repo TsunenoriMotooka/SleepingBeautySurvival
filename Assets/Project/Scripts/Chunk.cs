@@ -17,9 +17,6 @@ public class Chunk
 
     public int[,] exists{get;}
     
-    public GameObject chunkObject{get; set;}
-    public bool IsCreated{get{return this.chunkObject != null;}}
-
     //TODO: リファクタリング予定　const化
     static int terrainSizeX = 9;
     static int terrainSizeY = 9;
