@@ -5,18 +5,22 @@ using DG.Tweening;
 
 public abstract class EnemyBase : MonoBehaviour
 {
-    public float moveSpeed = 2f;
+    public float moveSpeed = 3f;
     public float detectionRadius = 4f; //プレイヤー検知範囲
     public bool canMove = true;
     public float blinkSpeed = 0.1f;
     public int blinkCount = 2;
 
-    public Transform player;
+    [SerializeField]public Transform player;
     protected Rigidbody2D rb;
 
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        if(player == null){
+            Debug.LogError("Player is not assigned! Please set it in the Inspector.");
+        }
     }
 
     protected virtual void Update()
@@ -24,17 +28,15 @@ public abstract class EnemyBase : MonoBehaviour
         if (player == null) return;
 
         //プレイヤーとの距離計算
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+        
+        if (canMove && rb != null) MoveTowardsPlayer();
         
         if (distanceToPlayer <= detectionRadius)
         {
-            if (canMove && rb != null) MoveTowardsPlayer();
             Attack(); //攻撃処理(子クラスで実装)
         }
-        else
-        {
-            if(canMove && rb != null)rb.velocity = Vector2.zero;
-        }
+
     }
 
     protected virtual void MoveTowardsPlayer()
@@ -42,7 +44,7 @@ public abstract class EnemyBase : MonoBehaviour
         if(!canMove)return; //移動不可の敵なら何もしない
 
         //プレイヤーの方向へ移動
-        Vector2 direction = (player.position - transform.position).normalized;
+        Vector2 direction = (player.transform.position - transform.position).normalized;
         rb.velocity = direction * moveSpeed;
     }
 
@@ -53,7 +55,7 @@ public abstract class EnemyBase : MonoBehaviour
     protected void OnTriggerEnter2D(Collider2D other)
     {
         //姫と弾との当たったら、OnHit()実行(姫と弾はテスト的に作成したオブジェクト)
-        if(other.CompareTag("TestPrincess") || other.CompareTag("TestBullet")){
+        if(other.CompareTag("Princess") || other.CompareTag("Leaf")){
             OnHit();
         }
         
