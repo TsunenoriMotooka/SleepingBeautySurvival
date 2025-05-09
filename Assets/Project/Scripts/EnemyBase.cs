@@ -52,13 +52,12 @@ public abstract class EnemyBase : MonoBehaviour
         StartCoroutine(BlinkDestroy());
     }
 
-    protected void OnTriggerEnter2D(Collider2D other)
+    protected void OnCollisionEnter2D(Collision2D collision)
     {
-        //姫と弾との当たったら、OnHit()実行(姫と弾はテスト的に作成したオブジェクト)
-        if(other.CompareTag("Princess") || other.CompareTag("Leaf")){
+        if (collision.gameObject.CompareTag("Princess") || collision.gameObject.CompareTag("Leaf"))
+        {
             OnHit();
-        }
-        
+        }    
     }
 
     //敵点滅後、消滅処理

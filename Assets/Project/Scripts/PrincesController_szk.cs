@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEditor.Rendering;
+using UnityEditor.Search;
 
 public class PrincesController_szk : MonoBehaviour
 {
-    public int maxHealth = 3;
+    public int maxHealth = 10;
     int currentHealth;
     public int health{get{return currentHealth;}}
 
@@ -31,7 +32,7 @@ public class PrincesController_szk : MonoBehaviour
                 if(prefabs[0] != null){
                     leaf.GetComponent<PrincesAttackController_szk>().Attack(lookDirection);
                 }
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(1f);
             }
         }
     IEnumerator SpawnAttack(){
@@ -43,7 +44,7 @@ public class PrincesController_szk : MonoBehaviour
                 if(prefabs[1] != null){
                     attack.AddComponent<AttackBehavior>();
                 }
-            Destroy(attack,2f);
+            Destroy(attack,3f);
             yield return new WaitForSeconds(5f);
         }
     }
@@ -103,6 +104,15 @@ public class PrincesController_szk : MonoBehaviour
             }
         }
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("Monster")||other.CompareTag("MonsterBullet")){
+            ChangeHealth(-1);
+        }
+    }
+
+
     public void ChangeHealth(int amount){
         if(amount < 0){
             if(isInvinsible)return;

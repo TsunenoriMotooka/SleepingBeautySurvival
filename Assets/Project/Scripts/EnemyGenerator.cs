@@ -7,6 +7,32 @@ public class EnemyGenerator : MonoBehaviour
     public GameObject[] Enemys;
 
     private Dictionary<(int, int), List<GameObject>> enemyChunks = new Dictionary<(int, int), List<GameObject>>();
+    private Vector2Int currentChunk = new Vector2Int(0, 0);
+    void Update()
+    {
+        // ? Princess の現在の座標を取得
+        Vector2 princessPosition = GameObject.Find("Princess").transform.position;
+
+        // ? 現在のチャンク座標を計算
+        int newChunkX = Mathf.FloorToInt(princessPosition.x / 45);
+        int newChunkY = Mathf.FloorToInt(princessPosition.y / 45);
+        Vector2Int newChunk = new Vector2Int(newChunkX, newChunkY);
+
+        // ? チャンクが変わったら敵を更新
+        if (newChunk != currentChunk)
+        {
+            Debug.Log($"? Princess がチャンク移動！ 新チャンク: ({newChunkX}, {newChunkY})");
+
+            // **古いチャンクの敵を削除**
+            ClearEnemies(currentChunk.x, currentChunk.y);
+
+            // **新しいチャンクの敵を生成**
+            GenerateEnemies(newChunk.x, newChunk.y);
+
+            // ? 現在のチャンク座標を更新
+            currentChunk = newChunk;
+        }
+    }
 
     //敵を生成する処理
     public void GenerateEnemies(int chunkX, int chunkY)
