@@ -60,7 +60,7 @@ public class FieldGenerator : MonoBehaviour
         for (int y = 0; y < fieldSizeY; y++) {
             for (int x = 0; x < fieldSizeX; x++) {
                 ChunkGenerator chunkGenerator = chunkGeneratorPrefab.GetComponent<ChunkGenerator>();
-                Chunk chunk = chunkGenerator.CreateChunk(80, 0, 0, 0);
+                Chunk chunk = chunkGenerator.CreateChunk(60, 30, 10, 5);
                 chunks[x, y] = chunk;
             }
         }

@@ -7,15 +7,15 @@ public class ChunkGenerator : MonoBehaviour
 {
     public GameObject[] terrainPrefabs;
     public GameObject[] treePrefabs;
-    public GameObject[] rock1Prefabs;
-    public GameObject[] rock2Prefabs;
-    public GameObject[] rock3Prefabs;
+    public GameObject[] rockPrefabs;
+    public GameObject[] tallRockPrefabs;
+    public GameObject[] bigRockPrefabs;
 
     static int terrainSizeX = 9;
     static int terrainSizeY = 9;
 
-    public Chunk CreateChunk(int treeCount, int rock1Count, int rock2Count, int rock3Count) {
-        Chunk chunk = new Chunk(terrainPrefabs.Length, rock1Prefabs.Length, rock1Count, rock2Prefabs.Length, rock2Count, rock3Prefabs.Length, rock3Count, treePrefabs.Length, treeCount);
+    public Chunk CreateChunk(int treeCount, int rockCount, int tallRockCount, int bigRockCount) {
+        Chunk chunk = new Chunk(terrainPrefabs.Length, rockPrefabs.Length, rockCount, tallRockPrefabs.Length, tallRockCount, bigRockPrefabs.Length, bigRockCount, treePrefabs.Length, treeCount);
         return chunk;
     }
  
@@ -43,25 +43,13 @@ public class ChunkGenerator : MonoBehaviour
 
         GameObject treesObject = new GameObject("Trees");
         treesObject.transform.parent = chunkObject.transform;
-        for (int y = 0; y < chunk.trees.GetLength(0); y++) {
-            for (int x = 0; x < chunk.trees.GetLength(1); x++) {
-                if (chunk.trees[x, y] != 0) {
-                    Debug.Log(chunk.trees[x, y]);
-                    Vector3 position = new Vector3();
-                    position.x = x - chunk.trees.GetLength(0)/2; 
-                    position.y = y - chunk.trees.GetLength(1)/2;
-                    GameObject prefab = treePrefabs[chunk.trees[x, y] - 1];
-                    GameObject tree = Instantiate(
-                    prefab,
-                    position,
-                    Quaternion.identity);
-                    tree.transform.parent = treesObject.transform;
-                }
-            }
-        }
+        addObjects(treesObject.transform, chunk.trees, treePrefabs);
 
         GameObject rocksObject = new GameObject("Rocks");
         rocksObject.transform.parent = chunkObject.transform;
+        addObjects(rocksObject.transform, chunk.rocks, rockPrefabs);
+        addObjects(rocksObject.transform, chunk.tallRocks, tallRockPrefabs);
+        addObjects(rocksObject.transform, chunk.bigRocks, bigRockPrefabs);
 
         //チャンクに保存
         chunk.chunkObject = chunkObject;
@@ -69,10 +57,29 @@ public class ChunkGenerator : MonoBehaviour
         return chunkObject;
     }
 
+    void addObjects(Transform parent, int[,] positions, GameObject[] prefabs)
+    {
+        for (int y = 0; y < positions.GetLength(0); y++) {
+            for (int x = 0; x < positions.GetLength(1); x++) {
+                if (positions[x, y] != 0) {
+                    Vector3 position = new Vector3();
+                    position.x = x - (positions.GetLength(0) / 2); 
+                    position.y = y - (positions.GetLength(1) / 2);
+                    GameObject prefab = prefabs[positions[x, y] - 1];
+                    GameObject tree = Instantiate(
+                    prefab,
+                    position,
+                    Quaternion.identity);
+                    tree.transform.parent = parent;
+                }
+            }
+        }       
+    }
+
     //TODO: TEST
     void Start()
     {
-        Chunk chunk = CreateChunk(80, 0, 0, 0);
+        Chunk chunk = CreateChunk(60, 30, 10, 5);
         CreateObject(chunk);
     }
 }

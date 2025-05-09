@@ -66,6 +66,20 @@ MonoBehaviour:
   - {fileID: 2674016546248125438, guid: d189a9f7d656f4184960117fb70bfc2c, type: 3}
   - {fileID: 4716210383371707217, guid: 8cd681115b20242999c8fe4d0e813a82, type: 3}
   - {fileID: 4716210383371707217, guid: 8cd681115b20242999c8fe4d0e813a82, type: 3}
-  rock1Prefabs: []
-  rock2Prefabs: []
-  rock3Prefabs: []
+  rockPrefabs:
+  - {fileID: 3406351877679625369, guid: ff1d66ef787ca4ee0b4e4639f13d8942, type: 3}
+  - {fileID: 102070701451829736, guid: 80aaafaada9f8443ba1b6ee95f0f8a3d, type: 3}
+  - {fileID: 6833743938832419342, guid: 28c651f5d38bb420dafb9eff39630695, type: 3}
+  - {fileID: 1172106417336429546, guid: 1a84d590df88741f88055e15b057e173, type: 3}
+  - {fileID: 8241452545759193021, guid: 1acc91e072e9041398e3e5674d820c3d, type: 3}
+  - {fileID: 7141652126298917381, guid: 123740f6abdbf4f2aaaa72c070af2934, type: 3}
+  tallRockPrefabs:
+  - {fileID: 1210041975412620949, guid: 1014d2472b1a24ae594935b4f2166183, type: 3}
+  - {fileID: 5005537967700194625, guid: 66aaecbbd59514c738fb1fae0245404f, type: 3}
+  bigRockPrefabs:
+  - {fileID: 5627738379357370333, guid: d3486f47e7bb648479152eebea47074f, type: 3}
+  - {fileID: 883218671903145012, guid: 6635bedc128db46f7815965590a6dae5, type: 3}
+  - {fileID: 9219418470170895726, guid: 902b02abd64e64fbb9faaeb8f60b92bc, type: 3}
+  - {fileID: 6241911909112809405, guid: ac120254cae844fa1869e749691227fc, type: 3}
+  lightPrefabs:
+  - {fileID: 7095886410082888898, guid: 75617305430014df6b9bdf9d48264eb2, type: 3}
