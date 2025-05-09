@@ -1,10 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Chunk
 {
@@ -16,25 +10,6 @@ public class Chunk
     public int[,] bigRocks{get;}    
 
     public int[,] exists{get;}
-    
-    //TODO: リファクタリング予定　const化
-    static int terrainSizeX = 9;
-    static int terrainSizeY = 9;
-
-    //TODO: リファクタリング予定 const化
-    public static int sizeX = 5;
-    public static int sizeY = 5;
-
-    //TODO: リファクタリング予定 プロパティ化
-    public static int chunkSizeX = sizeX * terrainSizeX;
-    public static int chunkSizeY = sizeY * terrainSizeY;
-
-    //TODO: リファクタリング予定　const化
-    static int rockSize = 1;
-    static int tallRockSize = 1;
-    static int bigRockSize = 3;
-    static int treeSize = 3;
-
     System.Random rand = new System.Random();
 
     public Chunk(int terrainsTypeCount, 
@@ -47,48 +22,53 @@ public class Chunk
                  int treeTypeCount, 
                  int treeCount)
     {
-        terrains = new int[sizeX,sizeY];
+        terrains = new int[Const.chunkLengthX, Const.chunkLengthY];
 
-        rocks = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
-        tallRocks = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
-        bigRocks = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
-        trees = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
+        rocks = new int[Const.chunkSizeX, Const.chunkSizeY];
+        tallRocks = new int[Const.chunkSizeX, Const.chunkSizeY];
+        bigRocks = new int[Const.chunkSizeX, Const.chunkSizeY];
+        trees = new int[Const.chunkSizeX, Const.chunkSizeY];
 
-        exists = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
+        exists = new int[Const.chunkSizeX, Const.chunkSizeY];
 
         //terrains
-        for (int y = 0; y < sizeY; y++) {
-            for (int x = 0; x < sizeX; x++) {
+        createTerrains(terrains, terrainsTypeCount);
+
+        //tree
+        createObjects(trees, treeCount, treeTypeCount, Const.treeSize);
+
+        //bigRock
+        createObjects(bigRocks, bigRockCount, bigRockTypeCount, Const.bigRockSize);
+
+        //tallRock
+        createObjects(tallRocks, tallRockCount, tallRockTypeCount, Const.tallRockSize);
+
+        //rock
+        createObjects(rocks, rockCount, rockTypeCount, Const.rockSize);
+    }
+
+    void createTerrains(int[,] terrains, int terrainsTypeCount)
+    {
+        for (int y = 0; y < Const.chunkLengthY; y++) {
+            for (int x = 0; x < Const.chunkLengthX; x++) {
                 int types = rand.Next(terrainsTypeCount) + 1;
                 terrains[x, y] = types;
             }
         }
-
-        //tree
-        createPositions(trees, treeCount, treeTypeCount, treeSize);
-
-        //bigRock
-        createPositions(bigRocks, bigRockCount, bigRockTypeCount, bigRockSize);
-
-        //tallRock
-        createPositions(tallRocks, tallRockCount, tallRockTypeCount, tallRockSize);
-
-        //rock
-        createPositions(rocks, rockCount, rockTypeCount, rockSize);
     }
 
-    void createPositions(int [,] positions, int count, int typeCount, int size)
+    void createObjects(int [,] objects, int count, int typeCount, int size)
     {
         int halfSize = size / 2;
         for (int i = 0; i < count; i++) {
             for (int j = 0; j < 10; j++) {
-                int x = rand.Next(positions.GetLength(1) - (halfSize * 2)) + halfSize;
-                int y = rand.Next(positions.GetLength(0) - (halfSize * 2)) + halfSize;
+                int x = rand.Next(objects.GetLength(1) - (halfSize * 2)) + halfSize;
+                int y = rand.Next(objects.GetLength(0) - (halfSize * 2)) + halfSize;
                 int type = rand.Next(typeCount) + 1;
 
                 if (!IsExists(x, y, size)) {
                     SetExists(x, y, size);
-                    positions[x, y] = type;
+                    objects[x, y] = type;
                     break;
                 }
             }

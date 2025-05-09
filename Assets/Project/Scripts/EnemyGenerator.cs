@@ -14,8 +14,8 @@ public class EnemyGenerator : MonoBehaviour
         Vector2 princessPosition = GameObject.Find("Princess").transform.position;
 
         // ? 現在のチャンク座標を計算
-        int newChunkX = Mathf.FloorToInt(princessPosition.x / 45);
-        int newChunkY = Mathf.FloorToInt(princessPosition.y / 45);
+        int newChunkX = Mathf.FloorToInt(princessPosition.x / Const.chunkSizeX);
+        int newChunkY = Mathf.FloorToInt(princessPosition.y / Const.chunkSizeY);
         Vector2Int newChunk = new Vector2Int(newChunkX, newChunkY);
 
         // ? チャンクが変わったら敵を更新
@@ -39,8 +39,8 @@ public class EnemyGenerator : MonoBehaviour
     {
         if (Enemys.Length == 0) return;
 
-        float baseX = chunkX * 45;
-        float baseY = chunkY * 45;
+        float baseX = chunkX * Const.chunkSizeX;
+        float baseY = chunkY * Const.chunkSizeY;
 
         List<GameObject> spawnedEnemies = new List<GameObject>();
 
@@ -50,10 +50,10 @@ public class EnemyGenerator : MonoBehaviour
         {
             GameObject enemyPrefab = Enemys[Random.Range(0, Enemys.Length)];
 
-            float xOffset = Random.Range(-22f, 22f);
-            float yOffset = Random.Range(-22f, 22f);
+            float xOffset = Random.Range(-Const.chunkSizeX/2f, Const.chunkSizeX/2f);
+            float yOffset = Random.Range(-Const.chunkSizeX/2f, Const.chunkSizeX/2f);
             Vector2 spawnPos = new Vector2(baseX + xOffset, baseY + yOffset);
-
+            
             GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
 
             enemy.GetComponent<EnemyBase>().player = GameObject.Find("Princess")?.transform;
