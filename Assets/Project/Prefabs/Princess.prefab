@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 930512a6db047c64198390afea9aa563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
+  maxHealth: 10
   timeInvincible: 2
   speed: 5
   prefabs:

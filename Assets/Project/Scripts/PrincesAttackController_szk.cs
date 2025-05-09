@@ -22,7 +22,6 @@ public class PrincesAttackController_szk : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D other)
     {
-        EnemyBase eneCon = other.collider.GetComponent<EnemyBase>();
         Destroy(gameObject);
     }
 
