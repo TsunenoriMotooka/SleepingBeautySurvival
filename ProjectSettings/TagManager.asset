@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Princess
   - Leaf
+  - Monster
+  - MonsterBullet
   layers:
   - Default
   - TransparentFX
