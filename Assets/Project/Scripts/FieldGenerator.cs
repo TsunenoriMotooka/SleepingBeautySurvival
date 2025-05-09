@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 public class FieldGenerator : MonoBehaviour
@@ -13,6 +14,8 @@ public class FieldGenerator : MonoBehaviour
     GameObject field;
     public GameObject chunkGeneratorPrefab;
     ChunkGenerator chunkGenerator;
+    public GameObject enemyGeneratorPrefab;
+    EnemyGenerator enemyGenerator;
 
     public Transform princess;
     Rigidbody2D princessRg;
@@ -25,7 +28,8 @@ public class FieldGenerator : MonoBehaviour
         field = new GameObject("Filed");
         princessRg = princess.gameObject.GetComponent<Rigidbody2D>();
         chunkGenerator = chunkGeneratorPrefab.GetComponent<ChunkGenerator>();
-        
+        enemyGenerator = enemyGeneratorPrefab.GetComponent<EnemyGenerator>();
+
         InitChunks();
     }
 
@@ -49,7 +53,12 @@ public class FieldGenerator : MonoBehaviour
         for (int y = -2; y <= 2; y++) {
             for (int x = -2; x <= 2; x++) {
                 if (x >= -1 && x <= 1 && y >= -1 && y <= 1) continue;
+                
+                //チャンクを削除
                 RemoveChunk(px + x, py + y);
+            
+                //モンスターを削除
+                RemoveEnemies(x, y);
             }
         }
     }
@@ -69,6 +78,10 @@ public class FieldGenerator : MonoBehaviour
         for (int y = -1; y <= 1; y++) {
             for (int x = -1; x <= 1; x++) {
                 CreateChunk(x, y);
+
+                if (x != 0 || y != 0) {
+                    CreateEnemys(x, y);
+                }
             }
         }
     }
@@ -103,5 +116,15 @@ public class FieldGenerator : MonoBehaviour
         Destroy(chunkObject);
         //保存したチャンクを削除
         chunk.chunkObject = null;
+    }
+
+    void CreateEnemys(int x, int y)
+    {
+        enemyGenerator.GenerateEnemies(x, y);
+    }
+
+    void RemoveEnemies(int x, int y)
+    {
+        enemyGenerator.ClearEnemies(x, y);
     }
 }

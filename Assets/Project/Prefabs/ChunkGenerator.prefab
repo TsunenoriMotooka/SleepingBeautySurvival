@@ -81,5 +81,4 @@ MonoBehaviour:
   - {fileID: 883218671903145012, guid: 6635bedc128db46f7815965590a6dae5, type: 3}
   - {fileID: 9219418470170895726, guid: 902b02abd64e64fbb9faaeb8f60b92bc, type: 3}
   - {fileID: 6241911909112809405, guid: ac120254cae844fa1869e749691227fc, type: 3}
-  lightPrefabs:
-  - {fileID: 7095886410082888898, guid: 75617305430014df6b9bdf9d48264eb2, type: 3}
+  enemyGeneratorPrefab: {fileID: 2046360815698387993, guid: 15b121fbf2695cc42b2d44090fff2f83, type: 3}

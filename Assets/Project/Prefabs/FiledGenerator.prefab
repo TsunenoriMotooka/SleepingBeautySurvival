@@ -47,4 +47,5 @@ MonoBehaviour:
   fieldSizeX: 5
   fieldSizeY: 5
   chunkGeneratorPrefab: {fileID: 9222951411173734681, guid: 47e30c29cb8e247c99aa9c3a1f18ab26, type: 3}
+  enemyGeneratorPrefab: {fileID: 2046360815698387993, guid: 15b121fbf2695cc42b2d44090fff2f83, type: 3}
   princess: {fileID: 0}

@@ -14,6 +14,8 @@ public class ChunkGenerator : MonoBehaviour
     static int terrainSizeX = 9;
     static int terrainSizeY = 9;
 
+    public GameObject enemyGeneratorPrefab;
+
     public Chunk CreateChunk(int treeCount, int rockCount, int tallRockCount, int bigRockCount) {
         Chunk chunk = new Chunk(terrainPrefabs.Length, rockPrefabs.Length, rockCount, tallRockPrefabs.Length, tallRockCount, bigRockPrefabs.Length, bigRockCount, treePrefabs.Length, treeCount);
         return chunk;
@@ -81,5 +83,8 @@ public class ChunkGenerator : MonoBehaviour
     {
         Chunk chunk = CreateChunk(60, 30, 10, 5);
         CreateObject(chunk);
+
+        EnemyGenerator enemyGenerator = enemyGeneratorPrefab.GetComponent<EnemyGenerator>();
+        enemyGenerator.GenerateEnemies(0, 0);
     }
 }
