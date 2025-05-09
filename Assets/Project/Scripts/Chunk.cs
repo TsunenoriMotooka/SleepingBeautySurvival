@@ -38,6 +38,8 @@ public class Chunk
     static int bigRockSize = 3;
     static int treeSize = 3;
 
+    System.Random rand = new System.Random();
+
     public Chunk(int terrainsTypeCount, 
                  int rockTypeCount,
                  int rockCount,
@@ -60,7 +62,7 @@ public class Chunk
         //terrains
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
-                int types = UnityEngine.Random.Range(0, terrainsTypeCount) + 1;
+                int types = rand.Next(terrainsTypeCount) + 1;
                 terrains[x, y] = types;
             }
         }
@@ -83,9 +85,9 @@ public class Chunk
         int halfSize = size / 2;
         for (int i = 0; i < count; i++) {
             for (int j = 0; j < 10; j++) {
-                int x = UnityEngine.Random.Range(0, positions.GetLength(1) - (halfSize * 2)) + halfSize;
-                int y = UnityEngine.Random.Range(0, positions.GetLength(0) - (halfSize * 2)) + halfSize;
-                int type = UnityEngine.Random.Range(0, typeCount) + 1;
+                int x = rand.Next(positions.GetLength(1) - (halfSize * 2)) + halfSize;
+                int y = rand.Next(positions.GetLength(0) - (halfSize * 2)) + halfSize;
+                int type = rand.Next(typeCount) + 1;
 
                 if (!IsExists(x, y, size)) {
                     SetExists(x, y, size);

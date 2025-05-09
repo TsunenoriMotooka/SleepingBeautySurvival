@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 6268449493488644799}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.438723, y: -0.67757785, z: -0.25306085}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,4 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7f3b474270c44d0a78ba13319f34e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fieldSizeX: 5
+  fieldSizeY: 5
   chunkGeneratorPrefab: {fileID: 9222951411173734681, guid: 47e30c29cb8e247c99aa9c3a1f18ab26, type: 3}
+  princess: {fileID: 0}
