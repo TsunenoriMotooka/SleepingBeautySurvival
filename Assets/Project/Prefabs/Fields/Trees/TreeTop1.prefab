@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5195488579112013177}
   - component: {fileID: 4045706790245892595}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: treetop_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 653980511496397414}
   - component: {fileID: 550388101449884955}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: treetop_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6923408608375113498}
   - component: {fileID: 4074225151608647728}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: treetop_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7988975562556473065}
   - component: {fileID: 7638710213268101621}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: treetop_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,7 +346,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4349029850778573844}
   - component: {fileID: 4211781680039681597}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: treetop_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -430,7 +430,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4506828916131621342}
   - component: {fileID: 2033357662748673172}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: treetop_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -513,7 +513,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4784079206101982445}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TreeTop1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -554,7 +554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6595014388963468147}
   - component: {fileID: 7566565390708287538}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: treetop_13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -638,7 +638,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3879095709000355677}
   - component: {fileID: 8000439814681004438}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: treetop_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -722,7 +722,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2480492139382292062}
   - component: {fileID: 5315812404352610534}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: treetop_12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
