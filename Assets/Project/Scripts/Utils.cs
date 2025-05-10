@@ -3,28 +3,24 @@ using System;
 
 public class Utils
 {
-    public static (int, int) ToChunkMatrix(float px, float py)
+    public static (int, int) PositionToChunkMatrix(float px, float py)
     {
         int x = (int)Math.Round(px / (float)Const.chunkSizeX);
         int y = (int)Math.Round(py / (float)Const.chunkSizeY); 
         return (x, y);
     }
-    public static (int, int) ToChunkMatrix(Vector2 position)
+    public static (int, int) PositionToChunkMatrix(Vector2 position)
     {
-        return ToChunkMatrix(position.x, position.y); 
+        return PositionToChunkMatrix(position.x, position.y);
     }
-    public static (int, int) ToChunkMatrix(Vector3 position)
+    public static (int, int) PositionToChunkMatrix(Vector3 position)
     {
-        return ToChunkMatrix(position.x, position.y); 
+        return PositionToChunkMatrix(position.x, position.y); 
     }
   
-    public static (int,int) positionToChunkMatrix(Vector2 position)
+    public static Vector2 chunkMatrixToPosition(int chunkX, int chunkY)
     {
-        return ToChunkMatrix(position.x, position.y);
-    }
-    public static (int, int) positionToChunkMatrix(Vector3 position)
-    {
-        return ToChunkMatrix(position.x, position.y);
+        return new Vector2(chunkX * Const.chunkSizeX, chunkY * Const.chunkSizeY);
     }
 
     public static Vector2 ToFieldPosition(float pxf, float pyf)
@@ -46,5 +42,16 @@ public class Utils
     public static Vector2 ToFieldPosition(Vector3 position)
     {
         return ToFieldPosition(position.x, position.y);
+    }
+
+    public static bool ContainsInChunk(int chunkX, int chunkY, Vector2 position)
+    {
+        float chunkPosX = chunkX * Const.chunkSizeX;
+        float chunkPosY = chunkY * Const.chunkSizeY;
+        
+        return (position.x >= chunkPosX - Const.chunkSizeX / 2 &&
+                position.x <= chunkPosX + Const.chunkSizeX / 2 &&
+                position.y >= chunkPosY - Const.chunkSizeY / 2 &&
+                position.y <= chunkPosY + Const.chunkSizeY / 2);
     }
 }

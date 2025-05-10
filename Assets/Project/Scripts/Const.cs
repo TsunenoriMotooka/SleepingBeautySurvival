@@ -33,4 +33,6 @@ public class Const : MonoBehaviour
         {0,1,1,1,1,1,1,1,0},
         {0,0,0,1,1,1,0,0,0},
         };
+
+    public static int clearKeyCount = 10;
 }

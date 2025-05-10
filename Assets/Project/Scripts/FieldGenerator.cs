@@ -13,6 +13,8 @@ public class FieldGenerator : MonoBehaviour
     ChunkGenerator chunkGenerator;
     public GameObject enemyGeneratorPrefab;
     EnemyGenerator enemyGenerator;
+    public GameObject clearKeyPregab;
+    ClearKeyGenerator clearKeyGenerator;
 
     public Transform princess;
     Rigidbody2D princessRg;
@@ -27,6 +29,7 @@ public class FieldGenerator : MonoBehaviour
         princessRg = princess.gameObject.GetComponent<Rigidbody2D>();
         chunkGenerator = chunkGeneratorPrefab.GetComponent<ChunkGenerator>();
         enemyGenerator = enemyGeneratorPrefab.GetComponent<EnemyGenerator>();
+        clearKeyGenerator = clearKeyPregab.GetComponent<ClearKeyGenerator>();
 
         InitChunks();
     }
@@ -36,7 +39,7 @@ public class FieldGenerator : MonoBehaviour
         //自機がいるチャンクの座標を取得
         int px, py;
         Vector2 position = princessRg.position; 
-        (px, py) = Utils.ToChunkMatrix(position);
+        (px, py) = Utils.PositionToChunkMatrix(position);
 
         // チャンクの生成
         // チャンクの座標周囲１マスを作成
@@ -56,6 +59,9 @@ public class FieldGenerator : MonoBehaviour
 
                 //モンスターの作成
                 CreateEnemys(x, y);
+
+                //キーの作成
+                CreateClearKeys(x, y);
             }
         }
 
@@ -69,11 +75,17 @@ public class FieldGenerator : MonoBehaviour
                 int x = px + ax;
                 int y = py + ay;
 
+                //未作成の場合は無視
+                if (!chunkObjects.ContainsKey((x, y))) continue;
+
                 //チャンクを削除
                 RemoveChunk(x, y);
             
                 //モンスターを削除
                 RemoveEnemies(x, y);
+
+                //キーの作成
+                RemoveClearKeys(x, y);
             }
         }
     }
@@ -90,6 +102,9 @@ public class FieldGenerator : MonoBehaviour
             }
         }
 
+        // 鍵の配置設定
+        clearKeyGenerator.Init();
+
         // 初期画面生成
         for (int y = -1; y <= 1; y++) {
             for (int x = -1; x <= 1; x++) {
@@ -98,6 +113,9 @@ public class FieldGenerator : MonoBehaviour
                 if (x != 0 || y != 0) {
                     CreateEnemys(x, y);
                 }
+
+                //キーの作成
+                CreateClearKeys(x, y);
             }
         }
     }
@@ -138,13 +156,23 @@ public class FieldGenerator : MonoBehaviour
         chunkObjects.Remove((x, y));
     }
 
-    void CreateEnemys(int x, int y)
+    void CreateEnemys(int chunkX, int chunkY)
     {
-        enemyGenerator.GenerateEnemies(x, y);
+        enemyGenerator.GenerateEnemies(chunkX, chunkY);
     }
 
-    void RemoveEnemies(int x, int y)
+    void RemoveEnemies(int chunkX, int chunkY)
     {
-        enemyGenerator.ClearEnemies(x, y);
+        enemyGenerator.ClearEnemies(chunkX, chunkY);
+    }
+
+    void CreateClearKeys(int chunkX, int chunkY)
+    {
+        clearKeyGenerator.GenerateClearKeys(chunkX, chunkY);
+    }
+
+    void RemoveClearKeys(int chunkX, int chunkY)
+    {
+        clearKeyGenerator.ClearClearKeys(chunkX, chunkY);
     }
 }
