@@ -43,15 +43,4 @@ public class Utils
     {
         return ToFieldPosition(position.x, position.y);
     }
-
-    public static bool ContainsInChunk(int chunkX, int chunkY, Vector2 position)
-    {
-        float chunkPosX = chunkX * Const.chunkSizeX;
-        float chunkPosY = chunkY * Const.chunkSizeY;
-        
-        return (position.x >= chunkPosX - Const.chunkSizeX / 2 &&
-                position.x <= chunkPosX + Const.chunkSizeX / 2 &&
-                position.y >= chunkPosY - Const.chunkSizeY / 2 &&
-                position.y <= chunkPosY + Const.chunkSizeY / 2);
-    }
 }

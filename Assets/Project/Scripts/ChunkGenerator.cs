@@ -9,6 +9,7 @@ public class ChunkGenerator : MonoBehaviour
     public GameObject[] bigRockPrefabs;
 
     public GameObject enemyGeneratorPrefab;
+    public GameObject clearKeyGeneratorPrefab;
 
     public Chunk CreateChunk(int chunkX, int chunkY, int treeCount, int rockCount, int tallRockCount, int bigRockCount) {
         Chunk chunk = new Chunk(chunkX, chunkY, terrainPrefabs.Length, rockPrefabs.Length, rockCount, tallRockPrefabs.Length, tallRockCount, bigRockPrefabs.Length, bigRockCount, treePrefabs.Length, treeCount);
@@ -72,10 +73,14 @@ public class ChunkGenerator : MonoBehaviour
     //TODO: TEST
     void Start()
     {
-        Chunk chunk = CreateChunk(0, 0, 60, 30, 10, 5);
+        Chunk chunk = CreateChunk(0, 0, 120, 30, 5, 3);
         CreateObject(chunk);
 
         EnemyGenerator enemyGenerator = enemyGeneratorPrefab.GetComponent<EnemyGenerator>();
         enemyGenerator.GenerateEnemies(0, 0);
+
+        ClearKeyGenerator clearKeyGenerator = clearKeyGeneratorPrefab.GetComponent<ClearKeyGenerator>();
+        clearKeyGenerator.InitOneChunk();
+        clearKeyGenerator.GenerateClearKeys(0, 0);
     }
 }

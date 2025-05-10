@@ -1,5 +1,5 @@
-using UnityEngine;
 using System;
+using UnityEngine;
 
 public class Chunk
 {
@@ -16,26 +16,6 @@ public class Chunk
     //偏りがあるシステムの乱数を使用
     System.Random rand = new System.Random();
 
-    public Chunk(int terrainsTypeCount,
-                 int rockTypeCount,
-                 int rockCount,
-                 int tallRockTypeCount,
-                 int tallRockCount, 
-                 int bigRockTypeCount, 
-                 int bigRockCount, 
-                 int treeTypeCount, 
-                 int treeCount)
-                 : this(0,
-                        0,
-                        terrainsTypeCount,
-                        rockTypeCount,
-                        rockCount,
-                        tallRockTypeCount,
-                        tallRockCount, 
-                        bigRockTypeCount, 
-                        bigRockCount, 
-                        treeTypeCount, 
-                        treeCount){}
     public Chunk(int chunkX,
                  int chunkY,
                  int terrainsTypeCount,
@@ -87,12 +67,12 @@ public class Chunk
     void createObjects(int [,] objects, int count, int typeCount, int size)
     {
         int halfSize = size / 2;
+        count = (int)Math.Ceiling(UnityEngine.Random.Range(count * 0.9f, count * 1.1f));
         for (int i = 0; i < count; i++) {
-            for (int j = 0; j < 10; j++) {
+            int type = rand.Next(typeCount) + 1;
+            for (int j = 0; j < 20; j++) {
                 int x = rand.Next(objects.GetLength(1) - (halfSize * 2)) + halfSize;
                 int y = rand.Next(objects.GetLength(0) - (halfSize * 2)) + halfSize;
-                int type = rand.Next(typeCount) + 1;
-
                 if (!IsExists(x, y, size)) {
                     SetExists(x, y, size);
                     objects[x, y] = type;
