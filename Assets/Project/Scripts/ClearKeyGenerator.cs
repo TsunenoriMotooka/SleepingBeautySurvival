@@ -1,12 +1,4 @@
-using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using Unity.Collections;
-
-using Unity.VisualScripting.Dependencies.Sqlite;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class ClearKeyGenerator : MonoBehaviour
@@ -15,8 +7,6 @@ public class ClearKeyGenerator : MonoBehaviour
     
     Dictionary<Vector2, int> clearKeyPosDict = new Dictionary<Vector2, int>();
     Dictionary<(int, int), List<GameObject>> clearKeyDict = new Dictionary<(int, int), List<GameObject>>();
-
-    SemaphoreSlim semaphore = new SemaphoreSlim(1);
 
     GameObject clearKeys;
 
@@ -44,22 +34,36 @@ public class ClearKeyGenerator : MonoBehaviour
         }
     }
 
+    public void InitOneChunk()
+    {
+        clearKeys = new GameObject("ClearKeys");
+
+        clearKeyPosDict.Clear();
+        while(true) {
+            int x = Random.Range(-Const.chunkSizeX / 2, Const.chunkSizeX / 2);
+            int y = Random.Range(-Const.chunkSizeY / 2, Const.chunkSizeY / 2);
+
+            Vector2 position = new Vector2(x, y);
+            if (clearKeyPosDict.ContainsKey(position)) continue;
+
+            if (!ExistPositionManager.GetInstance().Contains(x, y)) {
+                clearKeyPosDict[position] = 1;
+                break;
+            }
+        }
+    }
+
     public void GenerateClearKeys(int chunkX, int chunkY)
     {        
-        Vector2 chunkPos = Utils.chunkMatrixToPosition(chunkX, chunkY);
+        int wx = chunkX % Const.fieldMatrixX;
+        int wy = chunkY % Const.fieldMatrixY;
 
         List<GameObject> clearKeyList = new List<GameObject>();
 
         foreach (Vector2 clearKeyPos in clearKeyPosDict.Keys) {
             (int clearKeyChunkX, int clearKeyChunkY) = Utils.PositionToChunkMatrix(clearKeyPos);
-
-            if (clearKeyChunkX == (chunkX + Const.chunkSizeX / 2) % Const.chunkSizeX - Const.chunkSizeX / 2 &&
-                clearKeyChunkY == (chunkY + Const.chunkSizeY / 2) % Const.chunkSizeY - Const.chunkSizeX / 2 ) {
-
-                int filedX = (int)chunkPos.x / Const.fieldSizeX;
-                int filedY = (int)chunkPos.y / Const.fieldSizeX;
-
-                Vector2 position = clearKeyPos + new Vector2(filedX * Const.fieldSizeX, filedY * Const.fieldSizeY);
+            if (clearKeyChunkX == wx && clearKeyChunkY == wy) {
+                Vector2 position = new Vector2(chunkX * Const.fieldSizeX, chunkY * Const.fieldSizeY) + clearKeyPos;
                 GameObject clearKey = Instantiate(
                     clearKeyPrefab,
                     position,
@@ -67,9 +71,10 @@ public class ClearKeyGenerator : MonoBehaviour
                 clearKey.transform.parent = clearKeys.transform;
                 ClearKey script = clearKey.GetComponent<ClearKey>();
                 if (script != null) script.destoryDelegate = () => {
-                    clearKeyPosDict.Remove(clearKeyPos);
+                    if (clearKeyPosDict.ContainsKey(clearKeyPos)) {
+                        clearKeyPosDict.Remove(clearKeyPos);
+                    }
                 };
-
                 clearKeyList.Add(clearKey);
             }
         }

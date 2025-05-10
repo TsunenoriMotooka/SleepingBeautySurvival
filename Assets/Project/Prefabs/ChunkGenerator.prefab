@@ -82,3 +82,4 @@ MonoBehaviour:
   - {fileID: 9219418470170895726, guid: 902b02abd64e64fbb9faaeb8f60b92bc, type: 3}
   - {fileID: 6241911909112809405, guid: ac120254cae844fa1869e749691227fc, type: 3}
   enemyGeneratorPrefab: {fileID: 2046360815698387993, guid: 15b121fbf2695cc42b2d44090fff2f83, type: 3}
+  clearKeyGeneratorPrefab: {fileID: 1041152230816849370, guid: 2557156234c5047c6b9c804a19a70b62, type: 3}

@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Collections;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 public class FieldGenerator : MonoBehaviour
@@ -95,10 +91,16 @@ public class FieldGenerator : MonoBehaviour
         // Chunkの作成
         for (int y = 0; y < Const.fieldMatrixY; y++) {
             for (int x = 0; x < Const.fieldMatrixX; x++) {
-                int chunkX = x - Const.fieldMatrixX / 2;
-                int chunkY = y - Const.fieldMatrixY / 2;
-                Chunk chunk = chunkGenerator.CreateChunk(chunkX, chunkY, 60, 30, 10, 5);
-                chunks[x, y] = chunk;
+                int chunkX = x % Const.fieldMatrixX - Const.fieldMatrixX / 2;
+                int chunkY = y % Const.fieldMatrixY - Const.fieldMatrixY / 2;
+
+                int index = UnityEngine.Random.Range(0, Const.chunkTypes.Length);
+                (int treeCount, int rockCount, int tallRockCount, int bigRockCount) = Const.chunkTypes[index];
+
+                Chunk chunk = chunkGenerator.CreateChunk(chunkX, chunkY, treeCount, rockCount, tallRockCount, bigRockCount);
+                int wx = (Const.fieldMatrixX + chunkX) % Const.fieldMatrixX;
+                int wy = (Const.fieldMatrixY + chunkY) % Const.fieldMatrixY;
+                chunks[wx, wy] = chunk;
             }
         }
 
@@ -123,8 +125,8 @@ public class FieldGenerator : MonoBehaviour
     void CreateChunk(int x, int y)
     {   
         //チャンク情報を取得
-        int wx = (x + Const.fieldMatrixX) % Const.fieldMatrixX;
-        int wy = (y + Const.fieldMatrixY) % Const.fieldMatrixY;
+        int wx = (Const.fieldMatrixX + x % Const.fieldMatrixX) % Const.fieldMatrixX;
+        int wy = (Const.fieldMatrixY + y % Const.fieldMatrixY) % Const.fieldMatrixX;
         Chunk chunk = chunks[wx, wy];
 
         //チャンクのワールド座標を設定
