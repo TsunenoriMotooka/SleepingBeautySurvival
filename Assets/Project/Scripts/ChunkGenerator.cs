@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class ChunkGenerator : MonoBehaviour
@@ -11,16 +8,13 @@ public class ChunkGenerator : MonoBehaviour
     public GameObject[] tallRockPrefabs;
     public GameObject[] bigRockPrefabs;
 
-    static int terrainSizeX = 9;
-    static int terrainSizeY = 9;
-
     public GameObject enemyGeneratorPrefab;
 
-    public Chunk CreateChunk(int treeCount, int rockCount, int tallRockCount, int bigRockCount) {
-        Chunk chunk = new Chunk(terrainPrefabs.Length, rockPrefabs.Length, rockCount, tallRockPrefabs.Length, tallRockCount, bigRockPrefabs.Length, bigRockCount, treePrefabs.Length, treeCount);
+    public Chunk CreateChunk(int chunkX, int chunkY, int treeCount, int rockCount, int tallRockCount, int bigRockCount) {
+        Chunk chunk = new Chunk(chunkX, chunkY, terrainPrefabs.Length, rockPrefabs.Length, rockCount, tallRockPrefabs.Length, tallRockCount, bigRockPrefabs.Length, bigRockCount, treePrefabs.Length, treeCount);
         return chunk;
     }
- 
+
     public GameObject CreateObject(Chunk chunk){
 
         GameObject chunkObject = new GameObject("Chunk");
@@ -31,8 +25,8 @@ public class ChunkGenerator : MonoBehaviour
             for (int x = 0; x < chunk.terrains.GetLength(1); x++) {
                 if (chunk.terrains[x, y] != 0) {
                     Vector3 position = new Vector3();
-                    position.x = (x - chunk.terrains.GetLength(0)/2) * terrainSizeX; 
-                    position.y = (y - chunk.terrains.GetLength(0)/2) * terrainSizeY;
+                    position.x = (x - chunk.terrains.GetLength(0) / 2) * Const.terrainSizeX; 
+                    position.y = (y - chunk.terrains.GetLength(1) / 2) * Const.terrainSizeY;
                     GameObject prefab = terrainPrefabs[chunk.terrains[x, y] - 1];
                     GameObject terrain = Instantiate(
                     prefab,
@@ -65,11 +59,11 @@ public class ChunkGenerator : MonoBehaviour
                     position.x = x - (positions.GetLength(0) / 2); 
                     position.y = y - (positions.GetLength(1) / 2);
                     GameObject prefab = prefabs[positions[x, y] - 1];
-                    GameObject tree = Instantiate(
+                    GameObject obj = Instantiate(
                     prefab,
                     position,
                     Quaternion.identity);
-                    tree.transform.parent = parent;
+                    obj.transform.parent = parent;
                 }
             }
         }       
@@ -78,7 +72,7 @@ public class ChunkGenerator : MonoBehaviour
     //TODO: TEST
     void Start()
     {
-        Chunk chunk = CreateChunk(60, 30, 10, 5);
+        Chunk chunk = CreateChunk(0, 0, 60, 30, 10, 5);
         CreateObject(chunk);
 
         EnemyGenerator enemyGenerator = enemyGeneratorPrefab.GetComponent<EnemyGenerator>();

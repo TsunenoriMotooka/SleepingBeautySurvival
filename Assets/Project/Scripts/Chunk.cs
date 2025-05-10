@@ -1,13 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.UIElements;
+using System;
 
 public class Chunk
 {
+    int chunkX;
+    int chunkY;
+
     public int[,] terrains{get;}
 
     public int[,] trees{get;}
@@ -15,29 +13,32 @@ public class Chunk
     public int[,] tallRocks{get;}
     public int[,] bigRocks{get;}    
 
-    public int[,] exists{get;}
-    
-    //TODO: リファクタリング予定　const化
-    static int terrainSizeX = 9;
-    static int terrainSizeY = 9;
-
-    //TODO: リファクタリング予定 const化
-    public static int sizeX = 5;
-    public static int sizeY = 5;
-
-    //TODO: リファクタリング予定 プロパティ化
-    public static int chunkSizeX = sizeX * terrainSizeX;
-    public static int chunkSizeY = sizeY * terrainSizeY;
-
-    //TODO: リファクタリング予定　const化
-    static int rockSize = 1;
-    static int tallRockSize = 1;
-    static int bigRockSize = 3;
-    static int treeSize = 3;
-
+    //偏りがあるシステムの乱数を使用
     System.Random rand = new System.Random();
 
-    public Chunk(int terrainsTypeCount, 
+    public Chunk(int terrainsTypeCount,
+                 int rockTypeCount,
+                 int rockCount,
+                 int tallRockTypeCount,
+                 int tallRockCount, 
+                 int bigRockTypeCount, 
+                 int bigRockCount, 
+                 int treeTypeCount, 
+                 int treeCount)
+                 : this(0,
+                        0,
+                        terrainsTypeCount,
+                        rockTypeCount,
+                        rockCount,
+                        tallRockTypeCount,
+                        tallRockCount, 
+                        bigRockTypeCount, 
+                        bigRockCount, 
+                        treeTypeCount, 
+                        treeCount){}
+    public Chunk(int chunkX,
+                 int chunkY,
+                 int terrainsTypeCount,
                  int rockTypeCount,
                  int rockCount,
                  int tallRockTypeCount,
@@ -47,48 +48,54 @@ public class Chunk
                  int treeTypeCount, 
                  int treeCount)
     {
-        terrains = new int[sizeX,sizeY];
+        this.chunkX = chunkX;
+        this.chunkY = chunkY;
 
-        rocks = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
-        tallRocks = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
-        bigRocks = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
-        trees = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
-
-        exists = new int[sizeX * terrainSizeX, sizeY * terrainSizeY];
+        terrains = new int[Const.chunkMatrixX, Const.chunkMatrixY];
+        
+        rocks = new int[Const.chunkSizeX, Const.chunkSizeY];
+        tallRocks = new int[Const.chunkSizeX, Const.chunkSizeY];
+        bigRocks = new int[Const.chunkSizeX, Const.chunkSizeY];
+        trees = new int[Const.chunkSizeX, Const.chunkSizeY];
 
         //terrains
-        for (int y = 0; y < sizeY; y++) {
-            for (int x = 0; x < sizeX; x++) {
+        createTerrains(terrains, terrainsTypeCount);
+
+        //tree
+        createObjects(trees, treeCount, treeTypeCount, Const.treeSize);
+
+        //bigRock
+        createObjects(bigRocks, bigRockCount, bigRockTypeCount, Const.bigRockSize);
+
+        //tallRock
+        createObjects(tallRocks, tallRockCount, tallRockTypeCount, Const.tallRockSize);
+
+        //rock
+        createObjects(rocks, rockCount, rockTypeCount, Const.rockSize);
+    }
+
+    void createTerrains(int[,] terrains, int terrainsTypeCount)
+    {
+        for (int y = 0; y < Const.chunkMatrixY; y++) {
+            for (int x = 0; x < Const.chunkMatrixX; x++) {
                 int types = rand.Next(terrainsTypeCount) + 1;
                 terrains[x, y] = types;
             }
         }
-
-        //tree
-        createPositions(trees, treeCount, treeTypeCount, treeSize);
-
-        //bigRock
-        createPositions(bigRocks, bigRockCount, bigRockTypeCount, bigRockSize);
-
-        //tallRock
-        createPositions(tallRocks, tallRockCount, tallRockTypeCount, tallRockSize);
-
-        //rock
-        createPositions(rocks, rockCount, rockTypeCount, rockSize);
     }
 
-    void createPositions(int [,] positions, int count, int typeCount, int size)
+    void createObjects(int [,] objects, int count, int typeCount, int size)
     {
         int halfSize = size / 2;
         for (int i = 0; i < count; i++) {
             for (int j = 0; j < 10; j++) {
-                int x = rand.Next(positions.GetLength(1) - (halfSize * 2)) + halfSize;
-                int y = rand.Next(positions.GetLength(0) - (halfSize * 2)) + halfSize;
+                int x = rand.Next(objects.GetLength(1) - (halfSize * 2)) + halfSize;
+                int y = rand.Next(objects.GetLength(0) - (halfSize * 2)) + halfSize;
                 int type = rand.Next(typeCount) + 1;
 
                 if (!IsExists(x, y, size)) {
                     SetExists(x, y, size);
-                    positions[x, y] = type;
+                    objects[x, y] = type;
                     break;
                 }
             }
@@ -99,10 +106,13 @@ public class Chunk
     {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                int wx = x - (size / 2) + j;
-                int wy = y - (size / 2) + i;
-                if (exists[wx, wy] != 0) {
-                   return true;
+                int cx = x - Const.chunkSizeX / 2;
+                int cy = y - Const.chunkSizeY / 2;
+                int px = chunkX * Const.chunkSizeX + cx + j - (size / 2);
+                int py = chunkY * Const.chunkSizeY + cy + i - (size / 2);
+                bool isExsits = ExistPositionManager.GetInstance().Contains(px, py);
+                if (isExsits) {
+                    return true;
                 }
             }
         }
@@ -113,9 +123,12 @@ public class Chunk
     {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                int wx = x - (size / 2) + j;
-                int wy = y - (size / 2) + i;
-                exists[wx, wy] = 1;
+                int cx = x - Const.chunkSizeX / 2;
+                int cy = y - Const.chunkSizeY / 2;
+                int px = chunkX * Const.chunkSizeX + cx + j - (size / 2);
+                int py = chunkY * Const.chunkSizeY + cy + i - (size / 2);
+
+                ExistPositionManager.GetInstance().Put(px, py);
             }
         }
     }

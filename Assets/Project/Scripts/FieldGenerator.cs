@@ -8,14 +8,13 @@ using UnityEngine;
 
 public class FieldGenerator : MonoBehaviour
 {
-    public int fieldSizeX = 9;
-    public int fieldSizeY = 9;
-
     GameObject field;
     public GameObject chunkGeneratorPrefab;
     ChunkGenerator chunkGenerator;
     public GameObject enemyGeneratorPrefab;
     EnemyGenerator enemyGenerator;
+    public GameObject clearKeyPregab;
+    ClearKeyGenerator clearKeyGenerator;
 
     public Transform princess;
     Rigidbody2D princessRg;
@@ -25,11 +24,12 @@ public class FieldGenerator : MonoBehaviour
 
     void Start()
     {
-        chunks = new Chunk[fieldSizeX, fieldSizeY];
+        chunks = new Chunk[Const.fieldMatrixX, Const.fieldMatrixY];
         field = new GameObject("Filed");
         princessRg = princess.gameObject.GetComponent<Rigidbody2D>();
         chunkGenerator = chunkGeneratorPrefab.GetComponent<ChunkGenerator>();
         enemyGenerator = enemyGeneratorPrefab.GetComponent<EnemyGenerator>();
+        clearKeyGenerator = clearKeyPregab.GetComponent<ClearKeyGenerator>();
 
         InitChunks();
     }
@@ -37,8 +37,9 @@ public class FieldGenerator : MonoBehaviour
     void Update()
     {
         //自機がいるチャンクの座標を取得
-        int px = (int)Math.Round(princessRg.position.x / (float)45);
-        int py = (int)Math.Round(princessRg.position.y / (float)45);
+        int px, py;
+        Vector2 position = princessRg.position; 
+        (px, py) = Utils.PositionToChunkMatrix(position);
 
         // チャンクの生成
         // チャンクの座標周囲１マスを作成
@@ -58,6 +59,9 @@ public class FieldGenerator : MonoBehaviour
 
                 //モンスターの作成
                 CreateEnemys(x, y);
+
+                //キーの作成
+                CreateClearKeys(x, y);
             }
         }
 
@@ -71,11 +75,17 @@ public class FieldGenerator : MonoBehaviour
                 int x = px + ax;
                 int y = py + ay;
 
+                //未作成の場合は無視
+                if (!chunkObjects.ContainsKey((x, y))) continue;
+
                 //チャンクを削除
                 RemoveChunk(x, y);
             
                 //モンスターを削除
                 RemoveEnemies(x, y);
+
+                //キーの作成
+                RemoveClearKeys(x, y);
             }
         }
     }
@@ -83,13 +93,17 @@ public class FieldGenerator : MonoBehaviour
     void InitChunks()
     {
         // Chunkの作成
-        for (int y = 0; y < fieldSizeY; y++) {
-            for (int x = 0; x < fieldSizeX; x++) {
-                ChunkGenerator chunkGenerator = chunkGeneratorPrefab.GetComponent<ChunkGenerator>();
-                Chunk chunk = chunkGenerator.CreateChunk(60, 30, 10, 5);
+        for (int y = 0; y < Const.fieldMatrixY; y++) {
+            for (int x = 0; x < Const.fieldMatrixX; x++) {
+                int chunkX = x - Const.fieldMatrixX / 2;
+                int chunkY = y - Const.fieldMatrixY / 2;
+                Chunk chunk = chunkGenerator.CreateChunk(chunkX, chunkY, 60, 30, 10, 5);
                 chunks[x, y] = chunk;
             }
         }
+
+        // 鍵の配置設定
+        clearKeyGenerator.Init();
 
         // 初期画面生成
         for (int y = -1; y <= 1; y++) {
@@ -99,6 +113,9 @@ public class FieldGenerator : MonoBehaviour
                 if (x != 0 || y != 0) {
                     CreateEnemys(x, y);
                 }
+
+                //キーの作成
+                CreateClearKeys(x, y);
             }
         }
     }
@@ -106,14 +123,14 @@ public class FieldGenerator : MonoBehaviour
     void CreateChunk(int x, int y)
     {   
         //チャンク情報を取得
-        int wx = (x + fieldSizeX) % fieldSizeX;
-        int wy = (y + fieldSizeY) % fieldSizeY;
+        int wx = (x + Const.fieldMatrixX) % Const.fieldMatrixX;
+        int wy = (y + Const.fieldMatrixY) % Const.fieldMatrixY;
         Chunk chunk = chunks[wx, wy];
 
         //チャンクのワールド座標を設定
         Vector3 position = new Vector3();
-        position.x = x * Chunk.chunkSizeX;
-        position.y = y * Chunk.chunkSizeY;
+        position.x = x * Const.chunkSizeX;
+        position.y = y * Const.chunkSizeY;
 
         //チャンクを生成
         GameObject chunkObject = chunkGenerator.CreateObject(chunk);
@@ -139,13 +156,23 @@ public class FieldGenerator : MonoBehaviour
         chunkObjects.Remove((x, y));
     }
 
-    void CreateEnemys(int x, int y)
+    void CreateEnemys(int chunkX, int chunkY)
     {
-        enemyGenerator.GenerateEnemies(x, y);
+        enemyGenerator.GenerateEnemies(chunkX, chunkY);
     }
 
-    void RemoveEnemies(int x, int y)
+    void RemoveEnemies(int chunkX, int chunkY)
     {
-        enemyGenerator.ClearEnemies(x, y);
+        enemyGenerator.ClearEnemies(chunkX, chunkY);
+    }
+
+    void CreateClearKeys(int chunkX, int chunkY)
+    {
+        clearKeyGenerator.GenerateClearKeys(chunkX, chunkY);
+    }
+
+    void RemoveClearKeys(int chunkX, int chunkY)
+    {
+        clearKeyGenerator.ClearClearKeys(chunkX, chunkY);
     }
 }
