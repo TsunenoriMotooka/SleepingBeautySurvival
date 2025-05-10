@@ -1,14 +1,50 @@
+using UnityEngine;
 using System;
 
 public class Utils
 {
-    public static int GetChunkX(float x)
+    public static (int, int) ToChunkMatrix(float px, float py)
     {
-        return (int)Math.Round(x / (float)Const.chunkSizeX);
+        int x = (int)Math.Round(px / (float)Const.chunkSizeX);
+        int y = (int)Math.Round(py / (float)Const.chunkSizeY); 
+        return (x, y);
+    }
+    public static (int, int) ToChunkMatrix(Vector2 position)
+    {
+        return ToChunkMatrix(position.x, position.y); 
+    }
+    public static (int, int) ToChunkMatrix(Vector3 position)
+    {
+        return ToChunkMatrix(position.x, position.y); 
+    }
+  
+    public static (int,int) positionToChunkMatrix(Vector2 position)
+    {
+        return ToChunkMatrix(position.x, position.y);
+    }
+    public static (int, int) positionToChunkMatrix(Vector3 position)
+    {
+        return ToChunkMatrix(position.x, position.y);
     }
 
-    public static int GetChunkY(float y)
+    public static Vector2 ToFieldPosition(float pxf, float pyf)
     {
-        return (int)Math.Round(y / (float)Const.chunkSizeY);
+        int px = (int)Math.Round(pxf);
+        int py = (int)Math.Round(pyf);
+        return ToFieldPosition(px, py); 
+    }
+    public static Vector2 ToFieldPosition(int px, int py)
+    {
+        float x = (Const.fieldSizeX / 2 + px) % Const.fieldSizeX - (Const.fieldSizeX / 2); 
+        float y = (Const.fieldSizeY / 2 + py) % Const.fieldSizeY - (Const.fieldSizeY / 2);
+        return new Vector2(x, y);
+    }
+    public static Vector2 ToFieldPosition(Vector2 position)
+    {
+        return ToFieldPosition(position.x, position.y); 
+    }
+    public static Vector2 ToFieldPosition(Vector3 position)
+    {
+        return ToFieldPosition(position.x, position.y);
     }
 }
