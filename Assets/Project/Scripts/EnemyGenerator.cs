@@ -50,15 +50,21 @@ public class EnemyGenerator : MonoBehaviour
         {
             GameObject enemyPrefab = Enemys[Random.Range(0, Enemys.Length)];
 
-            float xOffset = Random.Range(-Const.chunkSizeX/2f, Const.chunkSizeX/2f);
-            float yOffset = Random.Range(-Const.chunkSizeX/2f, Const.chunkSizeX/2f);
-            Vector2 spawnPos = new Vector2(baseX + xOffset, baseY + yOffset);
-            
-            GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+            // オブジェクトのない場所に配置できるまで繰り返す
+            for (int j = 0; j < 20; j++) {
+                float xOffset = Random.Range(-Const.chunkSizeX/2f, Const.chunkSizeX/2f);
+                float yOffset = Random.Range(-Const.chunkSizeX/2f, Const.chunkSizeX/2f);
+                Vector2 spawnPos = new Vector2(baseX + xOffset, baseY + yOffset);
+                // 配置場所にオブジェクトがある場合は、やり直す。
+                if (ExistPositionManager.GetInstance().Contains(spawnPos)) continue;
 
-            enemy.GetComponent<EnemyBase>().player = GameObject.Find("Princess")?.transform;
+                GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
 
-            spawnedEnemies.Add(enemy);
+                enemy.GetComponent<EnemyBase>().player = GameObject.Find("Princess")?.transform;
+
+                spawnedEnemies.Add(enemy);
+                break;
+            }
         }
 
         //チャンクごとに敵リストを保存

@@ -34,7 +34,9 @@ public class ExistPositionManager
     }
     public bool Contains(int px, int py)
     {
-        return map.ContainsKey((px, py));
+        int wx = (Const.fieldSizeX + (px + Const.fieldSizeX/2) % Const.fieldSizeX) % Const.fieldSizeX - Const.fieldSizeX / 2;
+        int wy = (Const.fieldSizeY + (py + Const.fieldSizeY/2) % Const.fieldSizeY) % Const.fieldSizeY - Const.fieldSizeY / 2;
+        return map.ContainsKey((wx, wy));
     }
     public bool Contains(Vector2 position)
     {
