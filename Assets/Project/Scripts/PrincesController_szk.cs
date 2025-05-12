@@ -125,7 +125,8 @@ public class PrincesController_szk : MonoBehaviour
             anim.SetTrigger("hit");
         }
         currentHealth = Mathf.Clamp(currentHealth + amount,0,maxHealth);
-        Debug.Log(currentHealth + "/" + maxHealth);
+        // Debug.Log(currentHealth + "/" + maxHealth);
+        HealthUI_Controller.instance.SetValue(currentHealth / (float)maxHealth);
     }
 
     void Update()
