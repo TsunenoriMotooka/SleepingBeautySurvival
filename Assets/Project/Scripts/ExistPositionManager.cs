@@ -15,11 +15,11 @@ public class ExistPositionManager
     {
         map  = new Dictionary<(float, float), int>();
 
-        for (int i = 0; i < Const.firstSpace.GetLength(0); i++) {
-            for (int j = 0; j < Const.firstSpace.GetLength(1); j++) {
-                int x = j - Const.firstSpace.GetLength(1) / 2;
-                int y = i - Const.firstSpace.GetLength(0) / 2;
-                if (Const.firstSpace[i, j] != 0) {
+        for (int i = 0; i < Const.firstSpaces.GetLength(0); i++) {
+            for (int j = 0; j < Const.firstSpaces.GetLength(1); j++) {
+                int x = j - Const.firstSpaces.GetLength(1) / 2;
+                int y = i - Const.firstSpaces.GetLength(0) / 2;
+                if (Const.firstSpaces[i, j] != 0) {
                     map[(x, y)] = 1;
                 } 
             }
