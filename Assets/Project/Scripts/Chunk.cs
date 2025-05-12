@@ -55,7 +55,6 @@ public class Chunk
                     if (Const.firstLights[i, j] != 0) {
                         int x = i - Const.firstLights.GetLength(1) / 2;
                         int y = j - Const.firstLights.GetLength(0) / 2;
-                        Debug.Log($"{i},{j} -> {x},{y}");
                         lights[x + Const.chunkSizeX / 2, y + Const.chunkSizeX / 2] = lightTypeCount + 1;
                     }
                 }
