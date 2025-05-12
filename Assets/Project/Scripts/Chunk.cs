@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Chunk
 {
@@ -8,10 +10,11 @@ public class Chunk
 
     public int[,] terrains{get;}
 
-    public int[,] trees{get;}
     public int[,] rocks{get;}
     public int[,] tallRocks{get;}
     public int[,] bigRocks{get;}    
+    public int[,] trees{get;}
+    public int[,] lights{get;}
 
     //偏りがあるシステムの乱数を使用
     System.Random rand = new System.Random();
@@ -26,7 +29,9 @@ public class Chunk
                  int bigRockTypeCount, 
                  int bigRockCount, 
                  int treeTypeCount, 
-                 int treeCount)
+                 int treeCount,
+                 int lightTypeCount,
+                 int lightCount)
     {
         this.chunkX = chunkX;
         this.chunkY = chunkY;
@@ -37,9 +42,26 @@ public class Chunk
         tallRocks = new int[Const.chunkSizeX, Const.chunkSizeY];
         bigRocks = new int[Const.chunkSizeX, Const.chunkSizeY];
         trees = new int[Const.chunkSizeX, Const.chunkSizeY];
+        lights = new int[Const.chunkSizeX, Const.chunkSizeY]; 
 
         //terrains
         createTerrains(terrains, terrainsTypeCount);
+
+        //light
+        //開始位置に2本立てる
+        if (chunkX == 0 && chunkY == 0) {
+            for (int i = 0; i < Const.firstLights.GetLength(0); i++) {
+                for (int j = 0; j < Const.firstLights.GetLength(1); j++) {
+                    if (Const.firstLights[i, j] != 0) {
+                        int x = i - Const.firstLights.GetLength(1) / 2;
+                        int y = j - Const.firstLights.GetLength(0) / 2;
+                        Debug.Log($"{i},{j} -> {x},{y}");
+                        lights[x + Const.chunkSizeX / 2, y + Const.chunkSizeX / 2] = lightTypeCount + 1;
+                    }
+                }
+            }
+        }
+        createObjects(lights, lightCount, lightTypeCount, Const.lightSize);
 
         //tree
         createObjects(trees, treeCount, treeTypeCount, Const.treeSize);

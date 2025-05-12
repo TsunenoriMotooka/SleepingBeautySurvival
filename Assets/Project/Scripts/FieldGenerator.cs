@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class FieldGenerator : MonoBehaviour
 {
@@ -12,10 +13,14 @@ public class FieldGenerator : MonoBehaviour
     public GameObject clearKeyPregab;
     ClearKeyGenerator clearKeyGenerator;
 
+    public GameObject dayAndNightSystem2DObjct;
+    DayNightSystem2D dayNightSystem2D;
+
     public Transform princess;
     Rigidbody2D princessRg;
 
     Chunk[,] chunks;
+    List<Light2D>[,] light2ds;  
     Dictionary<(int, int), GameObject> chunkObjects = new Dictionary<(int, int), GameObject>();
 
     void Start()
@@ -26,6 +31,8 @@ public class FieldGenerator : MonoBehaviour
         chunkGenerator = chunkGeneratorPrefab.GetComponent<ChunkGenerator>();
         enemyGenerator = enemyGeneratorPrefab.GetComponent<EnemyGenerator>();
         clearKeyGenerator = clearKeyPregab.GetComponent<ClearKeyGenerator>();
+        dayNightSystem2D = dayAndNightSystem2DObjct.GetComponent<DayNightSystem2D>();
+        chunkGenerator.dayNightSystem2D = dayNightSystem2D;
 
         InitChunks();
     }
@@ -95,9 +102,9 @@ public class FieldGenerator : MonoBehaviour
                 int chunkY = y % Const.fieldMatrixY - Const.fieldMatrixY / 2;
 
                 int index = UnityEngine.Random.Range(0, Const.chunkTypes.Length);
-                (int treeCount, int rockCount, int tallRockCount, int bigRockCount) = Const.chunkTypes[index];
+                (int treeCount, int rockCount, int tallRockCount, int bigRockCount, int lightCount) = Const.chunkTypes[index];
 
-                Chunk chunk = chunkGenerator.CreateChunk(chunkX, chunkY, treeCount, rockCount, tallRockCount, bigRockCount);
+                Chunk chunk = chunkGenerator.CreateChunk(chunkX, chunkY, treeCount, rockCount, tallRockCount, bigRockCount, lightCount);
                 int wx = (Const.fieldMatrixX + chunkX) % Const.fieldMatrixX;
                 int wy = (Const.fieldMatrixY + chunkY) % Const.fieldMatrixY;
                 chunks[wx, wy] = chunk;
@@ -150,6 +157,18 @@ public class FieldGenerator : MonoBehaviour
 
         //キャッシュしたチャンクを取得
         GameObject chunkObject = chunkObjects[(x, y)];
+
+        //チャンク内のライトをDayAndLightSystem2Dから削除
+        for (int i = 0; i < chunkObject.transform.childCount; i++) {
+            Transform lights = chunkObject.transform.GetChild(i);
+            if (lights.name.Equals("Lights")) {
+                for (int j = 0; j < lights.childCount; j++) {
+                    Light2D light2d = lights.GetChild(j).GetChild(0).gameObject.GetComponent<Light2D>();
+                    dayNightSystem2D.removeMapLight(light2d);
+                }
+                break;
+            }
+        }
 
         //チャックを削除
         Destroy(chunkObject);

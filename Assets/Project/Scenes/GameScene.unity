@@ -255,7 +255,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -378,7 +378,7 @@ PrefabInstance:
       objectReference: {fileID: 1129054550}
     - target: {fileID: 1445072777746858487, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
       propertyPath: cycleMaxTime
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1445072777746858487, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
       propertyPath: mapLights.Array.size
@@ -561,6 +561,14 @@ PrefabInstance:
       propertyPath: princess
       value: 
       objectReference: {fileID: 115201995}
+    - target: {fileID: 571002706539387495, guid: f021e105e33ed4e9a81200002d3f03ee, type: 3}
+      propertyPath: dayAndNightSystem2D
+      value: 
+      objectReference: {fileID: 2097699889}
+    - target: {fileID: 571002706539387495, guid: f021e105e33ed4e9a81200002d3f03ee, type: 3}
+      propertyPath: dayAndNightSystem2DObjct
+      value: 
+      objectReference: {fileID: 2097699889}
     - target: {fileID: 6268449493488644799, guid: f021e105e33ed4e9a81200002d3f03ee, type: 3}
       propertyPath: m_Name
       value: FiledGenerator
@@ -610,6 +618,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f021e105e33ed4e9a81200002d3f03ee, type: 3}
+--- !u!1 &2097699889 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6756116845235137031, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
+  m_PrefabInstance: {fileID: 1056052886}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8180848099735738134
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -662,6 +675,10 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 115201995}
+    - target: {fileID: 7651581019710073878, guid: 3ed22dff5268d4e1e868b7912586cbe6, type: 3}
+      propertyPath: m_Lens.OrthographicSize
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7876019716405617931, guid: 3ed22dff5268d4e1e868b7912586cbe6, type: 3}
       propertyPath: m_Name
       value: PrincesCamera
