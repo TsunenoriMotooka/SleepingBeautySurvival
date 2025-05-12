@@ -373,11 +373,19 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1445072777746858487, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
+      propertyPath: dayCycle
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445072777746858487, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
       propertyPath: globalLight
       value: 
       objectReference: {fileID: 1129054550}
     - target: {fileID: 1445072777746858487, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
       propertyPath: cycleMaxTime
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445072777746858487, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
+      propertyPath: originCycleMaxTime
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1445072777746858487, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}

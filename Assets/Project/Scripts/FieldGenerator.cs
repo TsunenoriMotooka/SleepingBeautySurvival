@@ -20,7 +20,6 @@ public class FieldGenerator : MonoBehaviour
     Rigidbody2D princessRg;
 
     Chunk[,] chunks;
-    List<Light2D>[,] light2ds;  
     Dictionary<(int, int), GameObject> chunkObjects = new Dictionary<(int, int), GameObject>();
 
     void Start()

@@ -11,6 +11,7 @@ public class ClearKey : MonoBehaviour
     {
         if (destoryDelegate != null) {
             destoryDelegate();
+            ClearKeyManager.GetInstance().Found();
         }
         destoryDelegate = null;
     }
