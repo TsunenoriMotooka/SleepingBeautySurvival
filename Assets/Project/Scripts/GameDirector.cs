@@ -6,7 +6,7 @@ public class GameDirector : MonoBehaviour
 {
     void Start()
     {        
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = 60;
     }
 
     void Update()

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using UnityEditor.Rendering;
 using UnityEditor.Search;
 
@@ -51,6 +50,7 @@ public class PrincesController_szk : MonoBehaviour
 
     void Start()
     {
+        currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         StartCoroutine(PrincesAttack());
@@ -104,10 +104,14 @@ public class PrincesController_szk : MonoBehaviour
             }
         }
     }
-
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Monster")||other.CompareTag("MonsterBullet")){
+        if(other.CompareTag("Monster") || other.CompareTag("MonsterBullet")){
+            ChangeHealth(-1);
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D other) {    
+        if(other.gameObject.CompareTag("Monster") || other.gameObject.CompareTag("MonsterBullet")){
             ChangeHealth(-1);
         }
     }
@@ -121,11 +125,24 @@ public class PrincesController_szk : MonoBehaviour
             anim.SetTrigger("hit");
         }
         currentHealth = Mathf.Clamp(currentHealth + amount,0,maxHealth);
+        // Debug.Log(currentHealth + "/" + maxHealth);
+        HealthUI_Controller.instance.SetValue(currentHealth / (float)maxHealth);
     }
 
     void Update()
     {
+        if(currentHealth == 0){
+            anim.enabled = false;
+            GetComponent<PrincesController_szk>().enabled = false;
+        }
         HandleKeyInput();
         HandleTouchInput();
+
+        if(isInvinsible){
+            invinsibleTimer -= Time.deltaTime;
+            if(invinsibleTimer < 0){
+                isInvinsible = false;
+            }
+        }
     }
 }
