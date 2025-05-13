@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering.Universal.Internal;
 
 
 /*
@@ -31,10 +34,10 @@ public class DayNightSystem2D : MonoBehaviour
     public float cycleCurrentTime = 0; // current cycle time
     
     [Tooltip("This is a cycle max time in seconds, if current time reach this value we change the state of the day and night cyles")]
-    public float cycleMaxTime = 60; // duration of cycle
+    public float cycleMaxTime = 30; // duration of cycle
 
     [Tooltip("Enum with multiple day cycles to change over time, you can add more types and modify whatever you want to fits on your project")]
-    public DayCycles dayCycle = DayCycles.Sunrise; // default cycle
+    public DayCycles dayCycle = DayCycles.Sunset; // default cycle
 
     [Header("Cycle Colors")]
     
@@ -55,21 +58,25 @@ public class DayNightSystem2D : MonoBehaviour
 
     [Header("Objects")]
     [Tooltip("Objects to turn on and off based on day night cycles, you can use this example for create some custom stuffs")]
-    public UnityEngine.Rendering.Universal.Light2D[] mapLights; // enable/disable in day/night states
+    public List<UnityEngine.Rendering.Universal.Light2D> mapLights = new List<UnityEngine.Rendering.Universal.Light2D>(); 
+
+    bool light2dActive = false;
 
     void Start() 
     {
-        dayCycle = DayCycles.Sunrise; // start with sunrise state
-        globalLight.color = sunrise; // start global color at sunrise
+        dayCycle = DayCycles.Sunset; // start with sunrise state
+        globalLight.color = sunset; // start global color at sunrise
+
     }
 
      void Update()
      {
         // Update cycle time
         cycleCurrentTime += Time.deltaTime;
+        float _cycleMaxTime = cycleMaxTime * (dayCycle == DayCycles.Night || dayCycle == DayCycles.Midnight ? 1.5f : 1.0f);
 
         // Check if cycle time reach cycle duration time
-        if (cycleCurrentTime >= cycleMaxTime) 
+        if (cycleCurrentTime >= _cycleMaxTime)
         {
             cycleCurrentTime = 0; // back to 0 (restarting cycle time)
             dayCycle++; // change cycle state
@@ -77,10 +84,12 @@ public class DayNightSystem2D : MonoBehaviour
 
         // If reach final state we back to sunrise (Enum id 0)
         if(dayCycle > DayCycles.Midnight)
+        {
             dayCycle = 0;
+        }
 
         // percent it's an value between current and max time to make a color lerp smooth
-        float percent = cycleCurrentTime / cycleMaxTime;
+        float percent = cycleCurrentTime / _cycleMaxTime;
 
         // Sunrise state (you can do a lot of stuff based on every cycle state, like enable animals only in sunrise )
         if(dayCycle == DayCycles.Sunrise)
@@ -91,29 +100,51 @@ public class DayNightSystem2D : MonoBehaviour
 
         // Mid Day state
         if(dayCycle == DayCycles.Day)
+        {
             globalLight.color = Color.Lerp(day, sunset, percent);
+        }
 
         // Sunset state
         if(dayCycle == DayCycles.Sunset)
+        {
+            ControlLightMaps(true); // enable map lights (disable only in day states)
             globalLight.color = Color.Lerp(sunset, night, percent);
+        }
 
         // Night state
         if(dayCycle == DayCycles.Night)
         {
-            ControlLightMaps(true); // enable map lights (disable only in day states)
             globalLight.color = Color.Lerp(night, midnight, percent);        
         }
 
         // Midnight state
         if(dayCycle == DayCycles.Midnight)
+        {
             globalLight.color = Color.Lerp(midnight, day, percent);     
+        }
      }
 
      void ControlLightMaps(bool status)
      {
-         // loop in light array of objects to enable/disable
-         if(mapLights.Length > 0)
-            foreach(UnityEngine.Rendering.Universal.Light2D _light in mapLights)
-                _light.gameObject.SetActive(status);
+        // loop in light array of objects to enable/disable
+        light2dActive = status;
+        if(mapLights.Count > 0)
+            foreach(UnityEngine.Rendering.Universal.Light2D _light in mapLights) {
+                if (_light != null && !_light.IsDestroyed()) {
+                    _light.gameObject.SetActive(status);
+                }
+            }
+     }
+
+     public void addMapLight(Light2D light2d)
+     {
+        light2d.gameObject.SetActive(light2dActive);
+        mapLights.Add(light2d);
+     }
+
+     public void removeMapLight(Light2D light2d)
+     {
+        light2d.gameObject.SetActive(false);
+        mapLights.Remove(light2d);
      }
 }
