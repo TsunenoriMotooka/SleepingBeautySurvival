@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Rendering;
 using UnityEditor.Search;
+using DG.Tweening;
+using Unity.VisualScripting;
 
 public class PrincesController_szk : MonoBehaviour
 {
@@ -109,6 +111,10 @@ public class PrincesController_szk : MonoBehaviour
         if(other.CompareTag("Monster") || other.CompareTag("MonsterBullet")){
             ChangeHealth(-1);
         }
+        if(other.CompareTag("ClearKey")){
+            other.transform.DOMoveY(other.transform.position.y + 2f,1f)
+            .SetEase(Ease.OutQuad).OnComplete(() => Destroy(other.gameObject,0.5f));
+        }
     }
     private void OnCollisionEnter2D(Collision2D other) {    
         if(other.gameObject.CompareTag("Monster") || other.gameObject.CompareTag("MonsterBullet")){
@@ -127,14 +133,15 @@ public class PrincesController_szk : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth + amount,0,maxHealth);
         // Debug.Log(currentHealth + "/" + maxHealth);
         HealthUI_Controller.instance.SetValue(currentHealth / (float)maxHealth);
+        if(currentHealth == 0){
+            anim.enabled = false;
+            GetComponent<PrincesController_szk>().enabled = false;
+            StopAllCoroutines();
+        }
     }
 
     void Update()
     {
-        if(currentHealth == 0){
-            anim.enabled = false;
-            GetComponent<PrincesController_szk>().enabled = false;
-        }
         HandleKeyInput();
         HandleTouchInput();
 
