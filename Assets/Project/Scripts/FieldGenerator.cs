@@ -13,6 +13,8 @@ public class FieldGenerator : MonoBehaviour
     public GameObject clearKeyPregab;
     ClearKeyGenerator clearKeyGenerator;
 
+    public AudioGenerator audioGenerator;
+
     public GameObject dayAndNightSystem2DObjct;
     DayNightSystem2D dayNightSystem2D;
 
@@ -27,6 +29,7 @@ public class FieldGenerator : MonoBehaviour
         chunks = new Chunk[Const.fieldMatrixX, Const.fieldMatrixY];
         field = new GameObject("Filed");
         princessRg = princess.gameObject.GetComponent<Rigidbody2D>();
+        princess.GetComponent<PrincesController_szk>().audioGenerator = audioGenerator;
         chunkGenerator = chunkGeneratorPrefab.GetComponent<ChunkGenerator>();
         enemyGenerator = enemyGeneratorPrefab.GetComponent<EnemyGenerator>();
         clearKeyGenerator = clearKeyPregab.GetComponent<ClearKeyGenerator>();

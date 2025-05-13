@@ -21,6 +21,8 @@ public class PrincesController_szk : MonoBehaviour
     public GameObject[] prefabs;
     Vector2 lookDirection = new Vector2(1f,0);
 
+    public AudioGenerator audioGenerator;
+
     IEnumerator PrincesAttack(){
         
         while(true){
@@ -123,6 +125,9 @@ public class PrincesController_szk : MonoBehaviour
             isInvinsible = true;
             invinsibleTimer = timeInvincible;
             anim.SetTrigger("hit");
+            
+            //ダメージ時の効果音再生
+            audioGenerator.PlaySEDamagePrincess();
         }
         currentHealth = Mathf.Clamp(currentHealth + amount,0,maxHealth);
         // Debug.Log(currentHealth + "/" + maxHealth);

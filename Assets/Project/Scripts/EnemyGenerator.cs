@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyGenerator : MonoBehaviour
 {
     public GameObject[] Enemys;
+    public AudioGenerator audioGenerator;
 
     private Dictionary<(int, int), List<GameObject>> enemyChunks = new Dictionary<(int, int), List<GameObject>>();
     private Vector2Int currentChunk = new Vector2Int(0, 0);
