@@ -55,15 +55,18 @@ public class ClearKeyGenerator : MonoBehaviour
 
     public void GenerateClearKeys(int chunkX, int chunkY)
     {        
-        int wx = chunkX % Const.fieldMatrixX;
-        int wy = chunkY % Const.fieldMatrixY;
+        int _chunkX = Utils.cycle1(chunkX, Const.fieldMatrixX);
+        int _chunkY = Utils.cycle1(chunkY, Const.fieldMatrixY);
+
+        float baseX = Utils.cycle2(chunkX, Const.fieldMatrixX) * Const.fieldSizeX;
+        float baseY = Utils.cycle2(chunkX, Const.fieldMatrixX) * Const.fieldSizeY;
 
         List<GameObject> clearKeyList = new List<GameObject>();
 
         foreach (Vector2 clearKeyPos in clearKeyPosDict.Keys) {
             (int clearKeyChunkX, int clearKeyChunkY) = Utils.PositionToChunkMatrix(clearKeyPos);
-            if (clearKeyChunkX == wx && clearKeyChunkY == wy) {
-                Vector2 position = new Vector2(chunkX * Const.fieldSizeX, chunkY * Const.fieldSizeY) + clearKeyPos;
+            if (clearKeyChunkX == _chunkX && clearKeyChunkY == _chunkY) {
+                Vector2 position = new Vector2(baseX, baseY) + clearKeyPos;
                 GameObject clearKey = Instantiate(
                     clearKeyPrefab,
                     position,

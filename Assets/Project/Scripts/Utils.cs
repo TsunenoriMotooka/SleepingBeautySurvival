@@ -43,4 +43,18 @@ public class Utils
     {
         return ToFieldPosition(position.x, position.y);
     }
+
+    public static int cycle1(int cycle, int cycleSize)
+    {
+        return (cycleSize + (cycle + cycleSize / 2) % cycleSize) % cycleSize - cycleSize / 2;
+    }
+
+    public static int cycle2(int cycle, int cycleSize)
+    {
+        if (cycle >= 0) {
+            return (cycle + cycleSize / 2) / cycleSize;
+        } else {
+            return (cycle - cycleSize / 2) / cycleSize;
+        }
+    }
 }
