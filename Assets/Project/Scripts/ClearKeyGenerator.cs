@@ -59,7 +59,7 @@ public class ClearKeyGenerator : MonoBehaviour
         int _chunkY = Utils.cycle1(chunkY, Const.fieldMatrixY);
 
         float baseX = Utils.cycle2(chunkX, Const.fieldMatrixX) * Const.fieldSizeX;
-        float baseY = Utils.cycle2(chunkX, Const.fieldMatrixX) * Const.fieldSizeY;
+        float baseY = Utils.cycle2(chunkY, Const.fieldMatrixY) * Const.fieldSizeY;
 
         List<GameObject> clearKeyList = new List<GameObject>();
 
