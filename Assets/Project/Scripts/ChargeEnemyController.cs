@@ -17,6 +17,8 @@ public class ChargeEnemyController : EnemyBase
         {
             StartCharge();
         }
+
+        FlipSprite();
     }
 
     void StartCharge()
@@ -42,4 +44,6 @@ public class ChargeEnemyController : EnemyBase
     {
         Destroy(gameObject);
     }
+
+
 }

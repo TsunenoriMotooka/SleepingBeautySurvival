@@ -87,7 +87,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!61 &130173143441718563
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -177,6 +177,7 @@ MonoBehaviour:
   canMove: 1
   blinkSpeed: 0.1
   blinkCount: 2
+  EnemyDieEffect: {fileID: 2771192391171451995, guid: 0c232f551ccc8464cb7e948b7d14344c, type: 3}
   player: {fileID: 0}
   bulletPrefab: {fileID: 6586357869708073666, guid: 47fe2b71958b3824ea7e8f339593d3d4, type: 3}
   firePoint: {fileID: 3577409881129312418}

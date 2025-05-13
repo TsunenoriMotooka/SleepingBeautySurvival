@@ -16,8 +16,6 @@ public class TurretEnemyController : EnemyBase
         base.Start();
         canMove = false; //砲台の為、移動させないようにする 
 
-        // //定期的に弾発射
-        // InvokeRepeating("ShootBullet", 0f, fireRate);
     }
 
     protected override void Update()
@@ -31,6 +29,8 @@ public class TurretEnemyController : EnemyBase
             ShootBullet();
             lastShootTime = Time.time;
         }
+
+        FlipSprite();
 
     }
 

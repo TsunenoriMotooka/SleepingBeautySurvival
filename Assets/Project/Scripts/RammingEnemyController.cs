@@ -8,6 +8,8 @@ public class RammingEnemyController : EnemyBase
     public float attackRadius = 3f; //攻撃開始範囲
     private bool hasHitPlayer = false; //体たり成功判定フラグ
 
+    public GameObject RammingAttack;
+
     protected override void Attack()
     {
         //体当たり開始距離計算
@@ -25,6 +27,7 @@ public class RammingEnemyController : EnemyBase
     {
         Vector2 direction = (player.transform.position - transform.position).normalized;
         rb.velocity = direction * chargeSpeed;
+
     }
 
 

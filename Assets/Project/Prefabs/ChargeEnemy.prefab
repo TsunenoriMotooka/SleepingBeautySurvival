@@ -87,7 +87,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &3383844723227224600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,6 +105,7 @@ MonoBehaviour:
   canMove: 1
   blinkSpeed: 0.1
   blinkCount: 2
+  EnemyDieEffect: {fileID: 2771192391171451995, guid: 0c232f551ccc8464cb7e948b7d14344c, type: 3}
   player: {fileID: 0}
   chargeSpeed: 10
   attackRadius: 8

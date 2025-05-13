@@ -10,6 +10,7 @@ public abstract class EnemyBase : MonoBehaviour
     public bool canMove = true;
     public float blinkSpeed = 0.1f;
     public int blinkCount = 2;
+    public GameObject EnemyDieEffect;
 
     [SerializeField]public Transform player;
     protected Rigidbody2D rb;
@@ -37,6 +38,18 @@ public abstract class EnemyBase : MonoBehaviour
             Attack(); //攻撃処理(子クラスで実装)
         }
 
+        FlipSprite();
+
+    }
+
+    public void FlipSprite()
+    {
+        if (player == null) return;
+
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+
+        //プレイヤーが左側なら `flipX = true`、右側なら `false`
+        sr.flipX = player.transform.position.x < transform.position.x;
     }
 
     protected virtual void MoveTowardsPlayer()
@@ -49,8 +62,19 @@ public abstract class EnemyBase : MonoBehaviour
     }
 
     protected virtual void OnHit(){
-        StartCoroutine(BlinkDestroy());
+        if (EnemyDieEffect != null)
+        {
+            //消滅時にエフェクト生成
+            GameObject effe = Instantiate(EnemyDieEffect, transform.position, Quaternion.identity); 
+            Destroy(effe,0.5f);
+
+        }
+
+        Destroy(gameObject);
+
     }
+
+    
 
     protected void OnCollisionEnter2D(Collision2D collision)
     {
@@ -60,21 +84,6 @@ public abstract class EnemyBase : MonoBehaviour
         }    
     }
 
-    //敵点滅後、消滅処理
-    IEnumerator BlinkDestroy(){
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-
-        for(int i = 0; i < blinkCount; i++){
-            sr.DOFade(0f, blinkSpeed);
-            yield return new WaitForSeconds(blinkSpeed);
-            sr.DOFade(1f, blinkSpeed);
-            yield return new WaitForSeconds(blinkSpeed);
-            
-        }
-
-        Destroy(gameObject);
-
-    }
 
     //各敵の攻撃処理(子クラスでオーバーライド)
     protected abstract void Attack();
