@@ -8,7 +8,7 @@ public class EnemyGenerator : MonoBehaviour
 
     private Dictionary<(int, int), List<GameObject>> enemyChunks = new Dictionary<(int, int), List<GameObject>>();
     private Vector2Int currentChunk = new Vector2Int(0, 0);
-    void Update()
+   void Update()
     {
         // ? Princess の現在の座標を取得
         Vector2 princessPosition = GameObject.Find("Princess").transform.position;
