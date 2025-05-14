@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
+using DG.Tweening;
 using UnityEngine;
 
 public class AudioGenerator : MonoBehaviour
@@ -12,6 +9,9 @@ public class AudioGenerator : MonoBehaviour
     Camera mainCamera;
     AudioSource bgmAudioSource;
 
+    [SerializeField]
+    float fadeOutDuration = 2.0f;
+
     void Start()
     {
         mainCamera = Camera.main;
@@ -20,6 +20,7 @@ public class AudioGenerator : MonoBehaviour
     public void PlaySE(int index, Transform target)
     {
         if (index < 0 || index >= sePrefabs.Length) return;
+
         GameObject es = Instantiate(sePrefabs[index]);
         if (es != null && target != null && mainCamera != null) {
             Vector3 screenPos = mainCamera.WorldToScreenPoint(target.position);
@@ -50,24 +51,49 @@ public class AudioGenerator : MonoBehaviour
 
     public void PlayBGM(int index)
     {
+        PlayBGM(index, 0f);
+    }
+
+    public void PlayBGM(int index, float duration)
+    {
         if (index < 0 || index >= bgmPrefabs.Length) return;
 
-        GameObject bgm = Instantiate(bgmPrefabs[index]);
-        if (bgm != null) {
-            bgmAudioSource = bgm.GetComponent<AudioSource>();
+        var sequence = DOTween.Sequence();
+        if (bgmAudioSource != null && bgmAudioSource.isPlaying) {
+            sequence.Append(bgmAudioSource.DOFade(0, fadeOutDuration));
         }
+        sequence.AppendInterval(duration);
+        sequence.OnComplete(()=>{
+            GameObject bgm = Instantiate(bgmPrefabs[index]);
+            if (bgm != null) {
+                bgmAudioSource = bgm.GetComponent<AudioSource>();
+            }            
+        });
     }
 
     public void PlayBGM(BGM bgm)
     {
-        int index = FoundBGMIndex(bgm);
-        PlayBGM(index);
+        PlayBGM(bgm, 0f);
     }
 
-    public void StopBGM()
+    public void PlayBGM(BGM bgm, float duration)
+    {
+        int index = FoundBGMIndex(bgm);
+        PlayBGM(index, duration);
+    }
+
+    public void StopBGM(bool fadeOut)
     {
         if (bgmAudioSource != null) {
             bgmAudioSource.Stop();
+            bgmAudioSource = null;
+        }
+    }
+
+    public void FadeOutBGM()
+    {
+        if (bgmAudioSource != null) {
+            bgmAudioSource.DOFade(0, fadeOutDuration);
             bgmAudioSource = null;
         }
     }
@@ -84,13 +110,8 @@ public class AudioGenerator : MonoBehaviour
 
     public void PlaySEDamagePrincess()
     {
-        int rand = Random.Range(0,2);
-        SE se = rand == 0 ? SE.DamagePrincess1 : SE.DamagePrincess2;
-        PlaySE(se);
-    }
-
-    public void PlaySEDamageEnemy()
-    {
-        PlaySE(SE.DamageEnemy);
+        SE[] enums = new SE[]{SE.DamagePrincess1, SE.DamagePrincess2};
+        int index = Random.Range(0, enums.Length);
+        PlaySE(enums[index]);
     }
 }
