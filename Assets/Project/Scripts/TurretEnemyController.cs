@@ -14,7 +14,7 @@ public class TurretEnemyController : EnemyBase
     protected override void Start()
     {
         base.Start();
-        canMove = false; //砲台の為、移動させないようにする 
+        canMove = false; 
 
     }
 
@@ -48,5 +48,15 @@ public class TurretEnemyController : EnemyBase
         bulletRb.velocity = direction * bulletSpeed;
 
 
+    }
+
+
+    protected override void OnCollisionEnter2D(Collision2D collision)
+    {
+        base.OnCollisionEnter2D(collision);
+        if (collision.gameObject.CompareTag("Princess"))
+        {
+            animator.SetTrigger("AttackTrigger");
+        }
     }
 }
