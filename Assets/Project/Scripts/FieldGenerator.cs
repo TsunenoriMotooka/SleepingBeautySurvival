@@ -25,16 +25,20 @@ public class FieldGenerator : MonoBehaviour
     Dictionary<(int, int), GameObject> chunkObjects = new Dictionary<(int, int), GameObject>();
 
     void Start()
-    {
-        chunks = new Chunk[Const.fieldMatrixX, Const.fieldMatrixY];
-        field = new GameObject("Filed");
+    {        
         princessRg = princess.gameObject.GetComponent<Rigidbody2D>();
         princess.GetComponent<PrincesController_szk>().audioGenerator = audioGenerator;
         chunkGenerator = chunkGeneratorPrefab.GetComponent<ChunkGenerator>();
         enemyGenerator = enemyGeneratorPrefab.GetComponent<EnemyGenerator>();
+        enemyGenerator.audioGenerator = audioGenerator;
         clearKeyGenerator = clearKeyPregab.GetComponent<ClearKeyGenerator>();
+        clearKeyGenerator.audioGenerator = audioGenerator;
+
         dayNightSystem2D = dayAndNightSystem2DObjct.GetComponent<DayNightSystem2D>();
         chunkGenerator.dayNightSystem2D = dayNightSystem2D;
+
+        chunks = new Chunk[Const.fieldMatrixX, Const.fieldMatrixY];
+        field = new GameObject("Filed");
 
         InitChunks();
     }
@@ -181,7 +185,7 @@ public class FieldGenerator : MonoBehaviour
 
     void CreateEnemys(int chunkX, int chunkY)
     {
-        enemyGenerator.GenerateEnemies(chunkX, chunkY);
+        //enemyGenerator.GenerateEnemies(chunkX, chunkY);
     }
 
     void RemoveEnemies(int chunkX, int chunkY)

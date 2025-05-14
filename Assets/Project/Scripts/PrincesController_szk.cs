@@ -111,6 +111,9 @@ public class PrincesController_szk : MonoBehaviour
         if(other.CompareTag("Monster") || other.CompareTag("MonsterBullet")){
             ChangeHealth(-1);
         }
+        if(other.CompareTag("ClearKey")) {
+            Destroy(other.gameObject);
+        }
     }
     private void OnCollisionEnter2D(Collision2D other) {    
         if(other.gameObject.CompareTag("Monster") || other.gameObject.CompareTag("MonsterBullet")){

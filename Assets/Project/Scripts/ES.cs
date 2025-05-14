@@ -10,4 +10,5 @@ public enum SE
     HitTurretEnemy,
     PrincessDead,
     SelectStart,
+    GetClearKey,
 }
