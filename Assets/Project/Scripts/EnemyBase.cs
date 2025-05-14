@@ -14,6 +14,8 @@ public abstract class EnemyBase : MonoBehaviour
     [SerializeField]public Transform player;
     protected Rigidbody2D rb;
 
+    public AudioGenerator audioGenerator;
+
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -49,6 +51,8 @@ public abstract class EnemyBase : MonoBehaviour
     }
 
     protected virtual void OnHit(){
+        audioGenerator.PlaySE(SE.HitLeaf);
+        audioGenerator.PlaySE(SE.DamageEnemy);
         StartCoroutine(BlinkDestroy());
     }
 

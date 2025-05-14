@@ -30,6 +30,7 @@ public class FieldGenerator : MonoBehaviour
         princess.GetComponent<PrincesController_szk>().audioGenerator = audioGenerator;
         chunkGenerator = chunkGeneratorPrefab.GetComponent<ChunkGenerator>();
         enemyGenerator = enemyGeneratorPrefab.GetComponent<EnemyGenerator>();
+        enemyGenerator.princess = princess;
         enemyGenerator.audioGenerator = audioGenerator;
         clearKeyGenerator = clearKeyPregab.GetComponent<ClearKeyGenerator>();
         clearKeyGenerator.audioGenerator = audioGenerator;
@@ -185,7 +186,7 @@ public class FieldGenerator : MonoBehaviour
 
     void CreateEnemys(int chunkX, int chunkY)
     {
-        //enemyGenerator.GenerateEnemies(chunkX, chunkY);
+        enemyGenerator.GenerateEnemies(chunkX, chunkY);
     }
 
     void RemoveEnemies(int chunkX, int chunkY)

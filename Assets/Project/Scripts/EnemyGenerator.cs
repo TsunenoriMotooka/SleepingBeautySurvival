@@ -5,14 +5,17 @@ using UnityEngine;
 public class EnemyGenerator : MonoBehaviour
 {
     public GameObject[] Enemys;
+
+    public Transform princess;
     public AudioGenerator audioGenerator;
 
     private Dictionary<(int, int), List<GameObject>> enemyChunks = new Dictionary<(int, int), List<GameObject>>();
     private Vector2Int currentChunk = new Vector2Int(0, 0);
-   void Update()
+
+    void Update()
     {
         // ? Princess の現在の座標を取得
-        Vector2 princessPosition = GameObject.Find("Princess").transform.position;
+        Vector2 princessPosition = princess.position;
 
         // ? 現在のチャンク座標を計算
         int newChunkX = Mathf.FloorToInt(princessPosition.x / Const.chunkSizeX);
@@ -60,8 +63,9 @@ public class EnemyGenerator : MonoBehaviour
                 if (ExistPositionManager.GetInstance().Contains(spawnPos)) continue;
 
                 GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
-
-                enemy.GetComponent<EnemyBase>().player = GameObject.Find("Princess")?.transform;
+                EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
+                enemyBase.player = princess.transform;
+                enemyBase.audioGenerator = audioGenerator;
 
                 spawnedEnemies.Add(enemy);
                 break;
