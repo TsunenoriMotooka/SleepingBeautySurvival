@@ -15,7 +15,7 @@ public class SEController : MonoBehaviour
     void Update()
     {
         if (!audioSource.isPlaying) {
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 }
