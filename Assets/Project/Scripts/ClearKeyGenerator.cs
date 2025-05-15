@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ClearKeyGenerator : MonoBehaviour
@@ -96,6 +97,8 @@ public class ClearKeyGenerator : MonoBehaviour
 
         List<GameObject> clearKeyList = clearKeyDict[(chunkX, chunkY)];
         foreach(GameObject clearKey in clearKeyList) {
+            if (clearKey.IsDestroyed()) continue;
+
             ClearKey script = clearKey.GetComponent<ClearKey>();
             if (script != null) script.destoryDelegate = null;
             Destroy(clearKey);
