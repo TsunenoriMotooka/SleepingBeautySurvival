@@ -120,18 +120,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.011038363, y: 0.6402317}
+  m_Offset: {x: -0.042731047, y: 0.9390486}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.9583333, y: 1.5416666}
+    oldSize: {x: 1.4375, y: 2.3125}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.911692, y: 1.3973854}
+  m_Size: {x: 1.0837383, y: 1.9225789}
   m_EdgeRadius: 0
 --- !u!50 &4791110290373327920
 Rigidbody2D:
@@ -175,9 +175,9 @@ MonoBehaviour:
   moveSpeed: 3
   detectionRadius: 4
   canMove: 1
-  blinkSpeed: 0.1
-  blinkCount: 2
+  stopDuration: 2
   EnemyDieEffect: {fileID: 2771192391171451995, guid: 0c232f551ccc8464cb7e948b7d14344c, type: 3}
+  audioGenerator: {fileID: 0}
   player: {fileID: 0}
   bulletPrefab: {fileID: 6586357869708073666, guid: 47fe2b71958b3824ea7e8f339593d3d4, type: 3}
   firePoint: {fileID: 3577409881129312418}
