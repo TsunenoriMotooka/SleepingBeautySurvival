@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Callbacks;
 
-public class PrincesAttackController_szk : MonoBehaviour
+public class PrincessAttackController : MonoBehaviour
 {
     public float speed = 10f;
     Rigidbody2D rb;

@@ -6,7 +6,7 @@ using UnityEditor.Search;
 using DG.Tweening;
 using Unity.VisualScripting;
 
-public class PrincesController_szk : MonoBehaviour
+public class PrincessController : MonoBehaviour
 {
     public int maxHealth = 10;
     int currentHealth;
@@ -23,6 +23,7 @@ public class PrincesController_szk : MonoBehaviour
     public GameObject[] prefabs;
     Vector2 lookDirection = new Vector2(1f,0);
 
+    [HideInInspector] //GameDirectorから取得
     public AudioGenerator audioGenerator;
 
     IEnumerator PrincesAttack(){
@@ -33,7 +34,7 @@ public class PrincesController_szk : MonoBehaviour
             rb.position,
             Quaternion.identity);
                 if(prefabs[0] != null){
-                    leaf.GetComponent<PrincesAttackController_szk>().Attack(lookDirection);
+                    leaf.GetComponent<PrincessAttackController>().Attack(lookDirection);
                 }
                 yield return new WaitForSeconds(1f);
             }
@@ -144,7 +145,7 @@ public class PrincesController_szk : MonoBehaviour
         }
         currentHealth = Mathf.Clamp(currentHealth + amount,0,maxHealth);
         // Debug.Log(currentHealth + "/" + maxHealth);
-        HealthUI_Controller.instance.SetValue(currentHealth / (float)maxHealth);
+        HealthUIController.instance.SetValue(currentHealth / (float)maxHealth);
         if(currentHealth == 0){
             anim.enabled = false;
             StopAllCoroutines();

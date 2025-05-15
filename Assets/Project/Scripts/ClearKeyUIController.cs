@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ClearKeyUIController : MonoBehaviour
 {
-    public static HealthUI_Controller instance{get; private set;}
+    public static HealthUIController instance{get; private set;}
     TextMeshProUGUI clearKeyCount;
     
     void Awake()

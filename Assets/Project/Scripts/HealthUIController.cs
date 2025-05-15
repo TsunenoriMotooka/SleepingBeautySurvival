@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthUI_Controller : MonoBehaviour
+public class HealthUIController : MonoBehaviour
 {
-    public static HealthUI_Controller instance{get; private set;}
+    public static HealthUIController instance{get; private set;}
     public Image mask;
     float originalSize;
     void Awake()
