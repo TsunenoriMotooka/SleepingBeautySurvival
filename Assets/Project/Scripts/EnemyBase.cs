@@ -10,6 +10,7 @@ public abstract class EnemyBase : MonoBehaviour
     public bool canMove = true;
     public float stopDuration = 2f;
     public GameObject EnemyDieEffect;
+    public AudioGenerator audioGenerator;
     protected bool hasHitPlayerAll = false;
     protected Animator animator;
 
@@ -72,13 +73,22 @@ public abstract class EnemyBase : MonoBehaviour
             //消滅時にエフェクト生成
             GameObject effe = Instantiate(EnemyDieEffect, transform.position, Quaternion.identity); 
             Destroy(effe,0.5f);
-
+            audioGenerator.PlaySE(SE.HitLeaf, transform);
+            audioGenerator.PlaySE(SE.DamageEnemy, transform);
         }
 
         Destroy(gameObject);
-
     }
 
+    public void PlayAttackSE() {
+        if (gameObject.name.Contains("ChargeEnemy")) {
+            audioGenerator.PlaySE(SE.HitChargeEnemy, transform);
+        } else if (gameObject.name.Contains("RunningEnemy")) {
+            audioGenerator.PlaySE(SE.HitRunningEnemy, transform);
+        } else {
+            audioGenerator.PlaySE(SE.HitTurretEnemy, transform);
+        }
+    }
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
@@ -96,10 +106,12 @@ public abstract class EnemyBase : MonoBehaviour
             rb.isKinematic = true;
 
             StartCoroutine(RestartAfterDelay(stopDuration));
+
+            PlayAttackSE();
         }    
-
-
     }
+
+
 
     IEnumerator RestartAfterDelay(float delay)
     {
