@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Const : MonoBehaviour
 {
-    public static int terrainSizeX = 9;
-    public static int terrainSizeY = 9;
+    public static int terrainSizeX = 11;
+    public static int terrainSizeY = 11;
 
     public static int chunkMatrixX = 3;
     public static int chunkMatrixY = 3;
@@ -38,13 +38,15 @@ public class Const : MonoBehaviour
         };
 
     public static int [,] firstLights = {
-        {0,0,0,1,0,0,0},
-        {0,1,0,0,0,1,0},
-        {0,0,0,0,0,0,0},
-        {1,0,0,0,0,0,1},
-        {0,0,0,0,0,0,0},
-        {0,1,0,0,0,1,0},
-        {0,0,0,1,0,0,0}
+        {0,0,0,1,0,1,0,0,0},
+        {0,1,0,0,0,0,0,1,0},
+        {0,0,0,0,0,0,0,0,0},
+        {1,0,0,0,0,0,0,0,1},
+        {0,0,0,0,0,0,0,0,0},
+        {1,0,0,0,0,0,0,0,1},
+        {0,0,0,0,0,0,0,0,0},
+        {0,1,0,0,0,0,0,1,0},
+        {0,0,0,1,0,1,0,0,0}
     };
 
     public static int clearKeyCount = 10;
