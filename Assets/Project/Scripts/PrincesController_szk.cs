@@ -112,7 +112,7 @@ public class PrincesController_szk : MonoBehaviour
             ChangeHealth(-1);
         }
         if(other.CompareTag("ClearKey")){
-            other.transform.DOMoveY(other.transform.position.y + 2f,1f)
+            other.transform.DOMoveY(other.transform.position.y +2f,1f)
             .SetEase(Ease.OutQuad).OnComplete(() => Destroy(other.gameObject,0.5f));
         }
     }
@@ -135,10 +135,10 @@ public class PrincesController_szk : MonoBehaviour
         HealthUI_Controller.instance.SetValue(currentHealth / (float)maxHealth);
         if(currentHealth == 0){
             anim.enabled = false;
-            GetComponent<PrincesController_szk>().enabled = false;
             StopAllCoroutines();
         }
     }
+
 
     void Update()
     {
