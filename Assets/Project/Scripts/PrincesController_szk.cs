@@ -115,9 +115,12 @@ public class PrincesController_szk : MonoBehaviour
         }
         if(other.CompareTag("ClearKey")){
             other.enabled = false;
-            audioGenerator.PlaySE(SE.GetClearKey);
+            
             other.transform.DOMoveY(other.transform.position.y +2f,1f)
             .SetEase(Ease.OutQuad).OnComplete(() => Destroy(other.gameObject,0.5f));
+
+            ClearKeyManager.GetInstance().Found();
+            audioGenerator.PlaySE(SE.GetClearKey, transform);
         }
     }
     private void OnCollisionEnter2D(Collision2D other) {    
