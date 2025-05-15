@@ -10,11 +10,8 @@ public class ClearKey : MonoBehaviour
 
     void OnDestroy()
     {
-        Debug.Log($"destory key {destoryDelegate}");
         if (destoryDelegate != null) {
             destoryDelegate();
-            ClearKeyManager.GetInstance().Found();
-            audioGenerator.PlaySE(SE.GetClearKey);
         }
         destoryDelegate = null;
     }
