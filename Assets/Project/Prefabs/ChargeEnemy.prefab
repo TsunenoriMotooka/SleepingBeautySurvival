@@ -105,6 +105,7 @@ MonoBehaviour:
   canMove: 1
   stopDuration: 2
   EnemyDieEffect: {fileID: 2771192391171451995, guid: 0c232f551ccc8464cb7e948b7d14344c, type: 3}
+  audioGenerator: {fileID: 0}
   player: {fileID: 0}
   chargeSpeed: 10
   attackRadius: 7
