@@ -78,9 +78,17 @@ public abstract class EnemyBase : MonoBehaviour
         }
 
         Destroy(gameObject);
-
     }
 
+    public void PlayAttackSE() {
+        if (gameObject.name.Contains("ChargeEnemy")) {
+            audioGenerator.PlaySE(SE.HitChargeEnemy, transform);
+        } else if (gameObject.name.Contains("RunningEnemy")) {
+            audioGenerator.PlaySE(SE.HitRunningEnemy, transform);
+        } else {
+            audioGenerator.PlaySE(SE.HitTurretEnemy, transform);
+        }
+    }
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
@@ -98,10 +106,12 @@ public abstract class EnemyBase : MonoBehaviour
             rb.isKinematic = true;
 
             StartCoroutine(RestartAfterDelay(stopDuration));
+
+            PlayAttackSE();
         }    
-
-
     }
+
+
 
     IEnumerator RestartAfterDelay(float delay)
     {
