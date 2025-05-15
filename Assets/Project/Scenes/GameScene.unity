@@ -209,6 +209,14 @@ PrefabInstance:
       propertyPath: audioGenerator
       value: 
       objectReference: {fileID: 187971709}
+    - target: {fileID: 2361621725639362228, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+      propertyPath: prefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 7597304916804171347, guid: 880772a80f3442542b0eb41149310870, type: 3}
+    - target: {fileID: 2361621725639362228, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+      propertyPath: prefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 615675737691116967, guid: e4fdf3cd4c286db4392d0ae6154b87f4, type: 3}
     - target: {fileID: 2805614589924169055, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
       propertyPath: m_SortingOrder
       value: 0
