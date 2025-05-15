@@ -5,38 +5,68 @@ using UnityEngine;
 public class ChargeEnemyController : EnemyBase
 {
     public float chargeSpeed = 6f; 
-    public float attackRadius = 8f;
+    public float attackRadius = 7f;
     private bool isCharging = false;
+    private Vector2 lastChargeDirection;
+
+
+    protected override void Start()
+    {
+        base.Start();
+        canMove = false; 
+
+    }
 
     protected override void Update()
     {
+        if (!isCharging)
+        {
+            FlipSprite();
+        }
 
         float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
+        //プレイヤーが攻撃範囲内にいるときのみ突進開始
         if (!isCharging && distanceToPlayer <= attackRadius)
         {
-            StartCharge();
+            ChargeAttack();
         }
     }
 
-    void StartCharge()
+    void ChargeAttack()
     {
-        isCharging = true; // 突進フラグをON
-        // **プレイヤーの方向を取得し、そのまま突進**
-        Vector2 chargeDirection = (player.transform.position - transform.position).normalized;
-        rb.velocity = chargeDirection * chargeSpeed;
+        isCharging = true;
+        lastChargeDirection = (player.transform.position - transform.position).normalized;
+        rb.velocity = lastChargeDirection * chargeSpeed;
     }
 
-    protected override void MoveTowardsPlayer()
-    {
-        // **通常の移動処理はしない（追尾しない）**
-        if (isCharging) return; // 突進中ならそのまま進む
-
-        base.MoveTowardsPlayer(); // 追尾動作をしないようにする
-    }
-
-    
     protected override void Attack(){}
+
+    protected override void OnCollisionEnter2D(Collision2D collision)
+    {
+        base.OnCollisionEnter2D(collision);
+
+        if (collision.gameObject.CompareTag("Princess"))
+        {
+
+            animator.SetTrigger("AttackTrigger");
+
+            isCharging = false; //突進モード解除
+            rb.velocity = Vector2.zero; //完全停止
+            rb.isKinematic = true;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            
+            StartCoroutine(ContinueChargeAfterDelay(2f)); //数秒後に動き出す
+        }
+    }
+
+    IEnumerator ContinueChargeAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        rb.isKinematic = false; 
+        rb.constraints = RigidbodyConstraints2D.None;
+        rb.velocity = lastChargeDirection * chargeSpeed;
+    }
 
     void OnBecameInvisible()
     {

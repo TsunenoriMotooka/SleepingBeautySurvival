@@ -105,9 +105,11 @@ MonoBehaviour:
   canMove: 1
   blinkSpeed: 0.1
   blinkCount: 2
+  EnemyDieEffect: {fileID: 2771192391171451995, guid: 0c232f551ccc8464cb7e948b7d14344c, type: 3}
   player: {fileID: 0}
   chargeSpeed: 5
   attackRadius: 3
+  RammingAttack: {fileID: 1915095580865266156, guid: 01f73915f9085ca41ab5a2d333330b6d, type: 3}
 --- !u!61 &3946281955564861643
 BoxCollider2D:
   m_ObjectHideFlags: 0
