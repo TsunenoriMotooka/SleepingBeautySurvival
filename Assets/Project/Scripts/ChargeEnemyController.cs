@@ -28,6 +28,7 @@ public class ChargeEnemyController : EnemyBase
         //プレイヤーが攻撃範囲内にいるときのみ突進開始
         if (IsVisible && !isCharging)
         {
+
             ChargeAttack();
         }
     }
@@ -50,8 +51,8 @@ public class ChargeEnemyController : EnemyBase
 
             isCharging = false; //突進モード解除
             rb.velocity = Vector2.zero; //完全停止
-            rb.isKinematic = true;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            // GetComponent<Collider2D>().enabled = false;
             
             StartCoroutine(ContinueChargeAfterDelay(2f)); //数秒後に動き出す
         }
@@ -60,9 +61,11 @@ public class ChargeEnemyController : EnemyBase
     IEnumerator ContinueChargeAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        rb.isKinematic = false; 
         rb.constraints = RigidbodyConstraints2D.None;
         rb.velocity = lastChargeDirection * chargeSpeed;
+
+        // GetComponent<Collider2D>().enabled = false;
+
     }
 
     void OnBecameInvisible()

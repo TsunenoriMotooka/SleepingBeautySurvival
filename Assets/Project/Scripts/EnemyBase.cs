@@ -89,7 +89,7 @@ public abstract class EnemyBase : MonoBehaviour
             hasHitPlayerAll = true;
             canMove = false;
             rb.velocity = Vector2.zero;
-            rb.isKinematic = true;
+            GetComponent<Collider2D>().enabled = false;
 
             StartCoroutine(RestartAfterDelay(stopDuration));
 
@@ -104,6 +104,7 @@ public abstract class EnemyBase : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         hasHitPlayerAll = false;
         canMove = true;
-        rb.isKinematic = false;
+
+        GetComponent<Collider2D>().enabled = true;
     }
 }
