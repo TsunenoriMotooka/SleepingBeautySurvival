@@ -4,6 +4,7 @@ using UnityEngine;
 public class ClearKeyGenerator : MonoBehaviour
 {
     public GameObject clearKeyPrefab;
+    public AudioGenerator audioGenerator;
     
     Dictionary<Vector2, int> clearKeyPosDict = new Dictionary<Vector2, int>();
     Dictionary<(int, int), List<GameObject>> clearKeyDict = new Dictionary<(int, int), List<GameObject>>();
@@ -73,7 +74,8 @@ public class ClearKeyGenerator : MonoBehaviour
                     Quaternion.identity);
                 clearKey.transform.parent = clearKeys.transform;
                 ClearKey script = clearKey.GetComponent<ClearKey>();
-                if (script != null) script.destoryDelegate = () => {
+                script.audioGenerator = audioGenerator;
+                script.destoryDelegate = () => {
                     if (clearKeyPosDict.ContainsKey(clearKeyPos)) {
                         clearKeyPosDict.Remove(clearKeyPos);
                         ClearKeyManager.GetInstance().Found();

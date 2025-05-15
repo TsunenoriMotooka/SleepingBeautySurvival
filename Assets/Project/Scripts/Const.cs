@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using UnityEngine;
 
@@ -59,4 +60,7 @@ public class Const : MonoBehaviour
         ( 20,  80, 16,  8, 10), //草原
         ( 10, 200, 60, 30,  2), //岩場
     };
+
+    public static String sePrefix = "SE";
+    public static String bgmPrefix = "BGM";
 }

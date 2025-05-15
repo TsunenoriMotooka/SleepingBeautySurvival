@@ -23,6 +23,8 @@ public class PrincesController_szk : MonoBehaviour
     public GameObject[] prefabs;
     Vector2 lookDirection = new Vector2(1f,0);
 
+    public AudioGenerator audioGenerator;
+
     IEnumerator PrincesAttack(){
         
         while(true){
@@ -112,6 +114,8 @@ public class PrincesController_szk : MonoBehaviour
             ChangeHealth(-1);
         }
         if(other.CompareTag("ClearKey")){
+            other.enabled = false;
+            audioGenerator.PlaySE(SE.GetClearKey);
             other.transform.DOMoveY(other.transform.position.y +2f,1f)
             .SetEase(Ease.OutQuad).OnComplete(() => Destroy(other.gameObject,0.5f));
         }
@@ -129,6 +133,11 @@ public class PrincesController_szk : MonoBehaviour
             isInvinsible = true;
             invinsibleTimer = timeInvincible;
             anim.SetTrigger("hit");
+            
+            //ダメージ時の効果音再生
+            if (currentHealth + amount > 0) {
+                audioGenerator.PlaySEDamagePrincess();
+            }
         }
         currentHealth = Mathf.Clamp(currentHealth + amount,0,maxHealth);
         // Debug.Log(currentHealth + "/" + maxHealth);
