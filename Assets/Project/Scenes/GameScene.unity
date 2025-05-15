@@ -671,7 +671,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -949,15 +949,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5090104135708015505, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.81288373
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5090104135708015505, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.97832733
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5090104135708015505, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14.822266
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5090104135708015505, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1180,11 +1180,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5217740815462709435, guid: d3df0e495d55e204bbb7c18cd77807fc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.81288373
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5217740815462709435, guid: d3df0e495d55e204bbb7c18cd77807fc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.97832733
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5217740815462709435, guid: d3df0e495d55e204bbb7c18cd77807fc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1777,6 +1777,10 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 115201995}
+    - target: {fileID: 7651581019710073878, guid: 3ed22dff5268d4e1e868b7912586cbe6, type: 3}
+      propertyPath: m_Lens.OrthographicSize
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7876019716405617931, guid: 3ed22dff5268d4e1e868b7912586cbe6, type: 3}
       propertyPath: m_Name
       value: PrincesCamera
