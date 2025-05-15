@@ -114,6 +114,8 @@ public class PrincesController_szk : MonoBehaviour
             ChangeHealth(-1);
         }
         if(other.CompareTag("ClearKey")){
+            other.enabled = false;
+            audioGenerator.PlaySE(SE.GetClearKey);
             other.transform.DOMoveY(other.transform.position.y +2f,1f)
             .SetEase(Ease.OutQuad).OnComplete(() => Destroy(other.gameObject,0.5f));
         }
