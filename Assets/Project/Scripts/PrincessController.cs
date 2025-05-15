@@ -26,29 +26,32 @@ public class PrincessController : MonoBehaviour
     [HideInInspector] //GameDirectorから取得
     public AudioGenerator audioGenerator;
 
-    IEnumerator PrincesAttack(){
-        
-        while(true){
-            GameObject leaf = Instantiate(
-            prefabs[0],
-            rb.position,
-            Quaternion.identity);
-                if(prefabs[0] != null){
-                    leaf.GetComponent<PrincessAttackController>().Attack(lookDirection);
-                }
-                yield return new WaitForSeconds(1f);
-            }
+    IEnumerator PrincessLeafBulletAttack()
+    {
+        while (true)
+        {
+            GameObject leafBullet = Instantiate(
+                prefabs[0],
+                rb.position,
+                Quaternion.identity);
+            leafBullet.GetComponent<PrincessLeafBulletController>().Attack(lookDirection);
+
+            yield return new WaitForSeconds(1f);
         }
-    IEnumerator SpawnAttack(){
+    }
+
+    IEnumerator PrincessRoseBulletAttack(){
         while(true){
-        GameObject attack = Instantiate(
-            prefabs[1],
-            rb.position,
-            Quaternion.identity);
-                if(prefabs[1] != null){
-                    attack.AddComponent<AttackBehavior>();
-                }
-            Destroy(attack,3f);
+            GameObject roseBullet = Instantiate(
+                prefabs[1],
+                rb.position,
+                Quaternion.identity);
+            roseBullet.GetComponent<PrincessRoseBulletController>().princess = transform;
+
+            //3秒後に消滅
+            Destroy(roseBullet, 3f);
+
+            //5秒後に再出現
             yield return new WaitForSeconds(5f);
         }
     }
@@ -58,11 +61,10 @@ public class PrincessController : MonoBehaviour
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        StartCoroutine(PrincesAttack());
-        StartCoroutine(SpawnAttack());
+        StartCoroutine(PrincessLeafBulletAttack());
+        StartCoroutine(PrincessRoseBulletAttack());
     }
 
-   
 
     void HandleKeyInput(){
         float moveX = Input.GetAxis("Horizontal");
@@ -130,7 +132,6 @@ public class PrincessController : MonoBehaviour
         }
     }
 
-
     public void ChangeHealth(int amount){
         if(amount < 0){
             if(isInvinsible)return;
@@ -151,7 +152,6 @@ public class PrincessController : MonoBehaviour
             StopAllCoroutines();
         }
     }
-
 
     void Update()
     {

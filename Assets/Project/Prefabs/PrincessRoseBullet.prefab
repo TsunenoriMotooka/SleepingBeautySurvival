@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6469754672566901335}
   - component: {fileID: 6576784917100367119}
   m_Layer: 6
-  m_Name: pipo-roseeffect02_480
+  m_Name: PrincessRoseBullet
   m_TagString: Leaf
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
