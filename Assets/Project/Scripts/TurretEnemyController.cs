@@ -40,7 +40,7 @@ public class TurretEnemyController : EnemyBase
         GameObject bullet = Instantiate(bulletPrefab, firePoint, Quaternion.identity);
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
 
-        Vector2 direction = (player.transform.position - firePoint).normalized;
+        Vector2 direction = (player.transform.position + new Vector3(0f, 0.6f, 0) - firePoint).normalized;
         bulletRb.velocity = direction * bulletSpeed;
     }
 
