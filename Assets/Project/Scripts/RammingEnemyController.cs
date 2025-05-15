@@ -4,17 +4,39 @@ using UnityEngine;
 
 public class RammingEnemyController : EnemyBase
 {
-    public float chargeSpeed = 6f; //体当たり速度
-    public float attackRadius = 3f; //攻撃開始範囲
+    public float chargeSpeed = 5.5f; //体当たり速度
     private bool hasHitPlayer = false; //体たり成功判定フラグ
 
-    protected override void Attack()
+    protected override void Start()
+    {
+        base.Start();
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+    
+        if (player == null) return;
+        
+        if(!canMove){
+            return;
+        }
+        
+        if (IsVisible)
+        {
+            SeekAttack(); //追跡攻撃処理
+        }
+
+        FlipSprite();
+    }
+
+    protected void SeekAttack()
     {
         //体当たり開始距離計算
         float attackToPlayer = Vector2.Distance(transform.position, player.transform.position);
         
         //プレイヤーが攻撃開始範囲にいて、まだ体当たりが成功していない場合、体当たり
-        if (attackToPlayer <= attackRadius && !hasHitPlayer)
+        if (IsVisible && !hasHitPlayer)
         {
             StartCharge();
         }
@@ -25,7 +47,6 @@ public class RammingEnemyController : EnemyBase
     {
         Vector2 direction = (player.transform.position - transform.position).normalized;
         rb.velocity = direction * chargeSpeed;
-
     }
 
     protected override void OnCollisionEnter2D(Collision2D collision)
@@ -36,6 +57,4 @@ public class RammingEnemyController : EnemyBase
             animator.SetTrigger("AttackTrigger"); // ✅ **トリガーを発動**
         }
     }
-
-
 }
