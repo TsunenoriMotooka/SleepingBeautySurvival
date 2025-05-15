@@ -205,17 +205,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2361621725639362228, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+      propertyPath: prefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 7597304916804171347, guid: 880772a80f3442542b0eb41149310870, type: 3}
+    - target: {fileID: 2361621725639362228, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+      propertyPath: prefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 615675737691116967, guid: e4fdf3cd4c286db4392d0ae6154b87f4, type: 3}
     - target: {fileID: 2805614589924169055, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
       propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3537585515211905206, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
-      propertyPath: m_LocalPosition.x
+    - target: {fileID: 2953693023532853194, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+      propertyPath: m_BodyType
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3537585515211905206, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 3537585515211905206, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.76
       objectReference: {fileID: 0}
     - target: {fileID: 3537585515211905206, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
       propertyPath: m_LocalPosition.z
@@ -676,7 +688,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 2.55, y: 0.76, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -971,6 +983,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DayNightSystem2D
       objectReference: {fileID: 0}
+    - target: {fileID: 6756116845235137031, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1158,6 +1174,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Global Light 2D
       objectReference: {fileID: 0}
+    - target: {fileID: 5217740815462709433, guid: d3df0e495d55e204bbb7c18cd77807fc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5217740815462709435, guid: d3df0e495d55e204bbb7c18cd77807fc, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.81288373
@@ -1233,6 +1253,10 @@ PrefabInstance:
     - target: {fileID: 6268449493488644799, guid: f021e105e33ed4e9a81200002d3f03ee, type: 3}
       propertyPath: m_Name
       value: FiledGenerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 6268449493488644799, guid: f021e105e33ed4e9a81200002d3f03ee, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8063251671556861075, guid: f021e105e33ed4e9a81200002d3f03ee, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1645,11 +1669,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3484778099639836429, guid: 3ed22dff5268d4e1e868b7912586cbe6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.55
       objectReference: {fileID: 0}
     - target: {fileID: 3484778099639836429, guid: 3ed22dff5268d4e1e868b7912586cbe6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.76
       objectReference: {fileID: 0}
     - target: {fileID: 3484778099639836429, guid: 3ed22dff5268d4e1e868b7912586cbe6, type: 3}
       propertyPath: m_LocalPosition.z

@@ -25,6 +25,16 @@ public class RammingEnemyController : EnemyBase
     {
         Vector2 direction = (player.transform.position - transform.position).normalized;
         rb.velocity = direction * chargeSpeed;
+
+    }
+
+    protected override void OnCollisionEnter2D(Collision2D collision)
+    {
+        base.OnCollisionEnter2D(collision);
+        if (collision.gameObject.CompareTag("Princess"))
+        {
+            animator.SetTrigger("AttackTrigger"); // ✅ **トリガーを発動**
+        }
     }
 
 

@@ -8,8 +8,10 @@ public abstract class EnemyBase : MonoBehaviour
     public float moveSpeed = 3f;
     public float detectionRadius = 4f; //プレイヤー検知範囲
     public bool canMove = true;
-    public float blinkSpeed = 0.1f;
-    public int blinkCount = 2;
+    public float stopDuration = 2f;
+    public GameObject EnemyDieEffect;
+    protected bool hasHitPlayerAll = false;
+    protected Animator animator;
 
     [SerializeField]public Transform player;
     protected Rigidbody2D rb;
@@ -17,6 +19,7 @@ public abstract class EnemyBase : MonoBehaviour
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
         if(player == null){
             Debug.LogError("Player is not assigned! Please set it in the Inspector.");
@@ -30,50 +33,82 @@ public abstract class EnemyBase : MonoBehaviour
         //プレイヤーとの距離計算
         float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
         
-        if (canMove && rb != null) MoveTowardsPlayer();
+        if(!canMove){
+            return;
+        }
+        if (rb != null) MoveTowardsPlayer();
         
         if (distanceToPlayer <= detectionRadius)
         {
             Attack(); //攻撃処理(子クラスで実装)
         }
 
+        FlipSprite();
+    }
+
+    public void FlipSprite()
+    {
+        if (player == null) return;
+
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+
+        //プレイヤーが左側なら `flipX = true`、右側なら `false`
+        sr.flipX = player.transform.position.x < transform.position.x;
     }
 
     protected virtual void MoveTowardsPlayer()
     {
-        if(!canMove)return; //移動不可の敵なら何もしない
-
+        if(!canMove){
+            return; //移動不可の敵なら何もしない
+        }
         //プレイヤーの方向へ移動
         Vector2 direction = (player.transform.position - transform.position).normalized;
         rb.velocity = direction * moveSpeed;
     }
 
     protected virtual void OnHit(){
-        StartCoroutine(BlinkDestroy());
-    }
-
-    protected void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Princess") || collision.gameObject.CompareTag("Leaf"))
+        if (EnemyDieEffect != null)
         {
-            OnHit();
-        }    
-    }
+            //消滅時にエフェクト生成
+            GameObject effe = Instantiate(EnemyDieEffect, transform.position, Quaternion.identity); 
+            Destroy(effe,0.5f);
 
-    //敵点滅後、消滅処理
-    IEnumerator BlinkDestroy(){
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-
-        for(int i = 0; i < blinkCount; i++){
-            sr.DOFade(0f, blinkSpeed);
-            yield return new WaitForSeconds(blinkSpeed);
-            sr.DOFade(1f, blinkSpeed);
-            yield return new WaitForSeconds(blinkSpeed);
-            
         }
 
         Destroy(gameObject);
 
+    }
+
+
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Leaf"))
+        {
+            OnHit();
+        }    
+
+
+        if (collision.gameObject.CompareTag("Princess"))
+        {
+            hasHitPlayerAll = true;
+            canMove = false;
+            rb.velocity = Vector2.zero;
+            rb.isKinematic = true;
+
+            StartCoroutine(RestartAfterDelay(stopDuration));
+        }    
+
+
+    }
+
+    IEnumerator RestartAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        yield return new WaitForSeconds(0.1f);
+        hasHitPlayerAll = false;
+        canMove = true;
+        rb.isKinematic = false;
     }
 
     //各敵の攻撃処理(子クラスでオーバーライド)
