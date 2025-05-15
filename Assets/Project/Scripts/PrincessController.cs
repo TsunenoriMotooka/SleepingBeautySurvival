@@ -147,14 +147,20 @@ public class PrincessController : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth + amount,0,maxHealth);
         // Debug.Log(currentHealth + "/" + maxHealth);
         HealthUIController.instance.SetValue(currentHealth / (float)maxHealth);
-        if(currentHealth == 0){
+        if (currentHealth <= 0){
+            isInvinsible = true;
+            rb.simulated = false;
             anim.enabled = false;
             StopAllCoroutines();
+
+            audioGenerator.PlaySE(SE.PrincessDead);
         }
     }
 
     void Update()
     {
+        if (currentHealth <= 0) return;
+
         HandleKeyInput();
         HandleTouchInput();
 
