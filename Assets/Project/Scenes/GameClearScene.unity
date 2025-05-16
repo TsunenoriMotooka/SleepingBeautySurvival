@@ -207,7 +207,6 @@ GameObject:
   m_Component:
   - component: {fileID: 199212126}
   - component: {fileID: 199212125}
-  - component: {fileID: 199212127}
   m_Layer: 0
   m_Name: ClearSceneDirector
   m_TagString: Untagged
@@ -232,8 +231,9 @@ MonoBehaviour:
   overlayImage: {fileID: 113809201}
   zoomDuration: 3
   fadeDuration: 1.5
-  targetScale: 7
-  fadeDelay: 3.3
+  targetScale: 6
+  button: {fileID: 1907282438}
+  delayTime: 5
 --- !u!4 &199212126
 Transform:
   m_ObjectHideFlags: 0
@@ -249,20 +249,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &199212127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 199212124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18bf51a4a27fc4546974d0dec8e80d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 1907282438}
-  delayTime: 5
 --- !u!1 &729839736
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,7 +537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -587,6 +573,7 @@ GameObject:
   - component: {fileID: 1517157431}
   - component: {fileID: 1517157430}
   - component: {fileID: 1517157429}
+  - component: {fileID: 1517157432}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -668,6 +655,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1517157432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517157428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &1565197009
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,8 +850,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 199212127}
-        m_TargetAssemblyTypeName: ReturnTitle, Assembly-CSharp
+      - m_Target: {fileID: 199212125}
+        m_TargetAssemblyTypeName: GameClearScene, Assembly-CSharp
         m_MethodName: OnReturnButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -830,7 +861,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
 --- !u!114 &1907282439
 MonoBehaviour:
   m_ObjectHideFlags: 0

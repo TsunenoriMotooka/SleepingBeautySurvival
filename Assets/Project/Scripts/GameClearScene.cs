@@ -4,6 +4,8 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
+using TMPro;
 
 public class GameClearScene : MonoBehaviour
 {
@@ -14,7 +16,10 @@ public class GameClearScene : MonoBehaviour
     public float zoomDuration; //拡大する時間
     public float fadeDuration; //浮かび上がる時間
     public float targetScale; //どれくらい拡大するか
-    public float fadeDelay; //フェード開始までの遅延時間
+
+    public Button button;
+    public float delayTime;
+    CanvasGroup canvasGroup;
 
     // Start is called before the first frame update
     void Start()
@@ -22,24 +27,53 @@ public class GameClearScene : MonoBehaviour
         Color c = overlayImage.color;
         c.a = 0f;
         overlayImage.color = c;
-        StartEffect();
+        
+
+        button.gameObject.SetActive(false);
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = button.gameObject.AddComponent<CanvasGroup>();
+        }
+        canvasGroup.alpha = 0;
+        button.interactable = false;
+        DOVirtual.DelayedCall(2f, () =>
+        {
+            StartEffect();
+            StartCoroutine(ShowButton());
+        });
 
         audioGenerator.PlayBGM(BGM.GameClear);
     }
 
-    public void StartEffect(){
-        // 近づく画像を徐々に拡大
-        mainImage.transform.DOScale(targetScale, zoomDuration).SetEase(Ease.OutQuad)
-            .OnComplete(() => FadeOut());
+    IEnumerator ShowButton()
+    {
+        yield return new WaitForSeconds(delayTime);
+        button.gameObject.SetActive(true);
 
-        // 同時に別の画像をフェードイン
-        overlayImage.DOFade(1,fadeDuration).SetEase(Ease.OutQuad).SetDelay(fadeDelay);
+        canvasGroup.DOFade(1f, 0.5f).OnComplete(() => button.interactable = true);
     }
 
-    void FadeOut(){
-        // Aをフェードアウトしながら消す
-        mainImage.GetComponent<Image>().DOFade(0,fadeDuration).SetEase(Ease.InQuad)
-        .OnComplete(() => mainImage.SetActive(false));
+    public void OnReturnButtonClicked()
+    {
+        ReturnTitleScene();   
+    }
+
+    void ReturnTitleScene()
+    {
+        SceneManager.LoadScene("TitleScene");
+    }
+
+    public void StartEffect()
+    {
+        var seq = DOTween.Sequence();
+        seq
+            .Append(mainImage.GetComponent<Image>().DOColor(Color.white,2f).SetEase(Ease.Linear))
+            .Append(mainImage.transform.DOScale(targetScale, zoomDuration).SetEase(Ease.OutQuad))
+            .Append(mainImage.GetComponent<Image>().DOFade(0, fadeDuration).SetEase(Ease.InQuad))
+            .Join(overlayImage.DOFade(1, fadeDuration).SetEase(Ease.OutQuad))
+            .OnComplete(() =>
+                mainImage.SetActive(false));
     }
     // Update is called once per frame
     void Update()
