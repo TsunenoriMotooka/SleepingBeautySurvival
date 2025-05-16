@@ -23,7 +23,8 @@ public abstract class EnemyBase : MonoBehaviour
         animator = GetComponent<Animator>();
         mainCamera = Camera.main;
 
-        if(player == null){
+        if (player == null)
+        {
             Debug.LogError("Player is not assigned! Please set it in the Inspector.");
         }
     }
