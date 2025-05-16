@@ -54,9 +54,6 @@ public class FieldsGenerator : MonoBehaviour
         Vector2 position = princessRg.position; 
         (px, py) = Utils.PositionToChunkMatrix(position);
 
-        // 鍵がマップに生成されたか確認
-        bool isCreatedClearKey = false;
-
         // チャンクの生成
         // チャンクの座標周囲１マスを作成
         for (int ay = -1; ay <= 1; ay++)
@@ -79,14 +76,8 @@ public class FieldsGenerator : MonoBehaviour
                 CreateEnemys(x, y);
 
                 //キーの作成
-                CreateClearKeys(x, y, ref isCreatedClearKey);
+                CreateClearKeys(x, y);
             }
-        }
-
-        //鍵がマップに生成された時、感知音を鳴らす
-        if (isCreatedClearKey)
-        {
-            audioGenerator.PlaySE(SE.DetectClearKey);
         }
 
         // チャンクの削除
@@ -142,9 +133,6 @@ public class FieldsGenerator : MonoBehaviour
         // 鍵の配置設定
         clearKeyGenerator.Init();
 
-        // 鍵がマップに生成されたか確認
-        bool isCreatedClearKey = false;
-
         // 初期画面生成
         for (int y = -1; y <= 1; y++)
         {
@@ -158,14 +146,8 @@ public class FieldsGenerator : MonoBehaviour
                 }
 
                 //キーの作成
-                CreateClearKeys(x, y, ref isCreatedClearKey);
+                CreateClearKeys(x, y);
             }
-        }
-
-        // 鍵がマップに生成された時は、遅延してから効果音を再生
-        if (isCreatedClearKey)
-        {
-            DOVirtual.DelayedCall(3.0f, () => audioGenerator.PlaySE(SE.DetectClearKey));
         }
     }
 
@@ -219,7 +201,7 @@ public class FieldsGenerator : MonoBehaviour
 
     void CreateEnemys(int chunkX, int chunkY)
     {
-        enemyGenerator.GenerateEnemies(chunkX, chunkY);
+        //enemyGenerator.GenerateEnemies(chunkX, chunkY);
     }
 
     void RemoveEnemies(int chunkX, int chunkY)
@@ -230,11 +212,6 @@ public class FieldsGenerator : MonoBehaviour
     void CreateClearKeys(int chunkX, int chunkY)
     {
         clearKeyGenerator.GenerateClearKeys(chunkX, chunkY);
-    }
-
-    void CreateClearKeys(int chunkX, int chunkY, ref bool isCreated)
-    {
-        clearKeyGenerator.GenerateClearKeys(chunkX, chunkY, ref isCreated);
     }
 
     void RemoveClearKeys(int chunkX, int chunkY)

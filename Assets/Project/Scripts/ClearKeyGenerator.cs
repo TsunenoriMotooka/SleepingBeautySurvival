@@ -57,12 +57,6 @@ public class ClearKeyGenerator : MonoBehaviour
 
     public void GenerateClearKeys(int chunkX, int chunkY)
     {
-        bool isCreated = false;
-        GenerateClearKeys(chunkX, chunkY, ref isCreated);
-    }
-
-    public void GenerateClearKeys(int chunkX, int chunkY, ref bool isCreated)
-    {
         int _chunkX = Utils.cycle1(chunkX, Const.fieldMatrixX);
         int _chunkY = Utils.cycle1(chunkY, Const.fieldMatrixY);
 
@@ -92,7 +86,6 @@ public class ClearKeyGenerator : MonoBehaviour
                     }
                 };
                 clearKeyList.Add(clearKey);
-                isCreated = true;
             }
         }
 

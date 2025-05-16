@@ -28,6 +28,9 @@ public class PrincessController : MonoBehaviour
 
     private GameObject princessBullets;
 
+    public GameObject detectClearKeyPrefab;
+    private GameObject detectClearKey;
+
     IEnumerator PrincessLeafBulletAttack()
     {
         while (true)
@@ -69,8 +72,9 @@ public class PrincessController : MonoBehaviour
         princessBullets = new GameObject("PrincessBullets");
         StartCoroutine(PrincessLeafBulletAttack());
         StartCoroutine(PrincessRoseBulletAttack());
-    }
 
+        detectClearKey = Instantiate(detectClearKeyPrefab, transform.position, Quaternion.identity);
+    }
 
     void HandleKeyInput(){
         float moveX = Input.GetAxis("Horizontal");
@@ -170,11 +174,15 @@ public class PrincessController : MonoBehaviour
         HandleKeyInput();
         HandleTouchInput();
 
-        if(isInvinsible){
+        if (isInvinsible)
+        {
             invinsibleTimer -= Time.deltaTime;
-            if(invinsibleTimer < 0){
+            if (invinsibleTimer < 0)
+            {
                 isInvinsible = false;
             }
         }
+
+        detectClearKey.transform.position = transform.position;
     }
 }
