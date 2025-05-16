@@ -39,13 +39,11 @@ public class TurretEnemyController : EnemyBase
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint, Quaternion.identity);
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
+        bullet.transform.parent = transform.parent.GetChild(0).transform;
 
         Vector2 direction = (player.transform.position + new Vector3(0f, 0.6f, 0) - firePoint).normalized;
         bulletRb.velocity = direction * bulletSpeed;
     }
-
-    
-
 
     protected override void OnCollisionEnter2D(Collision2D collision)
     {

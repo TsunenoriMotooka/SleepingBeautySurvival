@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class FieldGenerator : MonoBehaviour
+public class FieldsGenerator : MonoBehaviour
 {
     public GameObject chunkGeneratorPrefab;
     ChunkGenerator chunkGenerator;
@@ -38,6 +38,7 @@ public class FieldGenerator : MonoBehaviour
         enemyGenerator = enemyGeneratorPrefab.GetComponent<EnemyGenerator>();
         enemyGenerator.princess = princess;
         enemyGenerator.audioGenerator = audioGenerator;
+        enemyGenerator.Start();
 
         clearKeyGenerator = clearKeyPregab.GetComponent<ClearKeyGenerator>();
         clearKeyGenerator.audioGenerator = audioGenerator;
@@ -103,7 +104,7 @@ public class FieldGenerator : MonoBehaviour
 
     void InitChunks()
     {
-        field = new GameObject("Filed");
+        field = new GameObject("Fileds");
         chunks = new Chunk[Const.fieldMatrixX, Const.fieldMatrixY];
 
         // Chunkの作成
