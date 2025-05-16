@@ -227,6 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1211b5b98424994e981cc65d920573d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioGenerator: {fileID: 322296242488270394, guid: 0b81ddd1a77ad472292166360c6efc45, type: 3}
   mainImage: {fileID: 1467108027}
   overlayImage: {fileID: 113809201}
   zoomDuration: 3

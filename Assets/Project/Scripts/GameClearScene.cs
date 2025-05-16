@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class GameClearScene : MonoBehaviour
 {
+    public AudioGenerator audioGenerator;
+
     public GameObject mainImage; //近づく画像
     public Image overlayImage; //浮かび上がる画像
     public float zoomDuration; //拡大する時間
@@ -21,6 +23,8 @@ public class GameClearScene : MonoBehaviour
         c.a = 0f;
         overlayImage.color = c;
         StartEffect();
+
+        audioGenerator.PlayBGM(BGM.GameClear);
     }
 
     public void StartEffect(){
