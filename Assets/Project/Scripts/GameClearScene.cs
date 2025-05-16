@@ -48,4 +48,7 @@ public class GameClearScene : MonoBehaviour
             RemoveTitle();
         }
     }
+    public void OnReturnButtonClicked(){
+        SceneManager.LoadScene("TitleScene");
+    }
 }
