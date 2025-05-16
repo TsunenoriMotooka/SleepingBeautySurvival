@@ -6,24 +6,18 @@ public class AudioGenerator : MonoBehaviour
     public GameObject[] bgmPrefabs;
     public GameObject[] sePrefabs;
 
-    Camera mainCamera;
     AudioSource bgmAudioSource;
 
     [SerializeField]
     float fadeOutDuration = 2.0f;
-
-    void Start()
-    {
-        mainCamera = Camera.main;
-    }
 
     public void PlaySE(int index, Transform target)
     {
         if (index < 0 || index >= sePrefabs.Length) return;
 
         GameObject es = Instantiate(sePrefabs[index]);
-        if (es != null && target != null && mainCamera != null) {
-            Vector3 screenPos = mainCamera.WorldToScreenPoint(target.position);
+        if (es != null && target != null) {
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(target.position);
             es.transform.position = screenPos;
         }
     }

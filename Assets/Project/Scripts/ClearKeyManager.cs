@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 public class ClearKeyManager
 {
     static ClearKeyManager _instance = new ClearKeyManager();
     int clearKeyCount = Const.clearKeyCount;
+    public int Count{get{return clearKeyCount;}}
     List<Action<int>> actions = new List<Action<int>>();
 
     public static ClearKeyManager GetInstance()
@@ -42,10 +44,5 @@ public class ClearKeyManager
         foreach(Action<int> action in actions) {
             action(clearKeyCount);
         }
-    }
-
-    public int Count()
-    {
-        return clearKeyCount;
     }
 }

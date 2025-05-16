@@ -6,7 +6,7 @@ using UnityEditor.Search;
 using DG.Tweening;
 using Unity.VisualScripting;
 
-public class PrincesController_szk : MonoBehaviour
+public class PrincessController : MonoBehaviour
 {
     public int maxHealth = 10;
     int currentHealth;
@@ -23,31 +23,35 @@ public class PrincesController_szk : MonoBehaviour
     public GameObject[] prefabs;
     Vector2 lookDirection = new Vector2(1f,0);
 
+    [HideInInspector] //GameDirectorから取得
     public AudioGenerator audioGenerator;
 
-    IEnumerator PrincesAttack(){
-        
-        while(true){
-            GameObject leaf = Instantiate(
-            prefabs[0],
-            rb.position,
-            Quaternion.identity);
-                if(prefabs[0] != null){
-                    leaf.GetComponent<PrincesAttackController_szk>().Attack(lookDirection);
-                }
-                yield return new WaitForSeconds(1f);
-            }
+    IEnumerator PrincessLeafBulletAttack()
+    {
+        while (true)
+        {
+            GameObject leafBullet = Instantiate(
+                prefabs[0],
+                rb.position,
+                Quaternion.identity);
+            leafBullet.GetComponent<PrincessLeafBulletController>().Attack(lookDirection);
+
+            yield return new WaitForSeconds(1f);
         }
-    IEnumerator SpawnAttack(){
+    }
+
+    IEnumerator PrincessRoseBulletAttack(){
         while(true){
-        GameObject attack = Instantiate(
-            prefabs[1],
-            rb.position,
-            Quaternion.identity);
-                if(prefabs[1] != null){
-                    attack.AddComponent<AttackBehavior>();
-                }
-            Destroy(attack,3f);
+            GameObject roseBullet = Instantiate(
+                prefabs[1],
+                rb.position,
+                Quaternion.identity);
+            roseBullet.GetComponent<PrincessRoseBulletController>().princess = transform;
+
+            //3秒後に消滅
+            Destroy(roseBullet, 3f);
+
+            //5秒後に再出現
             yield return new WaitForSeconds(5f);
         }
     }
@@ -57,11 +61,10 @@ public class PrincesController_szk : MonoBehaviour
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        StartCoroutine(PrincesAttack());
-        StartCoroutine(SpawnAttack());
+        StartCoroutine(PrincessLeafBulletAttack());
+        StartCoroutine(PrincessRoseBulletAttack());
     }
 
-   
 
     void HandleKeyInput(){
         float moveX = Input.GetAxis("Horizontal");
@@ -115,9 +118,12 @@ public class PrincesController_szk : MonoBehaviour
         }
         if(other.CompareTag("ClearKey")){
             other.enabled = false;
-            audioGenerator.PlaySE(SE.GetClearKey);
+            
             other.transform.DOMoveY(other.transform.position.y +2f,1f)
             .SetEase(Ease.OutQuad).OnComplete(() => Destroy(other.gameObject,0.5f));
+
+            ClearKeyManager.GetInstance().Found();
+            audioGenerator.PlaySE(SE.GetClearKey, transform);
         }
     }
     private void OnCollisionEnter2D(Collision2D other) {    
@@ -125,7 +131,6 @@ public class PrincesController_szk : MonoBehaviour
             ChangeHealth(-1);
         }
     }
-
 
     public void ChangeHealth(int amount){
         if(amount < 0){
@@ -141,16 +146,21 @@ public class PrincesController_szk : MonoBehaviour
         }
         currentHealth = Mathf.Clamp(currentHealth + amount,0,maxHealth);
         // Debug.Log(currentHealth + "/" + maxHealth);
-        HealthUI_Controller.instance.SetValue(currentHealth / (float)maxHealth);
-        if(currentHealth == 0){
+        HealthUIController.instance.SetValue(currentHealth / (float)maxHealth);
+        if (currentHealth <= 0){
+            isInvinsible = true;
+            rb.simulated = false;
             anim.enabled = false;
             StopAllCoroutines();
+
+            audioGenerator.PlaySE(SE.PrincessDead);
         }
     }
 
-
     void Update()
     {
+        if (currentHealth <= 0) return;
+
         HandleKeyInput();
         HandleTouchInput();
 

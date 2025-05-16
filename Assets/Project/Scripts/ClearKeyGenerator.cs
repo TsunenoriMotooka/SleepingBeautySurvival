@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ClearKeyGenerator : MonoBehaviour
@@ -16,7 +17,7 @@ public class ClearKeyGenerator : MonoBehaviour
         clearKeys = new GameObject("ClearKeys");
 
         clearKeyPosDict.Clear();
-        for (int i = 0; i < ClearKeyManager.GetInstance().Count(); i++) {
+        for (int i = 0; i < ClearKeyManager.GetInstance().Count; i++) {
             while(true) {
                 int x = Random.Range(-Const.fieldSizeX / 2, Const.fieldSizeX / 2);
                 int y = Random.Range(-Const.fieldSizeY / 2, Const.fieldSizeY / 2);
@@ -78,7 +79,6 @@ public class ClearKeyGenerator : MonoBehaviour
                 script.destoryDelegate = () => {
                     if (clearKeyPosDict.ContainsKey(clearKeyPos)) {
                         clearKeyPosDict.Remove(clearKeyPos);
-                        ClearKeyManager.GetInstance().Found();
                     }
                 };
                 clearKeyList.Add(clearKey);
@@ -97,6 +97,8 @@ public class ClearKeyGenerator : MonoBehaviour
 
         List<GameObject> clearKeyList = clearKeyDict[(chunkX, chunkY)];
         foreach(GameObject clearKey in clearKeyList) {
+            if (clearKey.IsDestroyed()) continue;
+
             ClearKey script = clearKey.GetComponent<ClearKey>();
             if (script != null) script.destoryDelegate = null;
             Destroy(clearKey);
