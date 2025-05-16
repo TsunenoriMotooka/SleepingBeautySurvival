@@ -17,8 +17,8 @@ public class ChunkGenerator : MonoBehaviour
     [HideInInspector] //FieldGeneratorから取得
     public DayNightSystem2D dayNightSystem2D;
 
-    public Chunk CreateChunk(int chunkX, int chunkY, int treeCount, int rockCount, int tallRockCount, int bigRockCount, int lightCount) {
-        Chunk chunk = new Chunk(chunkX, chunkY, terrainPrefabs.Length, rockPrefabs.Length, rockCount, tallRockPrefabs.Length, tallRockCount, bigRockPrefabs.Length, bigRockCount, treePrefabs.Length, treeCount, lightPrefabs.Length - 1, lightCount);
+    public Chunk CreateChunk(int chunkX, int chunkY, int chunkType, int treeCount, int rockCount, int tallRockCount, int bigRockCount, int lightCount) {
+        Chunk chunk = new Chunk(chunkX, chunkY, chunkType, terrainPrefabs.Length, rockPrefabs.Length, rockCount, tallRockPrefabs.Length, tallRockCount, bigRockPrefabs.Length, bigRockCount, treePrefabs.Length, treeCount, lightPrefabs.Length - 1, lightCount);
         return chunk;
     }
 
@@ -91,11 +91,11 @@ public class ChunkGenerator : MonoBehaviour
     //TODO: TEST
     void Start()
     {
-        Chunk chunk = CreateChunk(0, 0, 120, 30, 5, 3, 10);
+        Chunk chunk = CreateChunk(0, 0, 1, 120, 30, 5, 3, 10);
         CreateObject(chunk);
 
         EnemyGenerator enemyGenerator = enemyGeneratorPrefab.GetComponent<EnemyGenerator>();
-        enemyGenerator.GenerateEnemies(0, 0);
+        enemyGenerator.GenerateEnemies(0, 0, 1);
 
         ClearKeyGenerator clearKeyGenerator = clearKeyGeneratorPrefab.GetComponent<ClearKeyGenerator>();
         clearKeyGenerator.InitOneChunk();

@@ -5,8 +5,8 @@ public class Utils
 {
     public static (int, int) PositionToChunkMatrix(float px, float py)
     {
-        int x = (int)Math.Round(px / (float)Const.chunkSizeX);
-        int y = (int)Math.Round(py / (float)Const.chunkSizeY); 
+        int x = (int)Mathf.Round(px / (float)Const.chunkSizeX);
+        int y = (int)Mathf.Round(py / (float)Const.chunkSizeY); 
         return (x, y);
     }
     public static (int, int) PositionToChunkMatrix(Vector2 position)
@@ -25,8 +25,8 @@ public class Utils
 
     public static Vector2 ToFieldPosition(float pxf, float pyf)
     {
-        int px = (int)Math.Round(pxf);
-        int py = (int)Math.Round(pyf);
+        int px = (int)Mathf.Round(pxf);
+        int py = (int)Mathf.Round(pyf);
         return ToFieldPosition(px, py); 
     }
     public static Vector2 ToFieldPosition(int px, int py)

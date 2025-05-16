@@ -5,10 +5,11 @@ using UnityEngine.Rendering.Universal;
 
 public class Chunk
 {
-    int chunkX;
-    int chunkY;
+    public int chunkX;
+    public int chunkY;
+    public int chunkType;
 
-    public int[,] terrains{get;}
+    public int[,] terrains { get; }
 
     public int[,] rocks{get;}
     public int[,] tallRocks{get;}
@@ -17,10 +18,11 @@ public class Chunk
     public int[,] lights{get;}
 
     //偏りがあるシステムの乱数を使用
-    System.Random rand = new System.Random();
+    System.Random random = new System.Random();
 
     public Chunk(int chunkX,
                  int chunkY,
+                 int chunkType,
                  int terrainsTypeCount,
                  int rockTypeCount,
                  int rockCount,
@@ -35,6 +37,7 @@ public class Chunk
     {
         this.chunkX = chunkX;
         this.chunkY = chunkY;
+        this.chunkType = chunkType;
 
         terrains = new int[Const.chunkMatrixX, Const.chunkMatrixY];
         
@@ -79,7 +82,7 @@ public class Chunk
     {
         for (int y = 0; y < Const.chunkMatrixY; y++) {
             for (int x = 0; x < Const.chunkMatrixX; x++) {
-                int types = rand.Next(terrainsTypeCount) + 1;
+                int types = random.Next(terrainsTypeCount) + 1;
                 terrains[x, y] = types;
             }
         }
@@ -88,12 +91,12 @@ public class Chunk
     void createObjects(int [,] objects, int count, int typeCount, int size)
     {
         int halfSize = size / 2;
-        count = (int)Math.Ceiling(UnityEngine.Random.Range(count * 0.9f, count * 1.1f));
+        count = (int)Mathf.Ceil(UnityEngine.Random.Range(count * 0.9f, count * 1.1f));
         for (int i = 0; i < count; i++) {
-            int type = rand.Next(typeCount) + 1;
+            int type = random.Next(typeCount) + 1;
             for (int j = 0; j < 20; j++) {
-                int x = rand.Next(objects.GetLength(1) - (halfSize * 2)) + halfSize;
-                int y = rand.Next(objects.GetLength(0) - (halfSize * 2)) + halfSize;
+                int x = random.Next(objects.GetLength(1) - (halfSize * 2)) + halfSize;
+                int y = random.Next(objects.GetLength(0) - (halfSize * 2)) + halfSize;
                 if (!IsExists(x, y, size)) {
                     SetExists(x, y, size);
                     objects[x, y] = type;

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class GameDirector : MonoBehaviour
+public class GameSceneDirector : MonoBehaviour
 {
     public Transform princess;
     public AudioGenerator audioGenerator;
