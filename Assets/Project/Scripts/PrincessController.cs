@@ -26,6 +26,8 @@ public class PrincessController : MonoBehaviour
     [HideInInspector] //GameDirectorから取得
     public AudioGenerator audioGenerator;
 
+    private GameObject princessBullets;
+
     IEnumerator PrincessLeafBulletAttack()
     {
         while (true)
@@ -34,6 +36,7 @@ public class PrincessController : MonoBehaviour
                 prefabs[0],
                 rb.position,
                 Quaternion.identity);
+            leafBullet.transform.parent = princessBullets.transform;
             leafBullet.GetComponent<PrincessLeafBulletController>().Attack(lookDirection);
 
             yield return new WaitForSeconds(1f);
@@ -46,6 +49,7 @@ public class PrincessController : MonoBehaviour
                 prefabs[1],
                 rb.position,
                 Quaternion.identity);
+            roseBullet.transform.parent = princessBullets.transform;
             roseBullet.GetComponent<PrincessRoseBulletController>().princess = transform;
 
             //3秒後に消滅
@@ -61,6 +65,8 @@ public class PrincessController : MonoBehaviour
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        princessBullets = new GameObject("PrincessBullets");
         StartCoroutine(PrincessLeafBulletAttack());
         StartCoroutine(PrincessRoseBulletAttack());
     }
