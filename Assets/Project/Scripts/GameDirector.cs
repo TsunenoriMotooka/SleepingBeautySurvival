@@ -7,7 +7,7 @@ public class GameDirector : MonoBehaviour
     public Transform princess;
     public AudioGenerator audioGenerator;
     public DayNightSystem2D dayNightSystem2D;
-    public FieldGenerator fieldGenerator;
+    public FieldsGenerator fieldGenerator;
 
     PrincessController princessController;
 

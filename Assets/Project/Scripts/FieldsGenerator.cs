@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class FieldGenerator : MonoBehaviour
+public class FieldsGenerator : MonoBehaviour
 {
     public GameObject chunkGeneratorPrefab;
     ChunkGenerator chunkGenerator;
@@ -38,6 +39,7 @@ public class FieldGenerator : MonoBehaviour
         enemyGenerator = enemyGeneratorPrefab.GetComponent<EnemyGenerator>();
         enemyGenerator.princess = princess;
         enemyGenerator.audioGenerator = audioGenerator;
+        enemyGenerator.Start();
 
         clearKeyGenerator = clearKeyPregab.GetComponent<ClearKeyGenerator>();
         clearKeyGenerator.audioGenerator = audioGenerator;
@@ -54,14 +56,16 @@ public class FieldGenerator : MonoBehaviour
 
         // チャンクの生成
         // チャンクの座標周囲１マスを作成
-        for (int ay = -1; ay <= 1; ay++) {
-            for (int ax = -1; ax <= 1; ax++) {
+        for (int ay = -1; ay <= 1; ay++)
+        {
+            for (int ax = -1; ax <= 1; ax++)
+            {
                 if (ax == 0 && ay == 0) continue;
-                
+
                 //チャンクの座標
                 int x = px + ax;
                 int y = py + ay;
-                
+
                 //作成済みの場合は無視
                 if (chunkObjects.ContainsKey((x, y))) continue;
 
@@ -78,8 +82,10 @@ public class FieldGenerator : MonoBehaviour
 
         // チャンクの削除
         // チャンクの座標周囲２マス目を削除
-        for (int ay = -2; ay <= 2; ay++) {
-            for (int ax = -2; ax <= 2; ax++) {
+        for (int ay = -2; ay <= 2; ay++)
+        {
+            for (int ax = -2; ax <= 2; ax++)
+            {
                 if (ax >= -1 && ax <= 1 && ay >= -1 && ay <= 1) continue;
 
                 //チャンクの配列座標
@@ -91,7 +97,7 @@ public class FieldGenerator : MonoBehaviour
 
                 //チャンクを削除
                 RemoveChunk(x, y);
-            
+
                 //モンスターを削除
                 RemoveEnemies(x, y);
 
@@ -103,7 +109,7 @@ public class FieldGenerator : MonoBehaviour
 
     void InitChunks()
     {
-        field = new GameObject("Filed");
+        field = new GameObject("Fileds");
         chunks = new Chunk[Const.fieldMatrixX, Const.fieldMatrixY];
 
         // Chunkの作成
@@ -128,11 +134,14 @@ public class FieldGenerator : MonoBehaviour
         clearKeyGenerator.Init();
 
         // 初期画面生成
-        for (int y = -1; y <= 1; y++) {
-            for (int x = -1; x <= 1; x++) {
+        for (int y = -1; y <= 1; y++)
+        {
+            for (int x = -1; x <= 1; x++)
+            {
                 CreateChunk(x, y);
 
-                if (x != 0 || y != 0) {
+                if (x != 0 || y != 0)
+                {
                     CreateEnemys(x, y);
                 }
 
@@ -192,7 +201,7 @@ public class FieldGenerator : MonoBehaviour
 
     void CreateEnemys(int chunkX, int chunkY)
     {
-        enemyGenerator.GenerateEnemies(chunkX, chunkY);
+        //enemyGenerator.GenerateEnemies(chunkX, chunkY);
     }
 
     void RemoveEnemies(int chunkX, int chunkY)
