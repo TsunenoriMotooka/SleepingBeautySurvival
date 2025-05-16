@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameClearScene : MonoBehaviour
 {
@@ -37,9 +38,14 @@ public class GameClearScene : MonoBehaviour
         mainImage.GetComponent<Image>().DOFade(0,fadeDuration).SetEase(Ease.InQuad)
         .OnComplete(() => mainImage.SetActive(false));
     }
+    void RemoveTitle(){
+        SceneManager.LoadScene("TitleScene");
+    }
     // Update is called once per frame
     void Update()
     {
-        
+    if(Input.GetKeyDown(KeyCode.Space)){
+            RemoveTitle();
+        }
     }
 }
