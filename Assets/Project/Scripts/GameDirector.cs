@@ -59,8 +59,9 @@ public class GameDirector : MonoBehaviour
         if (status == GameStatus.Playing && ClearKeyManager.GetInstance().Count <= 0)
         {
             status = GameStatus.GameClear;
+            
             Invoke("GameStop", 2.0f);
-            Invoke("LoadClearOverScene", 4.0f);
+            Invoke("LoadGameClearScene", 4.0f);
         }
     }
 
