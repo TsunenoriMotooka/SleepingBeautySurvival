@@ -1,12 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
+using System;
 
 public abstract class EnemyBase : MonoBehaviour
 {
-    public float moveSpeed = 3f;
-    public float detectionRadius = 4f; //プレイヤー検知範囲
     public bool canMove = true;
     public float stopDuration = 2f;
     public GameObject EnemyDieEffect;
@@ -17,10 +14,14 @@ public abstract class EnemyBase : MonoBehaviour
     [SerializeField]public Transform player;
     protected Rigidbody2D rb;
 
+    public Camera mainCamera;
+    public bool IsVisible = false;
+
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        mainCamera = Camera.main;
 
         if(player == null){
             Debug.LogError("Player is not assigned! Please set it in the Inspector.");
@@ -31,20 +32,15 @@ public abstract class EnemyBase : MonoBehaviour
     {
         if (player == null) return;
 
-        //プレイヤーとの距離計算
-        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
-        
-        if(!canMove){
-            return;
+        //カメラの視野に入った時
+        Vector2 fromPoint = mainCamera.ViewportToWorldPoint(Vector2.zero);
+        Vector2 toPoint = mainCamera.ViewportToWorldPoint(Vector2.one);
+        if (transform.position.x >= fromPoint.x && transform.position.x <= toPoint.x &&
+            transform.position.y >= fromPoint.y && transform.position.y <= toPoint.y) {
+            IsVisible = true;
+        } else {
+            IsVisible = false;
         }
-        if (rb != null) MoveTowardsPlayer();
-        
-        if (distanceToPlayer <= detectionRadius)
-        {
-            Attack(); //攻撃処理(子クラスで実装)
-        }
-
-        FlipSprite();
     }
 
     public void FlipSprite()
@@ -55,16 +51,6 @@ public abstract class EnemyBase : MonoBehaviour
 
         //プレイヤーが左側なら `flipX = true`、右側なら `false`
         sr.flipX = player.transform.position.x < transform.position.x;
-    }
-
-    protected virtual void MoveTowardsPlayer()
-    {
-        if(!canMove){
-            return; //移動不可の敵なら何もしない
-        }
-        //プレイヤーの方向へ移動
-        Vector2 direction = (player.transform.position - transform.position).normalized;
-        rb.velocity = direction * moveSpeed;
     }
 
     protected virtual void OnHit(){
@@ -111,8 +97,6 @@ public abstract class EnemyBase : MonoBehaviour
         }    
     }
 
-
-
     IEnumerator RestartAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -123,7 +107,4 @@ public abstract class EnemyBase : MonoBehaviour
 
         GetComponent<Collider2D>().enabled = true;
     }
-
-    //各敵の攻撃処理(子クラスでオーバーライド)
-    protected abstract void Attack();
 }

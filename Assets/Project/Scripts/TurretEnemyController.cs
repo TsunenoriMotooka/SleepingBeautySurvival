@@ -5,7 +5,6 @@ using UnityEngine;
 public class TurretEnemyController : EnemyBase
 {
     public GameObject bulletPrefab;
-    public Transform firePoint;
     public float bulletSpeed = 5f;
     public float fireRate = 2f;
     public float shootRadius = 9f; //攻撃開始範囲
@@ -20,35 +19,32 @@ public class TurretEnemyController : EnemyBase
 
     protected override void Update()
     {
+        base.Update();
+
         if(player == null)return;
     
-        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
-
-        if (distanceToPlayer <= shootRadius && Time.time >= lastShootTime + fireRate)
+        if (IsVisible && Time.time >= lastShootTime + fireRate)
         {
             ShootBullet();
             lastShootTime = Time.time;
         }
 
         FlipSprite();
-
     }
-
-    //直接攻撃じゃない為、空のAttackメソッド
-    protected override void Attack(){}
 
     //弾発射処理
     void ShootBullet()
     {
+        Vector3 firePoint = new Vector3(0, 1.1f, 0) + transform.position;
 
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        GameObject bullet = Instantiate(bulletPrefab, firePoint, Quaternion.identity);
         Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
 
-        Vector2 direction = (player.transform.position - transform.position).normalized;
+        Vector2 direction = (player.transform.position + new Vector3(0f, 0.6f, 0) - firePoint).normalized;
         bulletRb.velocity = direction * bulletSpeed;
-
-
     }
+
+    
 
 
     protected override void OnCollisionEnter2D(Collision2D collision)
