@@ -201,7 +201,7 @@ public class FieldsGenerator : MonoBehaviour
 
     void CreateEnemys(int chunkX, int chunkY)
     {
-        //enemyGenerator.GenerateEnemies(chunkX, chunkY);
+        enemyGenerator.GenerateEnemies(chunkX, chunkY);
     }
 
     void RemoveEnemies(int chunkX, int chunkY)
