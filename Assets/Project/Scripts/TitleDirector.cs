@@ -10,12 +10,13 @@ public class TitleDirector : MonoBehaviour
 
     void Start()
     {
-        Debug.Log($"{startButton}");
-        startButton.onClick.AddListener(()=>{
+        startButton.onClick.AddListener(() =>
+        {
             startButton.enabled = false;
             HowToButton.enabled = false;
 
             audioGenerator.PlaySE(SE.SelectStart);
+            Invoke("FadeOutBGM", 2.0f);
             Invoke("LoadGameScene", 4.0f);
         });
 
@@ -27,8 +28,8 @@ public class TitleDirector : MonoBehaviour
         SceneManager.LoadScene("GameScene");
     }
 
-    void LoadHowToScene()
+    void FadeOutBGM()
     {
-        //TODO:
+        audioGenerator.FadeOutBGM();
     }
 }
