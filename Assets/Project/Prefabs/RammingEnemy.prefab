@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3946281955564861643}
   - component: {fileID: 2785606128865456873}
   - component: {fileID: 7308152736045241911}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RammingEnemy
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -101,15 +101,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  detectionRadius: 4
   canMove: 1
-  blinkSpeed: 0.1
-  blinkCount: 2
+  stopDuration: 2
   EnemyDieEffect: {fileID: 2771192391171451995, guid: 0c232f551ccc8464cb7e948b7d14344c, type: 3}
+  audioGenerator: {fileID: 0}
   player: {fileID: 0}
+  mainCamera: {fileID: 0}
+  IsVisible: 0
   chargeSpeed: 5
-  attackRadius: 3
-  RammingAttack: {fileID: 1915095580865266156, guid: 01f73915f9085ca41ab5a2d333330b6d, type: 3}
 --- !u!61 &3946281955564861643
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -142,18 +141,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.014003128, y: 0.648541}
+  m_Offset: {x: 0.046136796, y: 0.875222}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 1.5, y: 1.5}
+    oldSize: {x: 2, y: 2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2036252, y: 1.3111401}
+  m_Size: {x: 1.2683913, y: 1.7645022}
   m_EdgeRadius: 0
 --- !u!50 &2785606128865456873
 Rigidbody2D:

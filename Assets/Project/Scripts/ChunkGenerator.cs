@@ -14,6 +14,7 @@ public class ChunkGenerator : MonoBehaviour
     public GameObject enemyGeneratorPrefab;
     public GameObject clearKeyGeneratorPrefab;
 
+    [HideInInspector] //FieldGeneratorから取得
     public DayNightSystem2D dayNightSystem2D;
 
     public Chunk CreateChunk(int chunkX, int chunkY, int treeCount, int rockCount, int tallRockCount, int bigRockCount, int lightCount) {

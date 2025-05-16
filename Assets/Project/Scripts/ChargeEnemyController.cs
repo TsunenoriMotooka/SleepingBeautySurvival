@@ -1,34 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ChargeEnemyController : EnemyBase
 {
-    public float chargeSpeed = 6f; 
-    public float attackRadius = 7f;
+    public float chargeSpeed = 6f;
     private bool isCharging = false;
     private Vector2 lastChargeDirection;
-
 
     protected override void Start()
     {
         base.Start();
-        canMove = false; 
 
+        canMove = false; 
     }
 
     protected override void Update()
     {
+        base.Update();
+
         if (!isCharging)
         {
             FlipSprite();
         }
 
-        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
-
         //プレイヤーが攻撃範囲内にいるときのみ突進開始
-        if (!isCharging && distanceToPlayer <= attackRadius)
+        if (IsVisible && !isCharging)
         {
+
             ChargeAttack();
         }
     }
@@ -39,8 +39,6 @@ public class ChargeEnemyController : EnemyBase
         lastChargeDirection = (player.transform.position - transform.position).normalized;
         rb.velocity = lastChargeDirection * chargeSpeed;
     }
-
-    protected override void Attack(){}
 
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
@@ -53,8 +51,8 @@ public class ChargeEnemyController : EnemyBase
 
             isCharging = false; //突進モード解除
             rb.velocity = Vector2.zero; //完全停止
-            rb.isKinematic = true;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            // GetComponent<Collider2D>().enabled = false;
             
             StartCoroutine(ContinueChargeAfterDelay(2f)); //数秒後に動き出す
         }
@@ -63,9 +61,11 @@ public class ChargeEnemyController : EnemyBase
     IEnumerator ContinueChargeAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        rb.isKinematic = false; 
         rb.constraints = RigidbodyConstraints2D.None;
         rb.velocity = lastChargeDirection * chargeSpeed;
+
+        // GetComponent<Collider2D>().enabled = false;
+
     }
 
     void OnBecameInvisible()

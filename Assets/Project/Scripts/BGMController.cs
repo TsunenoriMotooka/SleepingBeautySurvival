@@ -14,13 +14,5 @@ public class BGMController : MonoBehaviour
 
     void Update()
     {
-        if (!audioSource.isPlaying) {
-            Destroy(this);
-        }
-    }
-
-    public void Stop()
-    {
-        audioSource.Stop();
     }
 }

@@ -5,7 +5,6 @@ using UnityEngine.Rendering.Universal;
 
 public class FieldGenerator : MonoBehaviour
 {
-    GameObject field;
     public GameObject chunkGeneratorPrefab;
     ChunkGenerator chunkGenerator;
     public GameObject enemyGeneratorPrefab;
@@ -13,38 +12,40 @@ public class FieldGenerator : MonoBehaviour
     public GameObject clearKeyPregab;
     ClearKeyGenerator clearKeyGenerator;
 
+    [HideInInspector] //GameDirectorから取得
     public AudioGenerator audioGenerator;
-
-    public GameObject dayAndNightSystem2DObjct;
-    DayNightSystem2D dayNightSystem2D;
-
+    [HideInInspector] //GameDirectorから取得
     public Transform princess;
-    Rigidbody2D princessRg;
+    [HideInInspector] //GameDirectorから取得
+    public DayNightSystem2D dayNightSystem2D;
 
+    Rigidbody2D princessRg;
+    PrincessController princessController;
+
+    GameObject field;
     Chunk[,] chunks;
     Dictionary<(int, int), GameObject> chunkObjects = new Dictionary<(int, int), GameObject>();
 
-    void Start()
-    {        
+    public void Start()
+    {
         princessRg = princess.gameObject.GetComponent<Rigidbody2D>();
-        princess.GetComponent<PrincesController_szk>().audioGenerator = audioGenerator;
+        princessController = princess.GetComponent<PrincessController>();
+        princessController.audioGenerator = audioGenerator;
+
         chunkGenerator = chunkGeneratorPrefab.GetComponent<ChunkGenerator>();
+        chunkGenerator.dayNightSystem2D = dayNightSystem2D;
+
         enemyGenerator = enemyGeneratorPrefab.GetComponent<EnemyGenerator>();
         enemyGenerator.princess = princess;
         enemyGenerator.audioGenerator = audioGenerator;
+
         clearKeyGenerator = clearKeyPregab.GetComponent<ClearKeyGenerator>();
         clearKeyGenerator.audioGenerator = audioGenerator;
-
-        dayNightSystem2D = dayAndNightSystem2DObjct.GetComponent<DayNightSystem2D>();
-        chunkGenerator.dayNightSystem2D = dayNightSystem2D;
-
-        chunks = new Chunk[Const.fieldMatrixX, Const.fieldMatrixY];
-        field = new GameObject("Filed");
 
         InitChunks();
     }
 
-    void Update()
+    public void Update()
     {
         //自機がいるチャンクの座標を取得
         int px, py;
@@ -102,9 +103,14 @@ public class FieldGenerator : MonoBehaviour
 
     void InitChunks()
     {
+        field = new GameObject("Filed");
+        chunks = new Chunk[Const.fieldMatrixX, Const.fieldMatrixY];
+
         // Chunkの作成
-        for (int y = 0; y < Const.fieldMatrixY; y++) {
-            for (int x = 0; x < Const.fieldMatrixX; x++) {
+        for (int y = 0; y < Const.fieldMatrixY; y++)
+        {
+            for (int x = 0; x < Const.fieldMatrixX; x++)
+            {
                 int chunkX = x % Const.fieldMatrixX - Const.fieldMatrixX / 2;
                 int chunkY = y % Const.fieldMatrixY - Const.fieldMatrixY / 2;
 
