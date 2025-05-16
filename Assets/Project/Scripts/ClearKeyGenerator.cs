@@ -56,7 +56,13 @@ public class ClearKeyGenerator : MonoBehaviour
     }
 
     public void GenerateClearKeys(int chunkX, int chunkY)
-    {        
+    {
+        bool isCreated = false;
+        GenerateClearKeys(chunkX, chunkY, ref isCreated);
+    }
+
+    public void GenerateClearKeys(int chunkX, int chunkY, ref bool isCreated)
+    {
         int _chunkX = Utils.cycle1(chunkX, Const.fieldMatrixX);
         int _chunkY = Utils.cycle1(chunkY, Const.fieldMatrixY);
 
@@ -65,9 +71,11 @@ public class ClearKeyGenerator : MonoBehaviour
 
         List<GameObject> clearKeyList = new List<GameObject>();
 
-        foreach (Vector2 clearKeyPos in clearKeyPosDict.Keys) {
+        foreach (Vector2 clearKeyPos in clearKeyPosDict.Keys)
+        {
             (int clearKeyChunkX, int clearKeyChunkY) = Utils.PositionToChunkMatrix(clearKeyPos);
-            if (clearKeyChunkX == _chunkX && clearKeyChunkY == _chunkY) {
+            if (clearKeyChunkX == _chunkX && clearKeyChunkY == _chunkY)
+            {
                 Vector2 position = new Vector2(baseX, baseY) + clearKeyPos;
                 GameObject clearKey = Instantiate(
                     clearKeyPrefab,
@@ -76,17 +84,21 @@ public class ClearKeyGenerator : MonoBehaviour
                 clearKey.transform.parent = clearKeys.transform;
                 ClearKey script = clearKey.GetComponent<ClearKey>();
                 script.audioGenerator = audioGenerator;
-                script.destoryDelegate = () => {
-                    if (clearKeyPosDict.ContainsKey(clearKeyPos)) {
+                script.destoryDelegate = () =>
+                {
+                    if (clearKeyPosDict.ContainsKey(clearKeyPos))
+                    {
                         clearKeyPosDict.Remove(clearKeyPos);
                     }
                 };
                 clearKeyList.Add(clearKey);
+                isCreated = true;
             }
         }
 
         ClearClearKeys(chunkX, chunkY);
-        if (clearKeyList.Count > 0) {
+        if (clearKeyList.Count > 0)
+        {
             clearKeyDict[(chunkX, chunkY)] = clearKeyList;
         }
     }

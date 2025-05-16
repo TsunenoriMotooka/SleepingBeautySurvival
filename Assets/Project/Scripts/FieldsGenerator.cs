@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -53,16 +54,21 @@ public class FieldsGenerator : MonoBehaviour
         Vector2 position = princessRg.position; 
         (px, py) = Utils.PositionToChunkMatrix(position);
 
+        // 鍵がマップに生成されたか確認
+        bool isCreatedClearKey = false;
+
         // チャンクの生成
         // チャンクの座標周囲１マスを作成
-        for (int ay = -1; ay <= 1; ay++) {
-            for (int ax = -1; ax <= 1; ax++) {
+        for (int ay = -1; ay <= 1; ay++)
+        {
+            for (int ax = -1; ax <= 1; ax++)
+            {
                 if (ax == 0 && ay == 0) continue;
-                
+
                 //チャンクの座標
                 int x = px + ax;
                 int y = py + ay;
-                
+
                 //作成済みの場合は無視
                 if (chunkObjects.ContainsKey((x, y))) continue;
 
@@ -73,14 +79,22 @@ public class FieldsGenerator : MonoBehaviour
                 CreateEnemys(x, y);
 
                 //キーの作成
-                CreateClearKeys(x, y);
+                CreateClearKeys(x, y, ref isCreatedClearKey);
             }
+        }
+
+        //鍵がマップに生成された時、感知音を鳴らす
+        if (isCreatedClearKey)
+        {
+            audioGenerator.PlaySE(SE.DetectClearKey);
         }
 
         // チャンクの削除
         // チャンクの座標周囲２マス目を削除
-        for (int ay = -2; ay <= 2; ay++) {
-            for (int ax = -2; ax <= 2; ax++) {
+        for (int ay = -2; ay <= 2; ay++)
+        {
+            for (int ax = -2; ax <= 2; ax++)
+            {
                 if (ax >= -1 && ax <= 1 && ay >= -1 && ay <= 1) continue;
 
                 //チャンクの配列座標
@@ -92,7 +106,7 @@ public class FieldsGenerator : MonoBehaviour
 
                 //チャンクを削除
                 RemoveChunk(x, y);
-            
+
                 //モンスターを削除
                 RemoveEnemies(x, y);
 
@@ -128,18 +142,30 @@ public class FieldsGenerator : MonoBehaviour
         // 鍵の配置設定
         clearKeyGenerator.Init();
 
+        // 鍵がマップに生成されたか確認
+        bool isCreatedClearKey = false;
+
         // 初期画面生成
-        for (int y = -1; y <= 1; y++) {
-            for (int x = -1; x <= 1; x++) {
+        for (int y = -1; y <= 1; y++)
+        {
+            for (int x = -1; x <= 1; x++)
+            {
                 CreateChunk(x, y);
 
-                if (x != 0 || y != 0) {
+                if (x != 0 || y != 0)
+                {
                     CreateEnemys(x, y);
                 }
 
                 //キーの作成
-                CreateClearKeys(x, y);
+                CreateClearKeys(x, y, ref isCreatedClearKey);
             }
+        }
+
+        // 鍵がマップに生成された時は、遅延してから効果音を再生
+        if (isCreatedClearKey)
+        {
+            DOVirtual.DelayedCall(3.0f, () => audioGenerator.PlaySE(SE.DetectClearKey));
         }
     }
 
@@ -204,6 +230,11 @@ public class FieldsGenerator : MonoBehaviour
     void CreateClearKeys(int chunkX, int chunkY)
     {
         clearKeyGenerator.GenerateClearKeys(chunkX, chunkY);
+    }
+
+    void CreateClearKeys(int chunkX, int chunkY, ref bool isCreated)
+    {
+        clearKeyGenerator.GenerateClearKeys(chunkX, chunkY, ref isCreated);
     }
 
     void RemoveClearKeys(int chunkX, int chunkY)
