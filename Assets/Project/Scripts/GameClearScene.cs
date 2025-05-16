@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class GameClearScene : MonoBehaviour
 {
-
     public GameObject mainImage; //近づく画像
     public Image overlayImage; //浮かび上がる画像
     public float zoomDuration; //拡大する時間
@@ -38,17 +37,9 @@ public class GameClearScene : MonoBehaviour
         mainImage.GetComponent<Image>().DOFade(0,fadeDuration).SetEase(Ease.InQuad)
         .OnComplete(() => mainImage.SetActive(false));
     }
-    void RemoveTitle(){
-        SceneManager.LoadScene("TitleScene");
-    }
     // Update is called once per frame
     void Update()
     {
-    if(Input.GetKeyDown(KeyCode.Space)){
-            RemoveTitle();
-        }
-    }
-    public void OnReturnButtonClicked(){
-        SceneManager.LoadScene("TitleScene");
+    
     }
 }
