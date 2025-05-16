@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
+using UnityEngine;
 
 public class ClearKeyManager
 {
@@ -40,7 +40,7 @@ public class ClearKeyManager
 
     public void Found()
     {
-        clearKeyCount = Math.Max(0, clearKeyCount - 1);
+        clearKeyCount = Mathf.Max(0, clearKeyCount - 1);
         foreach(Action<int> action in actions) {
             action(clearKeyCount);
         }

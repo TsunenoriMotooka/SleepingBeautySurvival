@@ -6,7 +6,7 @@ public class AudioGenerator : MonoBehaviour
     public GameObject[] bgmPrefabs;
     public GameObject[] sePrefabs;
 
-    AudioSource bgmAudioSource;
+    static AudioSource bgmAudioSource;
 
     [SerializeField]
     float fadeOutDuration = 2.0f;

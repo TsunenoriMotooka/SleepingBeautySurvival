@@ -8,11 +8,9 @@ using Unity.VisualScripting;
 
 public class PrincessController : MonoBehaviour
 {
-    public int maxHealth = 10;
     int currentHealth;
     public int health{get{return currentHealth;}}
 
-    public float timeInvincible = 2.0f;
     bool isInvinsible;
     float invinsibleTimer;
 
@@ -65,7 +63,7 @@ public class PrincessController : MonoBehaviour
 
     void Start()
     {
-        currentHealth = maxHealth;
+        currentHealth = Const.maxHealth;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
 
@@ -136,6 +134,7 @@ public class PrincessController : MonoBehaviour
             audioGenerator.PlaySE(SE.GetClearKey, transform);
         }
     }
+    
     private void OnCollisionEnter2D(Collision2D other) {    
         if(other.gameObject.CompareTag("Monster") || other.gameObject.CompareTag("MonsterBullet")){
             ChangeHealth(-1);
@@ -143,20 +142,23 @@ public class PrincessController : MonoBehaviour
     }
 
     public void ChangeHealth(int amount){
-        if(amount < 0){
-            if(isInvinsible)return;
+        Debug.Log("ChangeHealth");
+        if (amount < 0)
+        {
+            if (isInvinsible) return;
             isInvinsible = true;
-            invinsibleTimer = timeInvincible;
+            invinsibleTimer = Const.timeInvincible;
             anim.SetTrigger("hit");
-            
+
             //ダメージ時の効果音再生
-            if (currentHealth + amount > 0) {
+            if (currentHealth + amount > 0)
+            {
                 audioGenerator.PlaySEDamagePrincess();
             }
         }
-        currentHealth = Mathf.Clamp(currentHealth + amount,0,maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, Const.maxHealth);
         // Debug.Log(currentHealth + "/" + maxHealth);
-        HealthUIController.instance.SetValue(currentHealth / (float)maxHealth);
+        HealthUIController.instance.SetValue(currentHealth / (float)Const.maxHealth);
         if (currentHealth <= 0){
             isInvinsible = true;
             rb.simulated = false;

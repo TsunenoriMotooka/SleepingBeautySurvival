@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
@@ -69,11 +68,14 @@ public class FieldsGenerator : MonoBehaviour
                 //作成済みの場合は無視
                 if (chunkObjects.ContainsKey((x, y))) continue;
 
+                //チャンク情報の取得
+                Chunk chunk = GetChunk(x, y);
+
                 //チャンクの作成
-                CreateChunk(x, y);
+                CreateChunk(x, y, chunk);
 
                 //モンスターの作成
-                CreateEnemys(x, y);
+                CreateEnemys(x, y, chunk.chunkType);
 
                 //キーの作成
                 CreateClearKeys(x, y);
@@ -120,10 +122,10 @@ public class FieldsGenerator : MonoBehaviour
                 int chunkX = x % Const.fieldMatrixX - Const.fieldMatrixX / 2;
                 int chunkY = y % Const.fieldMatrixY - Const.fieldMatrixY / 2;
 
-                int index = UnityEngine.Random.Range(0, Const.chunkTypes.Length);
-                (int treeCount, int rockCount, int tallRockCount, int bigRockCount, int lightCount) = Const.chunkTypes[index];
+                int index = Random.Range(0, Const.chunkTypes.Length);
+                (int chunkType, int treeCount, int rockCount, int tallRockCount, int bigRockCount, int lightCount) = Const.chunkTypes[index];
 
-                Chunk chunk = chunkGenerator.CreateChunk(chunkX, chunkY, treeCount, rockCount, tallRockCount, bigRockCount, lightCount);
+                Chunk chunk = chunkGenerator.CreateChunk(chunkX, chunkY, chunkType, treeCount, rockCount, tallRockCount, bigRockCount, lightCount);
                 int wx = (Const.fieldMatrixX + chunkX) % Const.fieldMatrixX;
                 int wy = (Const.fieldMatrixY + chunkY) % Const.fieldMatrixY;
                 chunks[wx, wy] = chunk;
@@ -138,11 +140,14 @@ public class FieldsGenerator : MonoBehaviour
         {
             for (int x = -1; x <= 1; x++)
             {
-                CreateChunk(x, y);
+                //チャンク情報の取得
+                Chunk chunk = GetChunk(x, y);
+
+                CreateChunk(x, y, chunk);
 
                 if (x != 0 || y != 0)
                 {
-                    CreateEnemys(x, y);
+                    CreateEnemys(x, y, chunk.chunkType);
                 }
 
                 //キーの作成
@@ -151,13 +156,16 @@ public class FieldsGenerator : MonoBehaviour
         }
     }
 
-    void CreateChunk(int x, int y)
-    {   
+    Chunk GetChunk(int x, int y)
+    {
         //チャンク情報を取得
         int wx = (Const.fieldMatrixX + x % Const.fieldMatrixX) % Const.fieldMatrixX;
         int wy = (Const.fieldMatrixY + y % Const.fieldMatrixY) % Const.fieldMatrixX;
-        Chunk chunk = chunks[wx, wy];
+        return chunks[wx, wy];
+    }
 
+    void CreateChunk(int x, int y, Chunk chunk)
+    {   
         //チャンクのワールド座標を設定
         Vector3 position = new Vector3();
         position.x = x * Const.chunkSizeX;
@@ -199,9 +207,9 @@ public class FieldsGenerator : MonoBehaviour
         chunkObjects.Remove((x, y));
     }
 
-    void CreateEnemys(int chunkX, int chunkY)
+    void CreateEnemys(int chunkX, int chunkY, int chunkType)
     {
-        enemyGenerator.GenerateEnemies(chunkX, chunkY);
+        enemyGenerator.GenerateEnemies(chunkX, chunkY, chunkType);
     }
 
     void RemoveEnemies(int chunkX, int chunkY)
