@@ -327,6 +327,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &893983067 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2093142816041530620, guid: bffdedad529cc884ab3a14d002405d10, type: 3}
+  m_PrefabInstance: {fileID: 4343452201374118321}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1476575897
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -384,6 +389,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bce4e3edd4c20854ea8aefacdf9bfe6a, type: 3}
+--- !u!114 &1551847131 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3457356751211747955, guid: bffdedad529cc884ab3a14d002405d10, type: 3}
+  m_PrefabInstance: {fileID: 4343452201374118321}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1730978437
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +411,7 @@ GameObject:
   - component: {fileID: 1730978439}
   - component: {fileID: 1730978438}
   m_Layer: 0
-  m_Name: TitleDirector
+  m_Name: TitleSceneDirector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -415,7 +431,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioGenerator: {fileID: 322296242488270394, guid: 0b81ddd1a77ad472292166360c6efc45, type: 3}
   startButton: {fileID: 3460903188316812705}
-  HowToButton: {fileID: 1364482334670825932}
+  howToButton: {fileID: 1364482334670825932}
+  howToPanel: {fileID: 893983067}
+  closeButton: {fileID: 1551847131}
 --- !u!4 &1730978439
 Transform:
   m_ObjectHideFlags: 0
@@ -464,6 +482,10 @@ PrefabInstance:
     - target: {fileID: 1563548369246804673, guid: bffdedad529cc884ab3a14d002405d10, type: 3}
       propertyPath: m_Name
       value: UICanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093142816041530620, guid: bffdedad529cc884ab3a14d002405d10, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3895014803955312474, guid: bffdedad529cc884ab3a14d002405d10, type: 3}
       propertyPath: m_Pivot.x
@@ -545,7 +567,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8526649189099546871, guid: bffdedad529cc884ab3a14d002405d10, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4711040455286370121, guid: bffdedad529cc884ab3a14d002405d10, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
