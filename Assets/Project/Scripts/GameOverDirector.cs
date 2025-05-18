@@ -18,7 +18,7 @@ public class GameOverSceneController : MonoBehaviour
     public Color midnight;
 
     public float fadeDuration = 1f; // 暗転時間
-    public float fallDuration = 2f; // プリンセス画像の落下時間
+    public float fallDuration = 3f; // プリンセス画像の落下時間
     public float riseDuration = 5f; // せり上がる画像の上昇時間
     public float fallHeight = 669.38f; // 落ちる距離
     public float riseHeight = 936.9f; // せり上がる距離
