@@ -920,7 +920,7 @@ MonoBehaviour:
   fadeScreen: {fileID: 64334073}
   princessImage: {fileID: 1944647788}
   risingImage: {fileID: 78493213}
-  rose: {fileID: 254108732}
+  roseImage: {fileID: 254108732}
   night: {r: 0.5647059, g: 0.21176471, b: 1, a: 1}
   midnight: {r: 0.105882354, g: 0, b: 1, a: 1}
   fadeDuration: 2
