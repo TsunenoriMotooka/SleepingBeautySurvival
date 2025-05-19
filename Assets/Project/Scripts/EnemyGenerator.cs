@@ -12,6 +12,10 @@ public class EnemyGenerator : MonoBehaviour
     private Dictionary<(int, int), List<GameObject>> enemyChunks = new Dictionary<(int, int), List<GameObject>>();
     private Vector2Int currentChunk = new Vector2Int(0, 0);
 
+    public float enRanLow = 3f;
+    public float enRanHigh = 7f;
+
+
     void Update()
     {
         // ? Princess の現在の座標を取得
@@ -48,7 +52,7 @@ public class EnemyGenerator : MonoBehaviour
 
         List<GameObject> spawnedEnemies = new List<GameObject>();
 
-        float enemyCount = Random.Range(10f, 20f);
+        float enemyCount = Random.Range(enRanLow, enRanHigh);
 
         for (int i = 0; i < enemyCount; i++)
         {
