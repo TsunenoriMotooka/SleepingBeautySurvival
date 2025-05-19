@@ -11,6 +11,7 @@ public class ClearKeyUIController : MonoBehaviour
     
     void Awake()
     {
+        ClearKeyManager.GetInstance().Reset();
         clearKeyCount = GetComponent<TextMeshProUGUI>();
         clearKeyCount.text = $"{ClearKeyManager.GetInstance().Count}";
         ClearKeyManager.GetInstance().AddListener((count)=>{
