@@ -1,78 +1,72 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using System.Buffers.Text;
 
 public class EnemyGenerator : MonoBehaviour
 {
-    public GameObject[] Enemys;
+    public GameObject[] enemyPrefabs;
 
-    public Transform princess;
+    [HideInInspector]
+    public Transform princess;    
     public AudioGenerator audioGenerator;
 
     private Dictionary<(int, int), List<GameObject>> enemyChunks = new Dictionary<(int, int), List<GameObject>>();
-    private Vector2Int currentChunk = new Vector2Int(0, 0);
 
-    public float enRanLow = 3f;
-    public float enRanHigh = 7f;
+    private GameObject enemies;
+    private GameObject enemyBullets;
 
-
-    void Update()
+    public void Start()
     {
-        // ? Princess の現在の座標を取得
-        Vector2 princessPosition = princess.position;
-
-        // ? 現在のチャンク座標を計算
-        int newChunkX = Mathf.FloorToInt(princessPosition.x / Const.chunkSizeX);
-        int newChunkY = Mathf.FloorToInt(princessPosition.y / Const.chunkSizeY);
-        Vector2Int newChunk = new Vector2Int(newChunkX, newChunkY);
-
-        // ? チャンクが変わったら敵を更新
-        if (newChunk != currentChunk)
-        {
-            Debug.Log($"? Princess がチャンク移動！ 新チャンク: ({newChunkX}, {newChunkY})");
-
-            // **古いチャンクの敵を削除**
-            ClearEnemies(currentChunk.x, currentChunk.y);
-
-            // **新しいチャンクの敵を生成**
-            GenerateEnemies(newChunk.x, newChunk.y);
-
-            // ? 現在のチャンク座標を更新
-            currentChunk = newChunk;
-        }
+        enemies = new GameObject("Enemies");
+        enemyBullets = new GameObject("EnemyBullets");
+        enemyBullets.transform.parent = enemies.transform;
     }
 
     //敵を生成する処理
-    public void GenerateEnemies(int chunkX, int chunkY)
+    public void GenerateEnemies(int chunkX, int chunkY, int chunkType)
     {
-        if (Enemys.Length == 0) return;
+        if (enemyPrefabs.Length == 0) return;
 
         float baseX = chunkX * Const.chunkSizeX;
         float baseY = chunkY * Const.chunkSizeY;
 
         List<GameObject> spawnedEnemies = new List<GameObject>();
 
-        float enemyCount = Random.Range(enRanLow, enRanHigh);
-
-        for (int i = 0; i < enemyCount; i++)
+        //各EnemyPrefabよりEnemyを生成する
+        for (int i = 0; i < enemyPrefabs.Length; i++)
         {
-            GameObject enemyPrefab = Enemys[Random.Range(0, Enemys.Length)];
+            //EnemyPrefab
+            GameObject enemyPrefab = enemyPrefabs[i];
 
-            // オブジェクトのない場所に配置できるまで繰り返す
-            for (int j = 0; j < 20; j++) {
-                float xOffset = Random.Range(-Const.chunkSizeX/2f, Const.chunkSizeX/2f);
-                float yOffset = Random.Range(-Const.chunkSizeX/2f, Const.chunkSizeX/2f);
-                Vector2 spawnPos = new Vector2(baseX + xOffset, baseY + yOffset);
-                // 配置場所にオブジェクトがある場合は、やり直す。
-                if (ExistPositionManager.GetInstance().Contains(spawnPos)) continue;
+            //Enemyを生成する数を取得
+            int spawnCount = Const.enemiesInChunk[chunkType - 1, i];
 
-                GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
-                EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
-                enemyBase.player = princess.transform;
-                enemyBase.audioGenerator = audioGenerator;
+            //鍵の取得数から生成数の増減を決定
+            int level = 5 - (ClearKeyManager.GetInstance().Count + 1) / 2;
+            spawnCount = Mathf.Max(0, spawnCount + Random.Range(level - 2, level));
 
-                spawnedEnemies.Add(enemy);
-                break;
+            //生成数分、作成
+            for (int j = 0; j < spawnCount; j++)
+            {
+                // オブジェクトのない場所に配置できるまで繰り返す
+                for (int k = 0; k < 20; k++)
+                {
+                    float xOffset = Random.Range(-Const.chunkSizeX / 2f, Const.chunkSizeX / 2f);
+                    float yOffset = Random.Range(-Const.chunkSizeX / 2f, Const.chunkSizeX / 2f);
+                    Vector2 spawnPos = new Vector2(baseX + xOffset, baseY + yOffset);
+                    // 配置場所にオブジェクトがある場合は、やり直す。
+                    if (ExistPositionManager.GetInstance().Contains(spawnPos)) continue;
+
+                    GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+                    enemy.transform.parent = enemies.transform;
+                    EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
+                    enemyBase.player = princess.transform;
+                    enemyBase.audioGenerator = audioGenerator;
+
+                    spawnedEnemies.Add(enemy);
+                    break;
+                }
             }
         }
 
@@ -87,7 +81,9 @@ public class EnemyGenerator : MonoBehaviour
 
         foreach (GameObject enemy in enemyChunks[(chunkX, chunkY)])
         {
-            if (enemy != null) Destroy(enemy);
+            if (enemy != null && !enemy.IsDestroyed() && !enemy.GetComponent<EnemyBase>().IsVisible) {
+                Destroy(enemy);                    
+            }
         }
 
         //キャッシュされた敵リストを削除

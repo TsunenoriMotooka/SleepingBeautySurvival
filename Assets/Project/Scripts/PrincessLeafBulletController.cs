@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Callbacks;
 
 public class PrincessLeafBulletController : MonoBehaviour
 {
@@ -21,7 +18,17 @@ public class PrincessLeafBulletController : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D other)
     {
-        Destroy(gameObject);
+        if (other.transform.CompareTag("Monster"))
+        {
+            Destroy(gameObject);            
+        }
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Monster"))
+        {
+            Destroy(gameObject);            
+        }    
     }
 
 }

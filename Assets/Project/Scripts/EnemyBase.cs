@@ -23,7 +23,8 @@ public abstract class EnemyBase : MonoBehaviour
         animator = GetComponent<Animator>();
         mainCamera = Camera.main;
 
-        if(player == null){
+        if (player == null)
+        {
             Debug.LogError("Player is not assigned! Please set it in the Inspector.");
         }
     }
@@ -69,7 +70,7 @@ public abstract class EnemyBase : MonoBehaviour
     public void PlayAttackSE() {
         if (gameObject.name.Contains("ChargeEnemy")) {
             audioGenerator.PlaySE(SE.HitChargeEnemy, transform);
-        } else if (gameObject.name.Contains("RunningEnemy")) {
+        } else if (gameObject.name.Contains("RammingEnemy")) {
             audioGenerator.PlaySE(SE.HitRunningEnemy, transform);
         } else {
             audioGenerator.PlaySE(SE.HitTurretEnemy, transform);
@@ -83,13 +84,12 @@ public abstract class EnemyBase : MonoBehaviour
             OnHit();
         }    
 
-
         if (collision.gameObject.CompareTag("Princess"))
         {
             hasHitPlayerAll = true;
             canMove = false;
             rb.velocity = Vector2.zero;
-            GetComponent<Collider2D>().enabled = false;
+            GetComponent<Collider2D>().isTrigger = true;
 
             StartCoroutine(RestartAfterDelay(stopDuration));
 
@@ -105,6 +105,6 @@ public abstract class EnemyBase : MonoBehaviour
         hasHitPlayerAll = false;
         canMove = true;
 
-        GetComponent<Collider2D>().enabled = true;
+        GetComponent<Collider2D>().isTrigger = false;
     }
 }

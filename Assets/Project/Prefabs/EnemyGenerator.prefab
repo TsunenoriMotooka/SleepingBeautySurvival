@@ -44,11 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8189c2985cda2d848a0265e69c24d480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemys:
-  - {fileID: 5837528766157562656, guid: 3cdf72dd186a4bc4c84f42a6361e432b, type: 3}
+  enemyPrefabs:
   - {fileID: 1144403571329581205, guid: 015bc31168d3a9a4ab75abe14c19fd28, type: 3}
   - {fileID: 8166334758076375304, guid: 9f4f2f8a42db2984bb672fbeb46cb413, type: 3}
+  - {fileID: 5837528766157562656, guid: 3cdf72dd186a4bc4c84f42a6361e432b, type: 3}
   princess: {fileID: 0}
   audioGenerator: {fileID: 322296242488270394, guid: 0b81ddd1a77ad472292166360c6efc45, type: 3}
-  enRanLow: 5
-  enRanHigh: 10

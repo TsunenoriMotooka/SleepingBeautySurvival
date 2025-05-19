@@ -2,12 +2,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class GameDirector : MonoBehaviour
+public class GameSceneDirector : MonoBehaviour
 {
     public Transform princess;
     public AudioGenerator audioGenerator;
     public DayNightSystem2D dayNightSystem2D;
-    public FieldGenerator fieldGenerator;
+    public FieldsGenerator fieldGenerator;
 
     PrincessController princessController;
 
@@ -59,8 +59,9 @@ public class GameDirector : MonoBehaviour
         if (status == GameStatus.Playing && ClearKeyManager.GetInstance().Count <= 0)
         {
             status = GameStatus.GameClear;
+            
             Invoke("GameStop", 2.0f);
-            Invoke("LoadClearOverScene", 4.0f);
+            Invoke("LoadGameClearScene", 4.0f);
         }
     }
 

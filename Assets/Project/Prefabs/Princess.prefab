@@ -106,6 +106,8 @@ MonoBehaviour:
   prefabs:
   - {fileID: 7597304916804171347, guid: 880772a80f3442542b0eb41149310870, type: 3}
   - {fileID: 615675737691116967, guid: e4fdf3cd4c286db4392d0ae6154b87f4, type: 3}
+  audioGenerator: {fileID: 0}
+  detectClearKeyPrefab: {fileID: 273935368084868709, guid: deb1036917f75429eba0135205fb1d17, type: 3}
 --- !u!50 &2953693023532853194
 Rigidbody2D:
   serializedVersion: 4

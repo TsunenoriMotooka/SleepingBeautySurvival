@@ -8,11 +8,9 @@ using Unity.VisualScripting;
 
 public class PrincessController : MonoBehaviour
 {
-    public int maxHealth = 10;
     int currentHealth;
     public int health { get { return currentHealth; } }
 
-    public float timeInvincible = 2.0f;
     bool isInvinsible;
     float invinsibleTimer;
 
@@ -26,6 +24,11 @@ public class PrincessController : MonoBehaviour
     [HideInInspector] //GameDirectorから取得
     public AudioGenerator audioGenerator;
 
+    private GameObject princessBullets;
+
+    public GameObject detectClearKeyPrefab;
+    private GameObject detectClearKey;
+
     IEnumerator PrincessLeafBulletAttack()
     {
         while (true)
@@ -34,6 +37,7 @@ public class PrincessController : MonoBehaviour
                 prefabs[0],
                 rb.position,
                 Quaternion.identity);
+            leafBullet.transform.parent = princessBullets.transform;
             leafBullet.GetComponent<PrincessLeafBulletController>().Attack(lookDirection);
 
             yield return new WaitForSeconds(1f);
@@ -48,6 +52,7 @@ public class PrincessController : MonoBehaviour
                 prefabs[1],
                 rb.position,
                 Quaternion.identity);
+            roseBullet.transform.parent = princessBullets.transform;
             roseBullet.GetComponent<PrincessRoseBulletController>().princess = transform;
 
             //3秒後に消滅
@@ -60,65 +65,17 @@ public class PrincessController : MonoBehaviour
 
     void Start()
     {
-        currentHealth = maxHealth;
+        currentHealth = Const.maxHealth;
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        princessBullets = new GameObject("PrincessBullets");
         StartCoroutine(PrincessLeafBulletAttack());
         StartCoroutine(PrincessRoseBulletAttack());
+
+        detectClearKey = Instantiate(detectClearKeyPrefab, transform.position, Quaternion.identity);
     }
 
-
-    void HandleKeyInput()
-    {
-        float moveX = Input.GetAxis("Horizontal");
-        float moveY = Input.GetAxis("Vertical");
-
-        Vector2 move = new Vector2(moveX, moveY);
-        if (move.sqrMagnitude > 0f)
-        {
-            lookDirection.Set(move.x, move.y);
-            lookDirection.Normalize();
-        }
-        anim.SetFloat("moveX", lookDirection.x);
-        anim.SetFloat("moveY", lookDirection.y);
-        anim.SetFloat("speed", move.magnitude);
-        Vector2 position = rb.position;
-        position.x = position.x + speed * moveX * Time.deltaTime;
-        position.y = position.y + speed * moveY * Time.deltaTime;
-        rb.MovePosition(position);
-
-    }
-
-    void HandleTouchInput()
-    {
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Moved)
-            {
-                Vector3 newPosition = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
-                Vector2 targetPosition = new Vector2(newPosition.x, newPosition.y);
-
-                Vector2 move = (targetPosition - rb.position).normalized;
-
-                if (move.sqrMagnitude > 0f)
-                {
-                    lookDirection.Set(move.x, move.y);
-                    lookDirection.Normalize();
-                }
-
-                anim.SetFloat("moveX", lookDirection.x);
-                anim.SetFloat("moveY", lookDirection.y);
-                anim.SetFloat("speed", move.magnitude);
-
-                Vector2 position = rb.position;
-                position.x = position.x + speed * move.x * Time.deltaTime;
-                position.y = position.y + speed * move.y * Time.deltaTime;
-                rb.MovePosition(position);
-
-            }
-        }
-    }
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Monster") || other.CompareTag("MonsterBullet"))
@@ -150,7 +107,7 @@ public class PrincessController : MonoBehaviour
         {
             if (isInvinsible) return;
             isInvinsible = true;
-            invinsibleTimer = timeInvincible;
+            invinsibleTimer = Const.timeInvincible;
             anim.SetTrigger("hit");
 
             //ダメージ時の効果音再生
@@ -159,9 +116,9 @@ public class PrincessController : MonoBehaviour
                 audioGenerator.PlaySEDamagePrincess();
             }
         }
-        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, Const.maxHealth);
         // Debug.Log(currentHealth + "/" + maxHealth);
-        HealthUIController.instance.SetValue(currentHealth / (float)maxHealth);
+        HealthUIController.instance.SetValue(currentHealth / (float)Const.maxHealth);
         if (currentHealth <= 0)
         {
             isInvinsible = true;
@@ -177,9 +134,10 @@ public class PrincessController : MonoBehaviour
     {
         if (currentHealth <= 0) return;
 
-        // HandleKeyInput();
         HandleMouseClickMovement();
-        HandleTouchInput();
+        //HandleTouchInput();
+
+        HandleKeyInput();
 
         if (isInvinsible)
         {
@@ -189,6 +147,8 @@ public class PrincessController : MonoBehaviour
                 isInvinsible = false;
             }
         }
+
+        detectClearKey.transform.position = transform.position;
     }
 
 
@@ -213,5 +173,27 @@ public class PrincessController : MonoBehaviour
             rb.velocity = Vector2.zero;
             anim.SetFloat("speed", 0f);
         }
+    }
+    
+    void HandleKeyInput()
+    {
+        if (Input.GetMouseButton(0)) return;
+
+        float moveX = Input.GetAxis("Horizontal");
+        float moveY = Input.GetAxis("Vertical");
+
+        Vector2 move = new Vector2(moveX, moveY);
+        if (move.sqrMagnitude > 0f)
+        {
+            lookDirection.Set(move.x, move.y);
+            lookDirection.Normalize();
+        }
+        anim.SetFloat("moveX", lookDirection.x);
+        anim.SetFloat("moveY", lookDirection.y);
+        anim.SetFloat("speed", move.magnitude);
+        Vector2 position = rb.position;
+        position.x = position.x + speed * moveX * Time.deltaTime;
+        position.y = position.y + speed * moveY * Time.deltaTime;
+        rb.MovePosition(position);
     }
 }

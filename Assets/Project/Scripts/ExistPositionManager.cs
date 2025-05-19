@@ -28,8 +28,8 @@ public class ExistPositionManager
 
     public bool Contains(float px, float py)
     {
-        int x = (int)Math.Round(px);
-        int y = (int)Math.Round(py);
+        int x = (int)Mathf.Round(px);
+        int y = (int)Mathf.Round(py);
         return Contains(x, y);
     }
     public bool Contains(int px, int py)
@@ -50,8 +50,8 @@ public class ExistPositionManager
 
     public void Put(float px, float py)
     {
-        int x = (int)Math.Round(px);
-        int y = (int)Math.Round(py);
+        int x = (int)Mathf.Round(px);
+        int y = (int)Mathf.Round(py);
         Put(x, y);
     }
     public void Put(int px, int py)
@@ -72,8 +72,8 @@ public class ExistPositionManager
 
     public void Remove(float px, float py)
     {
-        int x = (int)Math.Round(px);
-        int y = (int)Math.Round(py);
+        int x = (int)Mathf.Round(px);
+        int y = (int)Mathf.Round(py);
         Remove(x, y);
     }
 
