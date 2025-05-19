@@ -6,12 +6,6 @@ public class PrincessDown : MonoBehaviour
     public Transform princess;
     float delayTime = 1.3f;
 
-    void Start()
-    {
-        princess = GameObject.Find("Princess").transform;
-        LeftDown();
-    }
-
     public void LeftDown()
     {
         transform.localScale = new Vector3(1, 1, 1);
