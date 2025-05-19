@@ -56,12 +56,27 @@ public class GameClearScene : MonoBehaviour
 
     public void OnReturnButtonClicked()
     {
+        button.enabled = false;
         ReturnTitleScene();   
     }
 
     void ReturnTitleScene()
     {
-        SceneManager.LoadScene("TitleScene");
+        DOTween.Sequence()
+            .AppendCallback(() =>
+            {
+                audioGenerator.PlaySE(SE.SelectContinue);
+            })
+            .AppendInterval(2.0f)
+            .AppendCallback(() =>
+            {
+                audioGenerator.FadeOutBGM();
+            })
+            .AppendInterval(2.0f)
+            .AppendCallback(() =>
+            {
+                SceneManager.LoadScene("TitleScene");
+            });
     }
 
     public void StartEffect()

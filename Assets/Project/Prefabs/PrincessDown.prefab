@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1106328159763029972}
   - component: {fileID: 8707964682361686481}
   m_Layer: 0
-  m_Name: princess_Dawn
+  m_Name: PrincessDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
