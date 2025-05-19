@@ -1,18 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 
-public class GameOverSceneController : MonoBehaviour
+public class GameOverSceneDirector : MonoBehaviour
 {
     public AudioGenerator audioGenerator; // 音楽再生
     public Image fadeScreen; // 暗転用の黒い画像（UI）
     public GameObject princessImage; // 落ちてくるプリンセス画像
     public GameObject risingImage; // 下からせり上がる画像
-    public GameObject rose;
+    public GameObject roseImage;
 
     public Color night;
     public Color midnight;
@@ -29,7 +28,7 @@ public class GameOverSceneController : MonoBehaviour
 
     void Start()
     {
-        rose.gameObject.SetActive(false);
+        roseImage.gameObject.SetActive(false);
         button.gameObject.SetActive(false);
         canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null)
@@ -54,12 +53,27 @@ public class GameOverSceneController : MonoBehaviour
 
     public void OnReturnButtonClicked()
     {
+        button.enabled = false;
         ReturnTitleScene();   
     }
 
     void ReturnTitleScene()
     {
-        SceneManager.LoadScene("TitleScene");
+        DOTween.Sequence()
+            .AppendCallback(() =>
+            {
+                audioGenerator.PlaySE(SE.SelectContinue);
+            })
+            .AppendInterval(2.0f)
+            .AppendCallback(() =>
+            {
+                audioGenerator.FadeOutBGM();
+            })
+            .AppendInterval(2.0f)
+            .AppendCallback(() =>
+            {
+                SceneManager.LoadScene("TitleScene");
+            });
     }
 
     public void StartEffect()
@@ -69,26 +83,25 @@ public class GameOverSceneController : MonoBehaviour
 
         // プリンセス画像を画面上から3秒かけて落とす
         princessImage.GetComponent<Image>().color = night;
-        var sequence = DOTween.Sequence();
-        sequence
+        DOTween.Sequence()
             .Append(princessImage.transform.DOMoveY(princessImage.transform.position.y - fallHeight, fallDuration))
             .Join(princessImage.GetComponent<Image>().DOColor(midnight, fallDuration))
             .SetEase(Ease.InQuad)
+            .AppendCallback(() =>
+            {
+                Destroy(princessImage);
+                roseImage.gameObject.SetActive(true);
+            })
+            .AppendInterval(1.5f)
+            .AppendCallback(() =>
+            {
+                Destroy(roseImage);
+            })
+            .AppendInterval(1.5f)
             .OnComplete(() =>
             {
-                StartPrincessAnimation();
+                StartRisingImage();
             });
-    }
-
-    private void StartPrincessAnimation()
-    {
-        Destroy(princessImage);
-        rose.gameObject.SetActive(true);
-        DOVirtual.DelayedCall(1f, () =>
-        {
-            Destroy(rose);
-            StartRisingImage();
-        });
     }
 
     private void StartRisingImage()
