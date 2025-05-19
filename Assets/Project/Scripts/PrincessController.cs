@@ -64,6 +64,45 @@ public class PrincessController : MonoBehaviour
             yield return new WaitForSeconds(5f);
         }
     }
+    GameObject FindClosestMonster(Vector2 position, float searchRadius)
+    {
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(position,searchRadius);
+        GameObject closest = null;
+        float minDistance = Mathf.Infinity;
+
+        foreach (var collider in hitColliders)
+        {
+            if (collider.CompareTag("Monster"))
+            {
+                float distansce = Vector2.Distance(position, collider.transform.position);
+                if (distansce < minDistance)
+                {
+                    minDistance = distansce;
+                    closest = collider.gameObject;
+                }
+            }
+        }
+        return closest;
+    }
+    public float searchRadius = 5f;
+    IEnumerator MagicWandShot()
+    {
+        GameObject monster = FindClosestMonster(transform.position, searchRadius);
+        if (monster != null)
+        {
+            while (true)
+            {
+                GameObject leafBullet = Instantiate(
+                    prefabs[2],
+                    transform.position,
+                    Quaternion.identity
+                );
+                leafBullet.GetComponent<MagicWand>().SetTarget(monster.transform);
+
+                yield return new WaitForSeconds(3f);
+            }
+        }
+    }
 
     void Start()
     {
@@ -74,6 +113,7 @@ public class PrincessController : MonoBehaviour
         princessBullets = new GameObject("PrincessBullets");
         StartCoroutine(PrincessLeafBulletAttack());
         StartCoroutine(PrincessRoseBulletAttack());
+        StartCoroutine(MagicWandShot());
 
         detectClearKey = Instantiate(detectClearKeyPrefab, transform.position, Quaternion.identity);
     }
