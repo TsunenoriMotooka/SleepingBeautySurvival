@@ -11,11 +11,12 @@ public abstract class EnemyBase : MonoBehaviour
     protected bool hasHitPlayerAll = false;
     protected Animator animator;
 
-    [SerializeField]public Transform player;
+    [SerializeField] public Transform player;
     protected Rigidbody2D rb;
 
     public Camera mainCamera;
     public bool IsVisible = false;
+    public bool IsStoped = false;
 
     protected virtual void Start()
     {
@@ -31,15 +32,19 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (IsStoped) return;
         if (player == null) return;
 
         //カメラの視野に入った時
         Vector2 fromPoint = mainCamera.ViewportToWorldPoint(Vector2.zero);
         Vector2 toPoint = mainCamera.ViewportToWorldPoint(Vector2.one);
         if (transform.position.x >= fromPoint.x && transform.position.x <= toPoint.x &&
-            transform.position.y >= fromPoint.y && transform.position.y <= toPoint.y) {
+            transform.position.y >= fromPoint.y && transform.position.y <= toPoint.y)
+        {
             IsVisible = true;
-        } else {
+        }
+        else
+        {
             IsVisible = false;
         }
     }
@@ -54,12 +59,13 @@ public abstract class EnemyBase : MonoBehaviour
         sr.flipX = player.transform.position.x < transform.position.x;
     }
 
-    protected virtual void OnHit(){
+    protected virtual void OnHit()
+    {
         if (EnemyDieEffect != null)
         {
             //消滅時にエフェクト生成
-            GameObject effe = Instantiate(EnemyDieEffect, transform.position, Quaternion.identity); 
-            Destroy(effe,0.5f);
+            GameObject effe = Instantiate(EnemyDieEffect, transform.position, Quaternion.identity);
+            Destroy(effe, 0.5f);
             audioGenerator.PlaySE(SE.HitLeaf, transform);
             audioGenerator.PlaySE(SE.DamageEnemy, transform);
         }
@@ -67,12 +73,18 @@ public abstract class EnemyBase : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void PlayAttackSE() {
-        if (gameObject.name.Contains("ChargeEnemy")) {
+    public void PlayAttackSE()
+    {
+        if (gameObject.name.Contains("ChargeEnemy"))
+        {
             audioGenerator.PlaySE(SE.HitChargeEnemy, transform);
-        } else if (gameObject.name.Contains("RammingEnemy")) {
+        }
+        else if (gameObject.name.Contains("RammingEnemy"))
+        {
             audioGenerator.PlaySE(SE.HitRunningEnemy, transform);
-        } else {
+        }
+        else
+        {
             audioGenerator.PlaySE(SE.HitTurretEnemy, transform);
         }
     }
@@ -82,7 +94,7 @@ public abstract class EnemyBase : MonoBehaviour
         if (collision.gameObject.CompareTag("Leaf"))
         {
             OnHit();
-        }    
+        }
 
         if (collision.gameObject.CompareTag("Princess"))
         {
@@ -94,7 +106,7 @@ public abstract class EnemyBase : MonoBehaviour
             StartCoroutine(RestartAfterDelay(stopDuration));
 
             PlayAttackSE();
-        }    
+        }
     }
 
     IEnumerator RestartAfterDelay(float delay)
@@ -106,5 +118,19 @@ public abstract class EnemyBase : MonoBehaviour
         canMove = true;
 
         GetComponent<Collider2D>().isTrigger = false;
+    }
+
+    public void Stop()
+    {
+        rb.simulated = false;
+        rb.velocity = Vector2.zero;
+
+        Collider2D collider = GetComponent<Collider2D>();
+        collider.enabled = false;
+
+        hasHitPlayerAll = true;
+        canMove = false;
+        rb.velocity = Vector2.zero;
+        IsStoped = true;
     }
 }

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -7,7 +8,7 @@ public class GameSceneDirector : MonoBehaviour
     public Transform princess;
     public AudioGenerator audioGenerator;
     public DayNightSystem2D dayNightSystem2D;
-    public FieldsGenerator fieldGenerator;
+    public FieldsGenerator fieldsGenerator;
 
     PrincessController princessController;
 
@@ -27,10 +28,10 @@ public class GameSceneDirector : MonoBehaviour
         Application.targetFrameRate = 60;
 
         // フィールド生成の初期化
-        fieldGenerator.audioGenerator = audioGenerator;
-        fieldGenerator.princess = princess;
-        fieldGenerator.dayNightSystem2D = dayNightSystem2D;
-        fieldGenerator.Start();
+        fieldsGenerator.audioGenerator = audioGenerator;
+        fieldsGenerator.princess = princess;
+        fieldsGenerator.dayNightSystem2D = dayNightSystem2D;
+        fieldsGenerator.Start();
 
         // BGMの再生
         audioGenerator.PlayBGM(BGM.GameScene);
@@ -44,39 +45,52 @@ public class GameSceneDirector : MonoBehaviour
     void Update()
     {
         // フィールド・モンスターの処理
-        fieldGenerator.Update();
+        fieldsGenerator.Update();
 
         //ゲームオーバーの判定
         if (status == GameStatus.Playing && princessController.health <= 0)
         {
             status = GameStatus.GameOver;
 
-            Invoke("GameStop", 2.0f);
-            Invoke("LoadGameOverScene", 4.0f);
+            DOTween.Sequence()
+                .AppendCallback(() =>
+                {
+                })
+                .AppendInterval(2.0f)
+                .AppendCallback(() =>
+                {
+                    fieldsGenerator.StopEnemyBullets();
+                    fieldsGenerator.StopEnemies();
+                    audioGenerator.FadeOutBGM();
+                })
+                .AppendInterval(2.0f)
+                .AppendCallback(() =>
+                {
+                    SceneManager.LoadScene("GameOverScene");
+                });
         }
 
         //ゲームクリアーの判定
         if (status == GameStatus.Playing && ClearKeyManager.GetInstance().Count <= 0)
         {
             status = GameStatus.GameClear;
-            
-            Invoke("GameStop", 2.0f);
-            Invoke("LoadGameClearScene", 4.0f);
+
+            DOTween.Sequence()
+                .AppendCallback(() =>
+                {
+                    fieldsGenerator.StopEnemies();
+                    fieldsGenerator.StopEnemyBullets();
+                })
+                .AppendInterval(2.0f)
+                .AppendCallback(() =>
+                {
+                    audioGenerator.FadeOutBGM();
+                })
+                .AppendInterval(2.0f)
+                .AppendCallback(() =>
+                {
+                    SceneManager.LoadScene("GameClearScene");
+                });
         }
-    }
-
-    void GameStop()
-    {
-        audioGenerator.FadeOutBGM();
-    }
-
-    void LoadGameOverScene()
-    {
-        SceneManager.LoadScene("GameOverScene");
-    }
-
-    void LoadGameClearScene()
-    {
-        SceneManager.LoadScene("GameClearScene");
     }
 }

@@ -14,6 +14,8 @@ public class RammingEnemyController : EnemyBase
 
     protected override void Update()
     {
+        if (IsStoped) return;
+
         base.Update();
     
         if (player == null) return;

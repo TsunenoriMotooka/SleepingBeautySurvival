@@ -8,7 +8,7 @@ public class EnemyGenerator : MonoBehaviour
     public GameObject[] enemyPrefabs;
 
     [HideInInspector]
-    public Transform princess;    
+    public Transform princess;
     public AudioGenerator audioGenerator;
 
     private Dictionary<(int, int), List<GameObject>> enemyChunks = new Dictionary<(int, int), List<GameObject>>();
@@ -81,12 +81,36 @@ public class EnemyGenerator : MonoBehaviour
 
         foreach (GameObject enemy in enemyChunks[(chunkX, chunkY)])
         {
-            if (enemy != null && !enemy.IsDestroyed() && !enemy.GetComponent<EnemyBase>().IsVisible) {
-                Destroy(enemy);                    
+            if (enemy != null && !enemy.IsDestroyed() && !enemy.GetComponent<EnemyBase>().IsVisible)
+            {
+                Destroy(enemy);
             }
         }
 
         //キャッシュされた敵リストを削除
         enemyChunks.Remove((chunkX, chunkY));
+    }
+
+    public void StopEnemies()
+    {
+        for (int i = 0; i < enemies.transform.childCount; i++)
+        {
+            Transform enemy = enemies.transform.GetChild(i);
+            if (enemy != null && !enemy.gameObject.IsDestroyed())
+            {
+                enemy.GetComponent<EnemyBase>().Stop();
+            }
+        }
+    }
+    public void StopEnemyBullets()
+    {
+        for (int i = 0; i < enemyBullets.transform.childCount; i++)
+        {
+            Transform enemyBullet = enemyBullets.transform.GetChild(i);
+            if (enemyBullet != null && !enemyBullet.gameObject.IsDestroyed())
+            {
+                enemyBullet.GetComponent<EnemyBullet>().Stop();
+            }
+        }
     }
 }

@@ -50,7 +50,7 @@ public class FieldsGenerator : MonoBehaviour
     {
         //自機がいるチャンクの座標を取得
         int px, py;
-        Vector2 position = princessRg.position; 
+        Vector2 position = princessRg.position;
         (px, py) = Utils.PositionToChunkMatrix(position);
 
         // チャンクの生成
@@ -165,7 +165,7 @@ public class FieldsGenerator : MonoBehaviour
     }
 
     void CreateChunk(int x, int y, Chunk chunk)
-    {   
+    {
         //チャンクのワールド座標を設定
         Vector3 position = new Vector3();
         position.x = x * Const.chunkSizeX;
@@ -189,10 +189,13 @@ public class FieldsGenerator : MonoBehaviour
         GameObject chunkObject = chunkObjects[(x, y)];
 
         //チャンク内のライトをDayAndLightSystem2Dから削除
-        for (int i = 0; i < chunkObject.transform.childCount; i++) {
+        for (int i = 0; i < chunkObject.transform.childCount; i++)
+        {
             Transform lights = chunkObject.transform.GetChild(i);
-            if (lights.name.Equals("Lights")) {
-                for (int j = 0; j < lights.childCount; j++) {
+            if (lights.name.Equals("Lights"))
+            {
+                for (int j = 0; j < lights.childCount; j++)
+                {
                     Light2D light2d = lights.GetChild(j).GetChild(0).gameObject.GetComponent<Light2D>();
                     dayNightSystem2D.removeMapLight(light2d);
                 }
@@ -225,5 +228,15 @@ public class FieldsGenerator : MonoBehaviour
     void RemoveClearKeys(int chunkX, int chunkY)
     {
         clearKeyGenerator.ClearClearKeys(chunkX, chunkY);
+    }
+
+    public void StopEnemies()
+    {
+        enemyGenerator.StopEnemies();
+    }
+
+    public void StopEnemyBullets()
+    {
+        enemyGenerator.StopEnemyBullets();
     }
 }

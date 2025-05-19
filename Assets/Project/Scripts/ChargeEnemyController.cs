@@ -18,6 +18,8 @@ public class ChargeEnemyController : EnemyBase
 
     protected override void Update()
     {
+        if (IsStoped) return;
+
         base.Update();
 
         if (!isCharging)

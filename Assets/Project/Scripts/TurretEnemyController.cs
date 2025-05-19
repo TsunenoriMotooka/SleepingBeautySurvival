@@ -19,9 +19,11 @@ public class TurretEnemyController : EnemyBase
 
     protected override void Update()
     {
+        if (IsStoped) return;
+
         base.Update();
 
-        if(player == null)return;
+        if(player == null) return;
     
         if (IsVisible && Time.time >= lastShootTime + fireRate)
         {
