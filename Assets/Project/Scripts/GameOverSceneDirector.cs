@@ -83,26 +83,25 @@ public class GameOverSceneDirector : MonoBehaviour
 
         // プリンセス画像を画面上から3秒かけて落とす
         princessImage.GetComponent<Image>().color = night;
-        var sequence = DOTween.Sequence();
-        sequence
+        DOTween.Sequence()
             .Append(princessImage.transform.DOMoveY(princessImage.transform.position.y - fallHeight, fallDuration))
             .Join(princessImage.GetComponent<Image>().DOColor(midnight, fallDuration))
             .SetEase(Ease.InQuad)
+            .AppendCallback(() =>
+            {
+                Destroy(princessImage);
+                roseImage.gameObject.SetActive(true);
+            })
+            .AppendInterval(1.5f)
+            .AppendCallback(() =>
+            {
+                Destroy(roseImage);
+            })
+            .AppendInterval(1.5f)
             .OnComplete(() =>
             {
-                StartPrincessAnimation();
+                StartRisingImage();
             });
-    }
-
-    private void StartPrincessAnimation()
-    {
-        Destroy(princessImage);
-        roseImage.gameObject.SetActive(true);
-        DOVirtual.DelayedCall(1f, () =>
-        {
-            Destroy(roseImage);
-            StartRisingImage();
-        });
     }
 
     private void StartRisingImage()

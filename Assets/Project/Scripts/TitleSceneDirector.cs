@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -18,9 +19,21 @@ public class TitleSceneDirector : MonoBehaviour
             howToButton.enabled = false;
             closeButton.enabled = false;
 
-            audioGenerator.PlaySE(SE.SelectStart);
-            Invoke("FadeOutBGM", 2.0f);
-            Invoke("LoadGameScene", 4.0f);
+            DOTween.Sequence()
+                .AppendCallback(() =>
+                {
+                    audioGenerator.PlaySE(SE.SelectStart);
+                })
+                .AppendInterval(2.0f)
+                .AppendCallback(() =>
+                {
+                    audioGenerator.FadeOutBGM();
+                })
+                .AppendInterval(2.5f)
+                .AppendCallback(() =>
+                {
+                    SceneManager.LoadScene("GameScene");
+                });
         });
 
         howToButton.onClick.AddListener(() =>
@@ -43,15 +56,4 @@ public class TitleSceneDirector : MonoBehaviour
 
         audioGenerator.PlayBGM(BGM.TitleScene);
     }
-
-    void LoadGameScene()
-    {
-        SceneManager.LoadScene("GameScene");
-    }
-
-    void FadeOutBGM()
-    {
-        audioGenerator.FadeOutBGM();
-    }
-
 }
