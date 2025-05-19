@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8063251671556861075}
   - component: {fileID: 571002706539387495}
   m_Layer: 0
-  m_Name: FiledGenerator
+  m_Name: FiledsGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
