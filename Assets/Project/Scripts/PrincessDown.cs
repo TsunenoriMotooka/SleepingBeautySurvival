@@ -12,7 +12,7 @@ public class PrincessDown : MonoBehaviour
         LeftDown();
     }
 
-    void LeftDown()
+    public void LeftDown()
     {
         transform.localScale = new Vector3(1, 1, 1);
         var seq = DOTween.Sequence();
@@ -20,7 +20,7 @@ public class PrincessDown : MonoBehaviour
         .Append(transform.DOMove(new Vector2(princess.transform.position.x - 1, princess.transform.position.y), delayTime))
         .Join(transform.DORotate(new Vector3(0, 0, 90), delayTime, RotateMode.FastBeyond360));
     }
-    void RigthDown()
+    public void RigthDown()
     {
         transform.localScale = new Vector3(-1, 1, 1);
         var seq = DOTween.Sequence();

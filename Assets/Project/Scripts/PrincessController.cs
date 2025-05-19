@@ -29,6 +29,8 @@ public class PrincessController : MonoBehaviour
     public GameObject detectClearKeyPrefab;
     private GameObject detectClearKey;
 
+    public GameObject princessDownPrefab;
+
     IEnumerator PrincessLeafBulletAttack()
     {
         while (true)
@@ -101,7 +103,7 @@ public class PrincessController : MonoBehaviour
         }
     }
 
-    public void ChangeHealth(int amount)
+    public void ChangeHealth(int amount, Transform other)
     {
         if (amount < 0)
         {
@@ -126,6 +128,19 @@ public class PrincessController : MonoBehaviour
             anim.enabled = false;
             StopAllCoroutines();
 
+            GameObject go = Instantiate(princessDownPrefab);
+            go.transform.position = transform.position;
+            PrincessDown princessDown = go.GetComponent<PrincessDown>();
+            princessDown.princess = transform;
+            if (other.position.x < 0)
+            {
+                princessDown.RigthDown();
+            }
+            else
+            {
+                princessDown.LeftDown();
+            }
+            gameObject.SetActive(false);
             audioGenerator.PlaySE(SE.PrincessDead);
         }
     }
