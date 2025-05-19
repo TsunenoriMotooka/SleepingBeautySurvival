@@ -64,7 +64,8 @@ public abstract class EnemyBase : MonoBehaviour
         if (EnemyDieEffect != null)
         {
             //消滅時にエフェクト生成
-            GameObject effe = Instantiate(EnemyDieEffect, transform.position, Quaternion.identity);
+            Vector3 position = transform.position + new Vector3(0, 0.5f, 0);
+            GameObject effe = Instantiate(EnemyDieEffect, position, Quaternion.identity);
             Destroy(effe, 0.5f);
             audioGenerator.PlaySE(SE.HitLeaf, transform);
             audioGenerator.PlaySE(SE.DamageEnemy, transform);
