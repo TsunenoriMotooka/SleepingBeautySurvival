@@ -107,7 +107,7 @@ public class PrincessController : MonoBehaviour
                     wandBullet.GetComponent<MagicWand>().SetTarget(monster.transform);
                 }
             }
-                yield return new WaitForSeconds(5f);
+                yield return new WaitForSeconds(4f);
         }
     }
 
