@@ -19,21 +19,7 @@ public class TitleSceneDirector : MonoBehaviour
             howToButton.enabled = false;
             closeButton.enabled = false;
 
-            DOTween.Sequence()
-                .AppendCallback(() =>
-                {
-                    audioGenerator.PlaySE(SE.SelectStart);
-                })
-                .AppendInterval(2.0f)
-                .AppendCallback(() =>
-                {
-                    audioGenerator.FadeOutBGM();
-                })
-                .AppendInterval(2.5f)
-                .AppendCallback(() =>
-                {
-                    SceneManager.LoadScene("GameScene");
-                });
+            StartGameScene();
         });
 
         howToButton.onClick.AddListener(() =>
@@ -55,5 +41,37 @@ public class TitleSceneDirector : MonoBehaviour
         howToPanel.SetActive(false);
 
         audioGenerator.PlayBGM(BGM.TitleScene);
+    }
+
+    void StartGameScene()
+    {
+        DOTween.Sequence()
+            .AppendCallback(() =>
+            {
+                audioGenerator.PlaySE(SE.SelectStart);
+            })
+            .AppendInterval(2.0f)
+            .AppendCallback(() =>
+            {
+                audioGenerator.FadeOutBGM();
+            })
+            .AppendInterval(2.5f)
+            .AppendCallback(() =>
+            {
+                SceneManager.LoadScene("GameScene");
+            });
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return) && startButton.enabled)
+        {
+            FlashController flashController = startButton.GetComponent<FlashController>();
+            flashController.FlashStart();
+             
+            startButton.enabled = false;
+            howToButton.enabled = false;
+            StartGameScene();
+        }
     }
 }

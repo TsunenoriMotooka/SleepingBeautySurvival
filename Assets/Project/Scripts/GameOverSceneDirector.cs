@@ -24,37 +24,18 @@ public class GameOverSceneDirector : MonoBehaviour
 
     public Button button;
     public float delayTime;
-    CanvasGroup canvasGroup;
 
     void Start()
     {
         roseImage.gameObject.SetActive(false);
-        button.gameObject.SetActive(false);
-        canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-        {
-            canvasGroup = button.gameObject.AddComponent<CanvasGroup>();
-        }
-        canvasGroup.alpha = 0;
-        button.interactable = false;
-        StartEffect();
-        StartCoroutine(ShowButton());
-
         audioGenerator.PlayBGM(BGM.GameOver);
-    }
-    
-    IEnumerator ShowButton()
-    {
-        yield return new WaitForSeconds(delayTime);
-        button.gameObject.SetActive(true);
-
-        canvasGroup.DOFade(1f, 0.5f).OnComplete(() => button.interactable = true);
+        StartEffect();
     }
 
     public void OnReturnButtonClicked()
     {
         button.enabled = false;
-        ReturnTitleScene();   
+        ReturnTitleScene();
     }
 
     void ReturnTitleScene()
@@ -119,7 +100,17 @@ public class GameOverSceneDirector : MonoBehaviour
             });
     }
 
-    void RemoveTitle(){
+    void RemoveTitle()
+    {
         SceneManager.LoadScene("TitleScene");
+    }
+    
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return) && button.enabled)
+        {
+            button.enabled = false;
+            ReturnTitleScene();
+        }
     }
 }

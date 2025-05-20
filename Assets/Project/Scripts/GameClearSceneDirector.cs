@@ -19,7 +19,6 @@ public class GameClearScene : MonoBehaviour
 
     public Button button;
     public float delayTime;
-    CanvasGroup canvasGroup;
 
     // Start is called before the first frame update
     void Start()
@@ -28,30 +27,12 @@ public class GameClearScene : MonoBehaviour
         c.a = 0f;
         overlayImage.color = c;
         
-
-        button.gameObject.SetActive(false);
-        canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-        {
-            canvasGroup = button.gameObject.AddComponent<CanvasGroup>();
-        }
-        canvasGroup.alpha = 0;
-        button.interactable = false;
         DOVirtual.DelayedCall(2f, () =>
         {
             StartEffect();
-            StartCoroutine(ShowButton());
         });
 
         audioGenerator.PlayBGM(BGM.GameClear);
-    }
-
-    IEnumerator ShowButton()
-    {
-        yield return new WaitForSeconds(delayTime);
-        button.gameObject.SetActive(true);
-
-        canvasGroup.DOFade(1f, 0.5f).OnComplete(() => button.interactable = true);
     }
 
     public void OnReturnButtonClicked()
@@ -90,9 +71,13 @@ public class GameClearScene : MonoBehaviour
             .OnComplete(() =>
                 mainImage.SetActive(false));
     }
-    // Update is called once per frame
+
     void Update()
     {
-    
+        if (Input.GetKeyDown(KeyCode.Return) && button.enabled)
+        {
+            button.enabled = false;
+            ReturnTitleScene();
+        }
     }
 }
