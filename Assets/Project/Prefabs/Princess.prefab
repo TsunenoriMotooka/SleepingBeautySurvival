@@ -104,9 +104,11 @@ MonoBehaviour:
   prefabs:
   - {fileID: 7597304916804171347, guid: 880772a80f3442542b0eb41149310870, type: 3}
   - {fileID: 615675737691116967, guid: e4fdf3cd4c286db4392d0ae6154b87f4, type: 3}
+  - {fileID: 4377142448902673736, guid: 2e32385be0fe19d438155a669bf40573, type: 3}
   audioGenerator: {fileID: 0}
   detectClearKeyPrefab: {fileID: 273935368084868709, guid: deb1036917f75429eba0135205fb1d17, type: 3}
   princessDownPrefab: {fileID: 5332441274586026768, guid: 0f4edaf9813ffa14096076d2b968f5c1, type: 3}
+  searchRadius: 5
 --- !u!50 &2953693023532853194
 Rigidbody2D:
   serializedVersion: 4
