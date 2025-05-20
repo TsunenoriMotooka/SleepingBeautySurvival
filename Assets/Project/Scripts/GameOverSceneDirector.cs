@@ -31,11 +31,11 @@ public class GameOverSceneDirector : MonoBehaviour
         audioGenerator.PlayBGM(BGM.GameOver);
         StartEffect();
     }
-    
+
     public void OnReturnButtonClicked()
     {
         button.enabled = false;
-        ReturnTitleScene();   
+        ReturnTitleScene();
     }
 
     void ReturnTitleScene()
@@ -100,7 +100,17 @@ public class GameOverSceneDirector : MonoBehaviour
             });
     }
 
-    void RemoveTitle(){
+    void RemoveTitle()
+    {
         SceneManager.LoadScene("TitleScene");
+    }
+    
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return) && button.enabled)
+        {
+            button.enabled = false;
+            ReturnTitleScene();
+        }
     }
 }
