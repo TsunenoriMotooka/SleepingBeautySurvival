@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9222951411173734681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2000555687195125680}
+  - component: {fileID: 6582523076385559007}
+  m_Layer: 0
+  m_Name: ChunkGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2000555687195125680
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9222951411173734681}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6582523076385559007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9222951411173734681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a81ff545ed584df3ae68c532e3599a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainPrefabs:
+  - {fileID: 362089662305372904, guid: 7feb025aa2a9e434b8248112e8423e5d, type: 3}
+  - {fileID: 7751610265471811171, guid: 8457a7dd6cc78441ba1668f9599e6a65, type: 3}
+  - {fileID: 8679435249591285874, guid: 630f2b525cfe2499d9012df101b44d26, type: 3}
+  - {fileID: 116262980251902949, guid: 2245c234878b14dd69bad9196c9b423b, type: 3}
+  - {fileID: 6712755098292387809, guid: 38790c834edc24bbf93f7c9f5621c4a4, type: 3}
+  - {fileID: 4242901099387350670, guid: fea4f9b1a63ac4406b13ba94444593aa, type: 3}
+  - {fileID: 950904621823512584, guid: d202c5466c76b4e45a588fc1fd46d7dd, type: 3}
+  - {fileID: 7543930801930145910, guid: 05af3fbb35d56400c98b17d495d48d23, type: 3}
+  - {fileID: 5460578321270773318, guid: 69eddb955211d419ca5723ea03521706, type: 3}
+  treePrefabs:
+  - {fileID: 8558349299590617718, guid: 5ee42920138d145298ed7751688b3a9f, type: 3}
+  - {fileID: 8558349299590617718, guid: 5ee42920138d145298ed7751688b3a9f, type: 3}
+  - {fileID: 8558349299590617718, guid: 5ee42920138d145298ed7751688b3a9f, type: 3}
+  - {fileID: 8676541080242413956, guid: 2918a8f0d36d24d64a1cdc92cabc2a41, type: 3}
+  - {fileID: 8676541080242413956, guid: 2918a8f0d36d24d64a1cdc92cabc2a41, type: 3}
+  - {fileID: 8676541080242413956, guid: 2918a8f0d36d24d64a1cdc92cabc2a41, type: 3}
+  - {fileID: 8676541080242413956, guid: 2918a8f0d36d24d64a1cdc92cabc2a41, type: 3}
+  - {fileID: 8676541080242413956, guid: 2918a8f0d36d24d64a1cdc92cabc2a41, type: 3}
+  - {fileID: 2674016546248125438, guid: d189a9f7d656f4184960117fb70bfc2c, type: 3}
+  - {fileID: 4716210383371707217, guid: 8cd681115b20242999c8fe4d0e813a82, type: 3}
+  - {fileID: 4716210383371707217, guid: 8cd681115b20242999c8fe4d0e813a82, type: 3}
+  rockPrefabs:
+  - {fileID: 3406351877679625369, guid: ff1d66ef787ca4ee0b4e4639f13d8942, type: 3}
+  - {fileID: 102070701451829736, guid: 80aaafaada9f8443ba1b6ee95f0f8a3d, type: 3}
+  - {fileID: 6833743938832419342, guid: 28c651f5d38bb420dafb9eff39630695, type: 3}
+  - {fileID: 1172106417336429546, guid: 1a84d590df88741f88055e15b057e173, type: 3}
+  - {fileID: 8241452545759193021, guid: 1acc91e072e9041398e3e5674d820c3d, type: 3}
+  - {fileID: 7141652126298917381, guid: 123740f6abdbf4f2aaaa72c070af2934, type: 3}
+  tallRockPrefabs:
+  - {fileID: 1210041975412620949, guid: 1014d2472b1a24ae594935b4f2166183, type: 3}
+  - {fileID: 5005537967700194625, guid: 66aaecbbd59514c738fb1fae0245404f, type: 3}
+  bigRockPrefabs:
+  - {fileID: 5627738379357370333, guid: d3486f47e7bb648479152eebea47074f, type: 3}
+  - {fileID: 883218671903145012, guid: 6635bedc128db46f7815965590a6dae5, type: 3}
+  - {fileID: 9219418470170895726, guid: 902b02abd64e64fbb9faaeb8f60b92bc, type: 3}
+  - {fileID: 6241911909112809405, guid: ac120254cae844fa1869e749691227fc, type: 3}
+  lightPrefabs:
+  - {fileID: 2037639641265030045, guid: e8fc8e0189c1c4f52a078fa3823135c5, type: 3}
+  - {fileID: 2037639641265030045, guid: e8fc8e0189c1c4f52a078fa3823135c5, type: 3}
+  - {fileID: 3789108792598409751, guid: dc532bda6d965446b8e343f3101baa2f, type: 3}
+  - {fileID: 8058548025272351952, guid: 08207635690ab4ce48b8d8fa28a1b347, type: 3}
+  enemyGeneratorPrefab: {fileID: 2046360815698387993, guid: 15b121fbf2695cc42b2d44090fff2f83, type: 3}
+  clearKeyGeneratorPrefab: {fileID: 1041152230816849370, guid: 2557156234c5047c6b9c804a19a70b62, type: 3}

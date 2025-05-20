@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Princess
+  - Leaf
+  - Monster
+  - MonsterBullet
+  - ClearKey
   layers:
   - Default
   - TransparentFX
@@ -11,13 +16,13 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Leaf
+  - Princess
+  - Stone
+  - Tree
+  - Light
+  - Monster
+  - ClearKey
   - 
   - 
   - 
