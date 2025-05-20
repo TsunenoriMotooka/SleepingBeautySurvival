@@ -890,6 +890,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &936447954 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3537585515211905206, guid: 0d4cecb29b433dc438d7c0b8a2e3db01, type: 3}
+  m_PrefabInstance: {fileID: 923838924}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &958657069
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1259,7 +1264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c730e1c346034c3485df8e271096c45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  princess: {fileID: 0}
+  princess: {fileID: 936447954}
   audioGenerator: {fileID: 322296242488270394, guid: 0b81ddd1a77ad472292166360c6efc45, type: 3}
   dayNightSystem2D: {fileID: 958657071}
   fieldsGenerator: {fileID: 571002706539387495, guid: f021e105e33ed4e9a81200002d3f03ee, type: 3}
@@ -1588,63 +1593,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 441f2c545fff84221aa5d59db416b711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1977968916
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3329183607720536779, guid: 2e32385be0fe19d438155a669bf40573, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3329183607720536779, guid: 2e32385be0fe19d438155a669bf40573, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3329183607720536779, guid: 2e32385be0fe19d438155a669bf40573, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3329183607720536779, guid: 2e32385be0fe19d438155a669bf40573, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3329183607720536779, guid: 2e32385be0fe19d438155a669bf40573, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3329183607720536779, guid: 2e32385be0fe19d438155a669bf40573, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3329183607720536779, guid: 2e32385be0fe19d438155a669bf40573, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3329183607720536779, guid: 2e32385be0fe19d438155a669bf40573, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3329183607720536779, guid: 2e32385be0fe19d438155a669bf40573, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3329183607720536779, guid: 2e32385be0fe19d438155a669bf40573, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4377142448902673736, guid: 2e32385be0fe19d438155a669bf40573, type: 3}
-      propertyPath: m_Name
-      value: WandBullet
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2e32385be0fe19d438155a669bf40573, type: 3}
 --- !u!1001 &8180848099735738134
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1696,7 +1644,7 @@ PrefabInstance:
     - target: {fileID: 7651581019710073878, guid: 3ed22dff5268d4e1e868b7912586cbe6, type: 3}
       propertyPath: m_Follow
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 936447954}
     - target: {fileID: 7651581019710073878, guid: 3ed22dff5268d4e1e868b7912586cbe6, type: 3}
       propertyPath: m_Lens.OrthographicSize
       value: 9
@@ -1721,5 +1669,4 @@ SceneRoots:
   - {fileID: 1052835478}
   - {fileID: 929628835}
   - {fileID: 1669759927}
-  - {fileID: 1977968916}
   - {fileID: 923838924}
