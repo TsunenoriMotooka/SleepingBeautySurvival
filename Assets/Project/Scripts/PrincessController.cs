@@ -64,43 +64,50 @@ public class PrincessController : MonoBehaviour
             yield return new WaitForSeconds(5f);
         }
     }
-    GameObject FindClosestMonster(Vector2 position, float searchRadius)
+    List<GameObject> FindClosestMonster(Vector2 position, float searchRadius, int count)
     {
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(position,searchRadius);
-        GameObject closest = null;
-        float minDistance = Mathf.Infinity;
+        Camera cam = Camera.main;
 
-        foreach (var collider in hitColliders)
+        // カメラの範囲を取得（ワールド座標に変換）
+        Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 topRight = cam.ViewportToWorldPoint(new Vector3(1, 1, 0));
+
+        Collider2D[] colliders = Physics2D.OverlapAreaAll(bottomLeft, topRight);
+        List<GameObject> monsters = new List<GameObject>();
+
+        foreach (var collider in colliders)
         {
             if (collider.CompareTag("Monster"))
             {
-                float distansce = Vector2.Distance(position, collider.transform.position);
-                if (distansce < minDistance)
-                {
-                    minDistance = distansce;
-                    closest = collider.gameObject;
-                }
+                monsters.Add(collider.gameObject);
             }
         }
-        return closest;
-    }
-    public float searchRadius = 5f;
+
+        monsters.Sort((a, b) =>
+            Vector2.Distance(position, a.transform.position)
+            .CompareTo(Vector2.Distance(position, b.transform.position)));
+    
+        return monsters.GetRange(0, Mathf.Min(count, monsters.Count));
+}
+    public float searchRadius = 10f;
     IEnumerator MagicWandShot()
     {
-        GameObject monster = FindClosestMonster(transform.position, searchRadius);
-        if (monster != null)
+        while (true)
         {
-            while (true)
+            List<GameObject> monsters = FindClosestMonster(transform.position, searchRadius, 3);
+            if (monsters.Count >0)
             {
-                GameObject leafBullet = Instantiate(
-                    prefabs[2],
-                    transform.position,
-                    Quaternion.identity
-                );
-                leafBullet.GetComponent<MagicWand>().SetTarget(monster.transform);
-
-                yield return new WaitForSeconds(3f);
+                foreach (GameObject monster in monsters)
+                {
+                    GameObject wandBullet = Instantiate(
+                        prefabs[2],
+                        transform.position,
+                        Quaternion.identity
+                    );
+                    wandBullet.GetComponent<MagicWand>().SetTarget(monster.transform);
+                }
             }
+                yield return new WaitForSeconds(3f);
         }
     }
 
