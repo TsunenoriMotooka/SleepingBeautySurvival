@@ -64,6 +64,53 @@ public class PrincessController : MonoBehaviour
             yield return new WaitForSeconds(5f);
         }
     }
+    List<GameObject> FindClosestMonster(Vector2 position, float searchRadius, int count)
+    {
+        Camera cam = Camera.main;
+
+        // カメラの範囲を取得（ワールド座標に変換）
+        Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 topRight = cam.ViewportToWorldPoint(new Vector3(1, 1, 0));
+
+        Collider2D[] colliders = Physics2D.OverlapAreaAll(bottomLeft, topRight);
+        List<GameObject> monsters = new List<GameObject>();
+
+        foreach (var collider in colliders)
+        {
+            if (collider.CompareTag("Monster"))
+            {
+                monsters.Add(collider.gameObject);
+            }
+        }
+
+        monsters.Sort((a, b) =>
+            Vector2.Distance(position, a.transform.position)
+            .CompareTo(Vector2.Distance(position, b.transform.position)));
+    
+        return monsters.GetRange(0, Mathf.Min(count, monsters.Count));
+}
+    public float searchRadius = 10f;
+    IEnumerator MagicWandShot()
+    {
+        while (true)
+        {
+            List<GameObject> monsters = FindClosestMonster(transform.position, searchRadius, 3);
+            if (monsters.Count >0)
+            {
+                foreach (GameObject monster in monsters)
+                {
+                    GameObject wandBullet = Instantiate(
+                        prefabs[2],
+                        transform.position + new Vector3(0,1f,0),
+                        Quaternion.identity
+                    );
+                    wandBullet.transform.parent = princessBullets.transform; 
+                    wandBullet.GetComponent<PrincessMagicWandController>().SetTarget(monster.transform);
+                }
+            }
+                yield return new WaitForSeconds(4f);
+        }
+    }
 
     void Start()
     {
@@ -74,6 +121,7 @@ public class PrincessController : MonoBehaviour
         princessBullets = new GameObject("PrincessBullets");
         StartCoroutine(PrincessLeafBulletAttack());
         StartCoroutine(PrincessRoseBulletAttack());
+        StartCoroutine(MagicWandShot());
 
         detectClearKey = Instantiate(detectClearKeyPrefab, transform.position, Quaternion.identity);
     }
