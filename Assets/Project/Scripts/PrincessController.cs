@@ -101,7 +101,7 @@ public class PrincessController : MonoBehaviour
                 {
                     GameObject wandBullet = Instantiate(
                         prefabs[2],
-                        transform.position,
+                        transform.position + new Vector3(0,1f,0),
                         Quaternion.identity
                     );
                     wandBullet.GetComponent<MagicWand>().SetTarget(monster.transform);
