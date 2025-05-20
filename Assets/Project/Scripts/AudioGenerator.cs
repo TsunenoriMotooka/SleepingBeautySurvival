@@ -16,9 +16,15 @@ public class AudioGenerator : MonoBehaviour
         if (index < 0 || index >= sePrefabs.Length) return;
 
         GameObject es = Instantiate(sePrefabs[index]);
-        if (es != null && target != null) {
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(target.position);
-            es.transform.position = screenPos;
+        if (es != null && target != null)
+        {
+            Vector2 fromPoint = Camera.main.ViewportToWorldPoint(Vector2.zero);
+            Vector2 toPoint = Camera.main.ViewportToWorldPoint(Vector2.one);
+
+            float width = toPoint.x - fromPoint.x;
+            float panStereo = Mathf.Clamp((target.position.x - fromPoint.x - (width / 2)) / (width * 0.8f / 2)  , -1f, 1f);
+
+            es.GetComponent<AudioSource>().panStereo = panStereo;
         }
     }
 

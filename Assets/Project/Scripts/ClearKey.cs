@@ -24,7 +24,7 @@ public class ClearKey : MonoBehaviour
         if (!isDetected)
         {
             isDetected = true;
-            audioGenerator.PlaySE(SE.DetectClearKey);
+            audioGenerator.PlaySE(SE.DetectClearKey, transform);
         }
     }
 
