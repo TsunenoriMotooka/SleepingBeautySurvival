@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MagicWand : MonoBehaviour
+public class PrincessMagicWandController : MonoBehaviour
 {
     Transform target;
     float speed = 10f;

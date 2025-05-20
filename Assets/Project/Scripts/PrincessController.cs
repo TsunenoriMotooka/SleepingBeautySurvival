@@ -104,7 +104,8 @@ public class PrincessController : MonoBehaviour
                         transform.position + new Vector3(0,1f,0),
                         Quaternion.identity
                     );
-                    wandBullet.GetComponent<MagicWand>().SetTarget(monster.transform);
+                    wandBullet.transform.parent = princessBullets.transform; 
+                    wandBullet.GetComponent<PrincessMagicWandController>().SetTarget(monster.transform);
                 }
             }
                 yield return new WaitForSeconds(4f);
