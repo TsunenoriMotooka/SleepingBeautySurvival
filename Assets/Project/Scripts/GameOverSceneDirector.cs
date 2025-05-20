@@ -24,33 +24,14 @@ public class GameOverSceneDirector : MonoBehaviour
 
     public Button button;
     public float delayTime;
-    CanvasGroup canvasGroup;
 
     void Start()
     {
         roseImage.gameObject.SetActive(false);
-        button.gameObject.SetActive(false);
-        canvasGroup = GetComponent<CanvasGroup>();
-        if (canvasGroup == null)
-        {
-            canvasGroup = button.gameObject.AddComponent<CanvasGroup>();
-        }
-        canvasGroup.alpha = 0;
-        button.interactable = false;
-        StartEffect();
-        StartCoroutine(ShowButton());
-
         audioGenerator.PlayBGM(BGM.GameOver);
+        StartEffect();
     }
     
-    IEnumerator ShowButton()
-    {
-        yield return new WaitForSeconds(delayTime);
-        button.gameObject.SetActive(true);
-
-        canvasGroup.DOFade(1f, 0.5f).OnComplete(() => button.interactable = true);
-    }
-
     public void OnReturnButtonClicked()
     {
         button.enabled = false;
