@@ -1,4 +1,4 @@
-# Unity チーム開発プロジェクト
+# Unity開発
 ## ゲームタイトル
 Sleeping Pricess Survival
 （略称：ひめサバ）
@@ -42,22 +42,6 @@ Sleeping Pricess Survival
 ## ゲーム開始方法
 Assets/Project/Scenes/TitleScene から実行してください。
 
-## チーム / 役割
-Greenチーム
-
-### 高
-- Enemyの動作・攻撃の実装
-- TitleSceneの実装
-
-### 鈴木
-- Princessの動作・攻撃の実装
-- GameOverScene, GameClearSceneの実装
-
-### 元岡
-- マップ・鍵の実装
-- BGM / SE の実装
-- gitの管理
-
 ## 🔧 開発環境
 - Unity バージョン：**2022.3.60f1**  
 - DOTween：使用済み（Assets/Plugins/Demigiant に導入済み）
@@ -74,13 +58,3 @@ Greenチーム
 ## 📦 使用ライブラリ・アセット
 - [DOTween (Demigiant)](http://dotween.demigiant.com/)
 - 無料BGM/効果音素材：未定（仮）
-
-## ✅ やることリスト（初期）
-- [X] ゲーム仕様の確定
-- [X] 最低限のプレイサイクル構築
-- [X] UI・演出の実装
-- [X] テストとリファクタリング
-- [X] 発表資料・動画の作成
-
-## 📅 スケジュール
-全20日間（うち開発時間 約50時間）で完成・発表を目指します。
